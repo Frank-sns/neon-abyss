@@ -340,8 +340,8 @@
         this.powerLevel = 0;
         this.powerTimer = 0;
         // Energy system
-        this.energy = 150;
-        this.maxEnergy = 150;
+        this.energy = 250;
+        this.maxEnergy = 250;
         this.energyRegen = 8;
         // Buffs
         this.buffs = [];
@@ -1644,10 +1644,11 @@
         var dy = mouseY - (player.y + player.height / 2);
         player.aimAngle = Math.atan2(-dy, dx) * 180 / Math.PI;
 
-        // Block (Space) — no cooldown
-        if (keys['Space']) {
+        // Block (Space) — costs 5 energy
+        if (keys['Space'] && player.energy >= 5) {
           player.blockActive = true;
           player.blockDuration = 0.5;
+          player.energy -= 5;
         }
 
         // ===== Boss System =====
@@ -1760,7 +1761,8 @@
             if (rectsCollide(playerProjectiles[ppi5].getBounds(), energyBlocks[ebi2].getBounds())) {
               playerProjectiles.splice(ppi5, 1);
               if (energyBlocks[ebi2].takeDamage()) {
-                energyOrbs.push(new EnergyOrb(energyBlocks[ebi2].x, energyBlocks[ebi2].y));
+                player.energy = Math.min(player.maxEnergy, player.energy + 30);
+                sound.playScore();
                 energyBlocks.splice(ebi2, 1);
               }
               break;
@@ -1768,10 +1770,10 @@
           }
         }
 
-        // Energy orb update + magnetic pickup
+        // Energy orbs — auto-absorb (fly to player instantly)
         for (var eoi = energyOrbs.length - 1; eoi >= 0; eoi--) {
           energyOrbs[eoi].update(dt, player.x + player.width/2, player.y + player.height/2);
-          if (rectsCollide(player.getBounds(), energyOrbs[eoi].getBounds())) {
+          if (rectsCollide(player.getBounds(), energyOrbs[eoi].getBounds()) || energyOrbs[eoi].x < player.x + 80) {
             player.energy = Math.min(player.maxEnergy, player.energy + 30);
             energyOrbs.splice(eoi, 1);
             sound.playScore();
@@ -2026,6 +2028,7 @@
               playerProjectiles.splice(ppi2, 1);
               bossProjectiles.splice(bpi2, 1);
               score += 10;
+              player.energy = Math.min(player.maxEnergy, player.energy + 5);
               sound.playScore();
               break;
             }
@@ -2043,6 +2046,7 @@
                   particles.push(new Particle(obstacles[oi].x + obstacles[oi].width / 2, obstacles[oi].y + obstacles[oi].height / 2));
                 }
                 score += 25;
+                player.energy = Math.min(player.maxEnergy, player.energy + 10);
                 obstacles.splice(oi, 1);
               }
               break;
