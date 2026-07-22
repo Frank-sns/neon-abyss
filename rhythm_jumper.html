@@ -1074,7 +1074,8 @@
         for (const t of this.trail) t.life -= dt;
 
         this.x += this.vx * dt;
-        if (this.x > W + 50) {
+        this.y += this.vy * dt;
+        if (this.x > W + 50 || this.x < -50 || this.y < -50 || this.y > H + 50) {
           this.alive = false;
         }
       }
