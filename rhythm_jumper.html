@@ -400,13 +400,44 @@
           ctx.globalAlpha = 0.4;
         }
 
-        ctx.shadowColor = '#00f0ff';
-        ctx.shadowBlur = 12;
-        ctx.fillStyle = '#fff';
+        // Skin colors based on power level
+        var skinColors = ['#fff', '#44ff44', '#4488ff', '#ffd700'];
+        var skinGlows = ['#00f0ff', '#44ff44', '#4488ff', '#ffd700'];
+        var skin = skinColors[this.powerLevel] || '#fff';
+        var skinGlow = skinGlows[this.powerLevel] || '#00f0ff';
+
+        // Aura ring for power level
+        if (this.powerLevel > 0) {
+          var auraAlpha = 0.2 + Math.sin(performance.now()/300) * 0.1;
+          ctx.fillStyle = 'rgba(' + (this.powerLevel===1?'68,255,68':this.powerLevel===2?'68,136,255':'255,215,0') + ',' + auraAlpha + ')';
+          ctx.beginPath();
+          ctx.arc(this.x + this.width/2, this.y + this.height/2, 22 + this.powerLevel*4, 0, Math.PI*2);
+          ctx.fill();
+        }
+
+        // Buff indicators (small orbiting dots)
+        if (this.buffs.length > 0) {
+          var t = performance.now() / 800;
+          for (var bi = 0; bi < this.buffs.length; bi++) {
+            var ba = t + (Math.PI*2/this.buffs.length)*bi;
+            var buffColors = { energyRegen: '#00ffcc', powerShot: '#ff6644', wideSpread: '#ffdd00', shield: '#ff88cc' };
+            ctx.fillStyle = buffColors[this.buffs[bi]] || '#fff';
+            var bpx = this.x + this.width/2 + Math.cos(ba)*18;
+            var bpy = this.y + this.height/2 + Math.sin(ba)*18;
+            ctx.fillRect(bpx-2, bpy-2, 4, 4);
+          }
+        }
+
+        // Main body
+        ctx.shadowColor = skinGlow;
+        ctx.shadowBlur = 12 + this.powerLevel * 4;
+        ctx.fillStyle = skin;
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
+        // Inner highlight
         ctx.shadowBlur = 0;
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
+        var innerColor = this.powerLevel === 1 ? 'rgba(68,255,68,0.5)' : (this.powerLevel===2?'rgba(68,136,255,0.5)':(this.powerLevel===3?'rgba(255,215,0,0.5)':'rgba(0,240,255,0.5)'));
+        ctx.fillStyle = innerColor;
         ctx.fillRect(this.x - 2, this.y + this.height - 4, this.width + 4, 8);
 
         if (this.invincibleTimer > 0 && Math.floor(this.invincibleTimer * 15) % 2 === 0) {
@@ -599,6 +630,7 @@
         projSpeed: function(stage) { return 270 + (stage-1) * 52; },
         oscSpeed: 1.2,
         entryStyle: 'slide',
+        tracking: 0.4,
         specials: ['homingOrbs', 'shieldPulse']
       },
       beamLord: {
@@ -611,6 +643,7 @@
         projSpeed: function(stage) { return 300 + (stage-1) * 50; },
         oscSpeed: 0.6,
         entryStyle: 'fade',
+        tracking: 0.35,
         specials: ['laserSweep', 'bulletWall']
       },
       mineDeployer: {
@@ -623,6 +656,7 @@
         projSpeed: function(stage) { return 200 + (stage-1) * 40; },
         oscSpeed: 0.8,
         entryStyle: 'rise',
+        tracking: 0.6,
         specials: ['deployMine', 'chainDetonate']
       },
       summoner: {
@@ -635,6 +669,7 @@
         projSpeed: function(stage) { return 280 + (stage-1) * 45; },
         oscSpeed: 0.5,
         entryStyle: 'warp',
+        tracking: 0.5,
         specials: ['summonDrones', 'coordinatedBarrage']
       },
       berserker: {
@@ -647,6 +682,7 @@
         projSpeed: function(stage) { return 380 + (stage-1) * 65; },
         oscSpeed: 1.5,
         entryStyle: 'crash',
+        tracking: 0.7,
         specials: ['dashCharge', 'shotgunBurst', 'groundSlam']
       },
       voidWeaver: {
@@ -659,6 +695,7 @@
         projSpeed: function(stage) { return 320 + (stage-1) * 55; },
         oscSpeed: 0.7,
         entryStyle: 'warp',
+        tracking: 0.8,
         specials: ['portalBarrage', 'homingOrbs', 'voidRift']
       },
       stormCaller: {
@@ -671,6 +708,7 @@
         projSpeed: function(stage) { return 340 + (stage-1) * 58; },
         oscSpeed: 0.9,
         entryStyle: 'crash',
+        tracking: 0.6,
         specials: ['lightningStrike', 'electricField', 'stormSurge']
       },
       frostTitan: {
@@ -683,6 +721,7 @@
         projSpeed: function(stage) { return 280 + (stage-1) * 48; },
         oscSpeed: 0.5,
         entryStyle: 'fade',
+        tracking: 0.3,
         specials: ['iceShards', 'freezeAura', 'blizzard']
       }
     };
@@ -1047,7 +1086,7 @@
 
     // ===== BossProjectile =====
     class BossProjectile {
-      constructor(x, y, vx, vy) {
+      constructor(x, y, vx, vy, tracking) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -1055,13 +1094,26 @@
         this.width = 16;
         this.height = 16;
         this.alive = true;
+        this.tracking = (tracking !== undefined) ? tracking : 0.5; // default: moderate homing
+        this.lifetime = 0;
       }
 
-      update(dt) {
+      update(dt, px, py) {
+        this.lifetime += dt;
+        // Homing: gradually steer toward player
+        if (this.tracking > 0 && this.lifetime > 0.3 && px !== undefined) {
+          var tdx = px - this.x;
+          var tdy = py - this.y;
+          var td = Math.sqrt(tdx*tdx + tdy*tdy) || 1;
+          var str = this.tracking * 2.5;
+          this.vx += (tdx/td * str - this.vx) * 0.03;
+          this.vy += (tdy/td * str - this.vy) * 0.03;
+          var spd = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+          var maxSpd = 500; if (spd > maxSpd) { this.vx = this.vx/spd*maxSpd; this.vy = this.vy/spd*maxSpd; }
+        }
         this.x += this.vx * dt;
         this.y += this.vy * dt;
-        // Destroy if off left edge or hits ground
-        if (this.x < -20 || this.y > groundY) {
+        if (this.x < -50 || this.y > groundY + 50 || this.y < -50) {
           this.alive = false;
         }
       }
@@ -1895,17 +1947,17 @@
                 setTimeout(function() {
                   if (gameState !== STATE.PLAYING || !boss || boss.state !== 'active') return;
                   var spd = boss.projectileSpeed;
+                  var trk = (boss.config && boss.config.tracking) || 0.5;
                   if (boss.bossType === 'berserker') {
-                    // Shotgun burst
                     for (var sg = 0; sg < 9; sg++) {
                       var sga = -Math.PI/4 + (Math.PI/4/8) * sg;
-                      bossProjectiles.push(new BossProjectile(bx, by, Math.cos(sga) * -spd, Math.sin(sga) * spd));
+                      bossProjectiles.push(new BossProjectile(bx, by, Math.cos(sga) * -spd, Math.sin(sga) * spd, trk));
                     }
                   } else {
                     var pattern = Math.random() < 0.5 ? 'horizontal' : 'diagonal';
                     var vx = pattern === 'diagonal' ? -spd * 0.87 : -spd;
                     var vy = pattern === 'diagonal' ? -spd * 0.5 : 0;
-                    bossProjectiles.push(new BossProjectile(bx, by, vx, vy));
+                    bossProjectiles.push(new BossProjectile(bx, by, vx, vy, trk));
                   }
                 }, delay * (boss.enraged ? 80 : 150));
               })(bi);
@@ -1948,7 +2000,7 @@
 
         // Update boss projectiles
         for (var bpi = bossProjectiles.length - 1; bpi >= 0; bpi--) {
-          bossProjectiles[bpi].update(dt);
+          bossProjectiles[bpi].update(dt, player.x + player.width/2, player.y + player.height/2);
           if (bossProjectiles[bpi].isOffScreen()) {
             bossProjectiles.splice(bpi, 1);
           }
