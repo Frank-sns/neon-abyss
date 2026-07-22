@@ -2132,8 +2132,15 @@
     const keys = {};
     let mouseDown = false;
     let mouseX = 0, mouseY = 0;
-    canvas.addEventListener('mousemove', function(e) { mouseX = e.clientX; mouseY = e.clientY; });
-    canvas.addEventListener('mousedown', function(e) { e.preventDefault(); mouseDown = true; mouseX = e.clientX; mouseY = e.clientY; });
+    canvas.addEventListener('mousemove', function(e) {
+      var rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left; mouseY = e.clientY - rect.top;
+    });
+    canvas.addEventListener('mousedown', function(e) {
+      e.preventDefault(); mouseDown = true;
+      var rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left; mouseY = e.clientY - rect.top;
+    });
     canvas.addEventListener('mouseup', function(e) { mouseDown = false; });
     canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
