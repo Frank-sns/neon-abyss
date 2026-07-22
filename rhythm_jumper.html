@@ -513,7 +513,7 @@
             for (let i = 0; i < 6; i++) {
               particles.push(new Particle(player.x + player.width / 2, player.y + player.height));
             }
-            if (player.jumpsLeft === 1) {
+            if (player.jumpsLeft === 0) {
               sound.playDoubleJump();
             } else {
               sound.playJump();
@@ -597,12 +597,16 @@
 
     window.addEventListener('keydown', function(e) {
       keys[e.code] = true;
-      e.preventDefault();
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+      }
     });
 
     window.addEventListener('keyup', function(e) {
       keys[e.code] = false;
-      e.preventDefault();
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+      }
     });
   </script>
 </body>
