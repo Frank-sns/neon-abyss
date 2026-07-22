@@ -1523,8 +1523,20 @@
       { name: '追踪导弹', icon: '🎯', desc: '发射一枚强力追踪导弹', color: '#ff6644',
         execute: function() {
           var mx = player.x + player.width + 15, my = player.y + player.height/2;
-          var sp = new BossProjectile(mx, my, 500, 0, 1.0);
-          sp.width = 20; sp.height = 20;
+          var sp = new BossProjectile(mx, my, 200, 0, 0);
+          sp.width = 20; sp.height = 20; sp.life2 = 5; sp.isMissile = true;
+          sp.update = function(dt, px, py) {
+            this.life2 -= dt; if (this.life2 <= 0) this.alive = false;
+            var tx = boss ? boss.x : px + 300;
+            var ty = boss ? boss.y : py;
+            var dx = tx - this.x, dy = ty - this.y;
+            var d = Math.sqrt(dx*dx+dy*dy) || 1;
+            var spd = 500;
+            this.vx += (dx/d*spd - this.vx) * 0.15;
+            this.vy += (dy/d*spd - this.vy) * 0.15;
+            this.x += this.vx * dt;
+            this.y += this.vy * dt;
+          };
           sp.draw = function(ctx) {
             ctx.shadowColor='rgba(255,100,50,0.9)';ctx.shadowBlur=20;
             ctx.fillStyle='#ff5533';ctx.beginPath();ctx.arc(this.x,this.y,10,0,Math.PI*2);ctx.fill();
