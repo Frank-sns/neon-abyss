@@ -1,0 +1,458 @@
+- generic [ref=e3]:
+  - region "跳至主要内容"
+  - generic [ref=e6]:
+    - generic [ref=e9]:
+      - img "Microsoft" [ref=e14]
+      - navigation [ref=e15]:
+        - list [ref=e16]:
+          - listitem [ref=e17]:
+            - link [ref=e19] [cursor=pointer]:
+              - /url: /zh-cn/edge?form=MA13FJ
+              - img "Microsoft Edge" [ref=e21]
+          - listitem [ref=e22]:
+            - link "特征" [ref=e24] [cursor=pointer]:
+              - /url: /zh-cn/edge/features?form=MA13GQ
+          - listitem [ref=e26]:
+            - link "移动端" [ref=e28] [cursor=pointer]:
+              - /url: /zh-cn/edge/mobile?form=MT00OS
+          - listitem [ref=e30]:
+            - link "Copilot" [ref=e32] [cursor=pointer]:
+              - /url: /zh-cn/edge/copilot?form=MA13RK
+          - listitem [ref=e34]:
+            - link "搜索" [ref=e36] [cursor=pointer]:
+              - /url: /zh-cn/bing?form=MA13R1
+          - listitem [ref=e38]:
+            - button "商业版" [ref=e40] [cursor=pointer]
+          - listitem [ref=e42]:
+            - button "资源" [ref=e44] [cursor=pointer]
+          - listitem [ref=e46]:
+            - link "下载" [ref=e48] [cursor=pointer]:
+              - /url: /zh-cn/edge/download?form=MA13FJ
+    - region "header actions" [ref=e50]:
+      - generic [ref=e51]:
+        - button "搜索" [ref=e55] [cursor=pointer]
+        - link "试用 Edge" [ref=e58] [cursor=pointer]:
+          - /url: https://microsoft.com/edge/launch/try-edge-cle-center-3?form=MA13FJ
+  - main [ref=e61]:
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - generic [ref=e64]: intro
+        - generic [ref=e68]:
+          - heading "Microsoft Edge" [level=2] [ref=e70]
+          - paragraph [ref=e75]: 从这里开始，在这里完成
+          - link "试用 Edge" [ref=e77] [cursor=pointer]:
+            - /url: https://www.microsoft.com/edge/launch/try-edge-cle-center-3?int=03&form=MA13FJ
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - button "Scroll to previous"
+              - generic [ref=e85]:
+                - button "Copilot Copilot" [ref=e87] [cursor=pointer]:
+                  - generic [ref=e89]:
+                    - generic [ref=e90]: Copilot
+                    - strong [ref=e91]: Copilot
+                - button "获得更高的性能 获得更高的性能" [ref=e94] [cursor=pointer]:
+                  - generic [ref=e96]:
+                    - generic [ref=e97]: 获得更高的性能
+                    - strong [ref=e98]: 获得更高的性能
+                - button "在线安全 在线安全" [ref=e101] [cursor=pointer]:
+                  - generic [ref=e103]:
+                    - generic [ref=e104]: 在线安全
+                    - strong [ref=e105]: 在线安全
+              - button "Scroll to next"
+            - generic [ref=e108]:
+              - generic:
+                - generic:
+                  - generic:
+                    - link:
+                      - /url: /edge/copilot?form=MA14AD
+                    - generic:
+                      - generic:
+                        - generic:
+                          - heading "认识 Copilot" [level=2]:
+                            - generic:
+                              - paragraph: 认识 Copilot
+                        - generic:
+                          - generic:
+                            - generic:
+                              - paragraph: Copilot会利用您打开的标签页的上下文来比较选项，解释重要内容，并在完成任务时提供越来越个性化的帮助。
+                        - generic:
+                          - link "试用 Copilot":
+                            - /url: /edge/copilot?form=MA14AD
+              - generic:
+                - generic:
+                  - generic:
+                    - link:
+                      - /url: /edge/features/performance?form=MA149S
+                    - generic:
+                      - generic:
+                        - generic:
+                          - heading "启动快，运行更快" [level=2]:
+                            - generic:
+                              - paragraph: 启动快，运行更快
+                        - generic:
+                          - generic:
+                            - generic:
+                              - paragraph: 使用Microsoft Edge，让你保持专注与掌控，这是唯一为 Windows 优化、性能卓越的浏览器。
+                        - generic:
+                          - link "了解更多信息":
+                            - /url: /edge/features/performance?form=MA149S
+              - generic:
+                - generic:
+                  - generic:
+                    - link:
+                      - /url: /edge/features/security?form=MA149T
+                    - generic:
+                      - generic:
+                        - generic:
+                          - heading "提高上网安全性" [level=2]
+                        - generic:
+                          - generic:
+                            - generic:
+                              - paragraph: 在 Microsoft Edge 上放心浏览，内置安全功能和高级控制，帮助保护您的数据免受网络威胁。
+                        - generic:
+                          - link "了解更多信息":
+                            - /url: /edge/features/security?form=MA149T
+      - generic [ref=e112]:
+        - generic [ref=e113]: copilot-group
+        - generic [ref=e115]:
+          - generic [ref=e116]:
+            - generic [ref=e117]: copilot-ai-companion
+            - generic [ref=e121]:
+              - heading [level=2] [ref=e128]:
+                - paragraph [ref=e130]: Copilot可在您的各个标签页中协助比较选项、解释重点，并通过利用您的浏览历史，随着时间推移为您提供更智能、更个性化的帮助，助您完成任务。
+              - link "试用 Copilot" [ref=e132] [cursor=pointer]:
+                - /url: /edge/copilot?form=MA13RK
+          - generic [ref=e135]:
+            - generic [ref=e136]: copilot-vision
+            - generic [ref=e140]:
+              - heading [level=2] [ref=e142]:
+                - paragraph [ref=e144]:
+                  - text: 用
+                  - strong [ref=e145]: Copilot Vision
+                  - text: 开启全新浏览方式
+              - paragraph [ref=e149]: 有了 Copilot Vision，Copilot 可以看到你的屏幕，并立即扫描、分析并根据你的屏幕提供建议。
+              - link "试用 Vision" [ref=e151] [cursor=pointer]:
+                - /url: /edge/launch/vision?form=MA149U
+              - link [ref=e159] [cursor=pointer]:
+                - /url: /edge/copilot/vision?form=MA13FJ
+      - generic [ref=e161]:
+        - generic [ref=e162]: ai-innovations
+        - generic [ref=e166]:
+          - heading [level=2] [ref=e168]:
+            - generic [ref=e169]:
+              - paragraph [ref=e170]: 探索更多
+              - paragraph [ref=e171]:
+                - strong [ref=e172]: Microsoft Edge 中的 AI 创新
+          - generic [ref=e183]:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic [ref=e188]:
+                      - heading "流氓安全软件阻止程序" [level=2] [ref=e194]
+                      - heading [level=2] [ref=e201]:
+                        - paragraph [ref=e203]: Edge 在这里保护你免受恐吓软件攻击。
+                      - generic "在 Microsoft Edge 中了解更多关于恐吓软件拦截器的信息" [ref=e205] [cursor=pointer]: 了解详细信息
+                    - generic:
+                      - button "在 Microsoft Edge 中了解更多关于恐吓软件拦截器的信息"
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic [ref=e212]:
+                      - heading [level=2] [ref=e218]:
+                        - paragraph [ref=e220]: 图像生成
+                      - heading [level=2] [ref=e226]:
+                        - paragraph [ref=e228]: 立即将文字转化为视觉效果 - 无需设计技能。
+                      - generic "了解有关图像生成的更多信息" [ref=e230] [cursor=pointer]: 了解详细信息
+                    - generic:
+                      - button "了解有关图像生成的更多信息"
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic [ref=e237]:
+                      - heading "整理标签页" [level=2] [ref=e243]
+                      - heading [level=2] [ref=e250]:
+                        - paragraph [ref=e252]: 一键式标签清理，由人工智能提供支持。
+                      - generic "了解有关 Organized Tabs 的更多信息" [ref=e254] [cursor=pointer]: 了解详细信息
+                    - generic:
+                      - button "了解有关 Organized Tabs 的更多信息"
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic [ref=e261]:
+                      - heading "AI 主题生成器" [level=2] [ref=e267]
+                      - heading [level=2] [ref=e274]:
+                        - paragraph [ref=e276]: 让你的文字变成浏览器主题。
+                      - generic "了解有关 AI 主题生成器的更多信息" [ref=e278] [cursor=pointer]: 了解详细信息
+                    - generic:
+                      - button "了解有关 AI 主题生成器的更多信息"
+      - generic [ref=e281]:
+        - generic [ref=e282]: tablestakes
+        - heading [level=2] [ref=e288]:
+          - paragraph [ref=e290]:
+            - text: 基于始终
+            - strong [ref=e291]: 以你为先
+            - text: 的浏览器打造
+      - generic [ref=e292]:
+        - generic [ref=e293]: performance
+        - generic [ref=e296]:
+          - link [ref=e305] [cursor=pointer]:
+            - /url: /edge/features/performance?form=MA13FJ
+          - generic [ref=e308]:
+            - heading [level=2] [ref=e310]:
+              - paragraph [ref=e312]:
+                - text: 实现更高
+                - strong [ref=e313]: 性能
+            - paragraph [ref=e317]: 使用集成了 Copilot、浏览器操作、标签页管理和高级性能功能的 Microsoft Edge，让你专注在线，每一分钟都能高效利用。
+            - link "了解更多关于高效模式的信息" [ref=e319] [cursor=pointer]:
+              - /url: /edge/features/efficiency-mode?form=MA13FJ
+              - generic [ref=e320]: 节能模式
+            - link "了解更多关于启动加速的信息" [ref=e323] [cursor=pointer]:
+              - /url: /edge/features/startup-boost?form=MA13FJ
+              - generic [ref=e324]: 启动增强
+            - link "了解更多关于休眠标签页的信息" [ref=e327] [cursor=pointer]:
+              - /url: /edge/features/sleeping-tabs?form=MA13FJ
+              - generic [ref=e328]: 睡眠标签页
+            - generic [ref=e330]: 使用效率模式时，电池续航时间平均可延长 25 分钟。仅限在 Microsoft Edge 中。电池续航时间会因设置、使用情况和其他因素而有所差异。
+            - link "详细了解性能功能" [ref=e334] [cursor=pointer]:
+              - /url: /edge/features/performance?form=MA13FJ
+              - generic [ref=e335]: 了解详细信息
+      - generic [ref=e337]:
+        - generic [ref=e338]: online-safety
+        - generic [ref=e341]:
+          - link [ref=e350] [cursor=pointer]:
+            - /url: /edge/features/security?form=MA13FJ
+          - generic [ref=e353]:
+            - heading [level=2] [ref=e355]:
+              - paragraph [ref=e357]:
+                - text: 让你
+                - strong [ref=e358]: 更安全地上网
+            - paragraph [ref=e362]: 在网络安全方面，Microsoft Edge始终守护着你。Edge配备了内置的增强安全功能和高级安全控制，让你更轻松地防御网络威胁。
+            - link "详细了解 Edge 安全网络" [ref=e364] [cursor=pointer]:
+              - /url: /edge/features/edge-secure-network-vpn?form=MA13FJ
+              - generic [ref=e365]: Edge 安全网络
+            - link "了解更多关于密码管理的信息" [ref=e368] [cursor=pointer]:
+              - /url: /edge/features/password-management?form=MA13FJ
+              - generic [ref=e369]: 密码管理
+            - link "了解有关 Microsoft Defender Smartscreen 的更多信息" [ref=e372] [cursor=pointer]:
+              - /url: /edge/features/microsoft-defender-smartscreen?form=MA13FJ
+              - generic [ref=e373]: Microsoft Defender SmartScreen
+            - paragraph [ref=e378]: Microsoft Edge 通过阻止网络钓鱼和恶意软件攻击，确保您在浏览过程中安全无虞。
+            - link "了解更多关于在线安全功能的信息" [ref=e380] [cursor=pointer]:
+              - /url: /edge/features/security?form=MA13FJ
+              - generic [ref=e381]: 了解详细信息
+      - generic [ref=e383]:
+        - generic [ref=e384]: gaming
+        - generic [ref=e387]:
+          - link [ref=e393] [cursor=pointer]:
+            - /url: /edge/features/gaming?form=MA13FJ
+          - generic [ref=e395]:
+            - generic [ref=e396]:
+              - heading [level=2] [ref=e397]:
+                - paragraph [ref=e399]:
+                  - text: 使用专为
+                  - strong [ref=e400]: 游戏
+                  - text: 打造的游戏内浏览器
+              - paragraph [ref=e403]: 使用专为PC游戏打造的首款游戏内浏览器——Microsoft Edge for Game Bar，无需离开游戏即可访问指南、游戏技巧、你喜欢的网站等内容。
+            - link "了解更多游戏功能" [ref=e405] [cursor=pointer]:
+              - /url: /edge/features/edge-for-game-bar?form=MA13FJ
+              - generic [ref=e406]: 了解详细信息
+      - generic [ref=e408]:
+        - generic [ref=e409]: do-more-with-edge
+        - generic [ref=e413]:
+          - heading [level=2] [ref=e415]:
+            - paragraph [ref=e417]:
+              - text: 用
+              - strong [ref=e418]: Edge做更多
+          - generic [ref=e429]:
+            - generic [ref=e434]:
+              - heading [level=2] [ref=e440]:
+                - paragraph [ref=e442]: Edge 有哪些新功能
+              - heading [level=2] [ref=e448]:
+                - paragraph [ref=e450]: Edge 每月都会推出新功能。快来这里看看最新功能吧。
+              - link "了解更多最新的 Edge 功能" [ref=e452] [cursor=pointer]:
+                - /url: /edge/features?form=MA13FJ
+                - generic [ref=e453]: 查看新功能
+            - generic [ref=e459]:
+              - heading [level=2] [ref=e465]:
+                - paragraph [ref=e467]: 随时随地使用Edge
+              - heading [level=2] [ref=e473]:
+                - paragraph [ref=e475]: 内置Copilot的 Edge，助你在任何设备上轻松浏览、搜索和高效工作。
+              - button "获取 Edge 应用" [ref=e477] [cursor=pointer]
+      - generic [ref=e480]:
+        - generic [ref=e481]: better-together-gallery-desktop
+        - generic [ref=e485]:
+          - heading [level=2] [ref=e487]:
+            - paragraph [ref=e489]:
+              - text: 解锁更多
+              - strong [ref=e490]: 浏览体验
+          - generic [ref=e497]:
+            - generic [ref=e498]:
+              - button "返回" [disabled]
+              - generic [ref=e500]:
+                - button "选择项目 1" [ref=e501]
+                - button "选择项目 2" [ref=e502] [cursor=pointer]
+                - button "选择项目 3" [ref=e503] [cursor=pointer]
+                - button "选择项目 4" [ref=e504] [cursor=pointer]
+                - button "选择项目 5" [ref=e505] [cursor=pointer]
+              - button "下一条" [ref=e507] [cursor=pointer]
+            - generic [ref=e508]:
+              - generic [ref=e517]:
+                - heading "Edge搜索栏" [level=2] [ref=e523]
+                - heading [level=2] [ref=e530]:
+                  - paragraph [ref=e532]: 更智能的上网方式。从桌面直接搜索你常用的网站、热门话题等内容。只需输入、回车，即可开始。
+                - link "了解更多关于 Edge 搜索栏的信息" [ref=e534] [cursor=pointer]:
+                  - /url: https://www.microsoft.com/edge/features/edge-search-bar?pc=esb011&form=MA13FJ
+                  - generic [ref=e535]: 了解更多信息
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "Windows" [level=2]:
+                                                        - generic:
+                                                          - paragraph: Windows
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "你最喜欢的 Windows 应用和功能可与 Microsoft Edge 无缝协作，帮助你保持专注并在设备之间保持流畅。" [level=2]:
+                                                        - generic:
+                                                          - paragraph: 你最喜欢的 Windows 应用和功能可与 Microsoft Edge 无缝协作，帮助你保持专注并在设备之间保持流畅。
+                                            - generic:
+                                              - link "了解更多关于 Windows 上的 Edge":
+                                                - /url: https://microsoft.com/edge/windows-edge?form=MA13FJ
+                                                - generic: 了解更多信息
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "Bing" [level=2]:
+                                                        - generic:
+                                                          - paragraph: Bing
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "Edge 专为提升您的 Bing 搜索体验而设计，带来更快、更智能、更个性化的搜索结果。体验 Bing 与 Edge 之间的无缝集成。" [level=2]:
+                                                        - generic:
+                                                          - paragraph: Edge 专为提升您的 Bing 搜索体验而设计，带来更快、更智能、更个性化的搜索结果。体验 Bing 与 Edge 之间的无缝集成。
+                                            - generic:
+                                              - link "了解更多关于 Bing 的信息":
+                                                - /url: https://www.microsoft.com/bing?form=MA13R6
+                                                - generic: 了解更多信息
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "Rewards" [level=2]:
+                                                        - generic:
+                                                          - paragraph: Rewards
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "作为Microsoft Rewards 会员，轻松获得奖励，只需做你平时就会做的事。使用Edge在 Bing 上搜索即可快速赚取奖励积分。然后，你可以用积分兑换礼品卡、捐赠等更多好礼。" [level=2]:
+                                                        - generic:
+                                                          - paragraph: 作为Microsoft Rewards 会员，轻松获得奖励，只需做你平时就会做的事。使用Edge在 Bing 上搜索即可快速赚取奖励积分。然后，你可以用积分兑换礼品卡、捐赠等更多好礼。
+                                            - generic:
+                                              - link "开始赚取奖励":
+                                                - /url: https://rewards.bing.com/welcome?form=ML2XDK&OCID=ML2XDK
+                                                - generic: 开始赚取积分
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "与 Microsoft 365 配合使用" [level=2]
+                                            - generic:
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - generic:
+                                                      - heading "只需点击一下，即可使用免费的 Microsoft 365 网页应用（如 Word、Excel 和 PowerPoint），还能同时浏览 Microsoft Edge 网页内容。需要访问 Internet，可能会产生费用。" [level=2]:
+                                                        - generic:
+                                                          - paragraph: 只需点击一下，即可使用免费的 Microsoft 365 网页应用（如 Word、Excel 和 PowerPoint），还能同时浏览 Microsoft Edge 网页内容。需要访问 Internet，可能会产生费用。
+                                            - generic:
+                                              - link "了解更多关于 Microsoft 365 的信息":
+                                                - /url: /edge/microsoft-365?form=MA13FJ
+                                                - generic: 了解更多信息
+      - generic [ref=e537]:
+        - generic [ref=e538]: devices
+        - generic [ref=e542]:
+          - heading "在所有设备中使用 Edge 浏览网页" [level=2] [ref=e546]
+          - paragraph [ref=e551]: 轻松地在所有设备（Windows、macOS、iOS 或 Android）之间同步您的密码、收藏夹和设置。
+          - link "针对您的设备进行下载" [ref=e553] [cursor=pointer]:
+            - /url: /edge/download?form=MA13FJ
+      - region "脚注和免责声明" [ref=e556]:
+        - list [ref=e557]:
+          - listitem [ref=e558]: "* 功能可用性和功能特性可能因设备类型、市场和浏览器版本的不同而有所差异。"
+          - listitem [ref=e559]: "* 本页内容可能已使用 AI 翻译。"

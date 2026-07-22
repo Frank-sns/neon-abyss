@@ -1,0 +1,108 @@
+- generic [ref=e3]:
+  - generic:
+    - generic [ref=e6]:
+      - link "新闻" [ref=e7] [cursor=pointer]:
+        - /url: http://news.baidu.com
+      - link "hao123" [ref=e8] [cursor=pointer]:
+        - /url: https://www.hao123.com?src=from_pc
+      - link "地图" [ref=e9] [cursor=pointer]:
+        - /url: http://map.baidu.com
+      - link "贴吧" [ref=e10] [cursor=pointer]:
+        - /url: http://tieba.baidu.com/
+      - link "视频" [ref=e11] [cursor=pointer]:
+        - /url: https://haokan.baidu.com/?sfrom=baidu-top
+      - link "图片" [ref=e12] [cursor=pointer]:
+        - /url: http://image.baidu.com/
+      - link "网盘" [ref=e13] [cursor=pointer]:
+        - /url: https://pan.baidu.com?from=1026962h
+      - link "文库" [ref=e14] [cursor=pointer]:
+        - /url: https://wenku.baidu.com/?fr=bdpcindex
+      - link "文心" [ref=e15] [cursor=pointer]:
+        - /url: https://chat.baidu.com/search?isShowHello=1&pd=csaitab&setype=csaitab&extParamsJson=%7B%22enter_type%22%3A%22home_tab%22%7D
+      - link "搭子DuMate" [ref=e16] [cursor=pointer]:
+        - /url: https://dumate.cn?track=bdsy
+      - link "更多" [ref=e18] [cursor=pointer]:
+        - /url: http://www.baidu.com/more/
+    - generic [ref=e19]:
+      - generic [ref=e20] [cursor=pointer]: 设置
+      - link "登录" [ref=e21] [cursor=pointer]:
+        - /url: https://passport.baidu.com/v2/?login&tpl=mn&u=http%3A%2F%2Fwww.baidu.com%2F&sms=5
+  - generic [ref=e24]:
+    - generic [ref=e25]:
+      - generic:
+        - link "点击一下，了解更多":
+          - /url: //www.baidu.com/s?wd=%E7%99%BE%E5%BA%A6%E7%83%AD%E6%90%9C&sa=ire_dl_gh_logo_texing&rsv_dl=igh_logo_pcs
+    - generic [ref=e31]:
+      - generic [ref=e34]:
+        - textbox "佛得角门神拒绝迈阿密" [active] [ref=e36]
+        - button "百度一下" [ref=e63] [cursor=pointer]
+      - link "复杂问题就找文心助手，深入思考回答更优 " [ref=e67] [cursor=pointer]:
+        - /url: https://chat.baidu.com/search?extParams=%7B%22enter_type%22%3A%22home_operate%22%7D&isShowHello=1
+        - generic [ref=e69]:
+          - generic [ref=e70]: 复杂问题就找文心助手，深入思考回答更优
+          - generic [ref=e71]: 
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - link "百度热搜":
+          - /url: https://top.baidu.com/board?platform=pc&sa=pcindex_entry
+          - generic "百度热搜" [ref=e74] [cursor=pointer]: 
+        - generic [ref=e75] [cursor=pointer]:
+          - generic [ref=e76]: 
+          - text: 换一换
+      - list:
+        - listitem [ref=e77]:
+          - link " 直面时代之问 习近平提出4点意见" [ref=e78] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E7%9B%B4%E9%9D%A2%E6%97%B6%E4%BB%A3%E4%B9%8B%E9%97%AE+%E4%B9%A0%E8%BF%91%E5%B9%B3%E6%8F%90%E5%87%BA4%E7%82%B9%E6%84%8F%E8%A7%81&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e79]: 
+            - text: 直面时代之问 习近平提出4点意见
+        - listitem [ref=e81]:
+          - link "5 12306购票有新变化" [ref=e82] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=12306%E8%B4%AD%E7%A5%A8%E6%9C%89%E6%96%B0%E5%8F%98%E5%8C%96&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e83]: "5"
+            - text: 12306购票有新变化
+          - generic [ref=e84]: 热
+        - listitem [ref=e85]:
+          - link "1 重庆彭水山体崩塌已致8人遇难" [ref=e86] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E9%87%8D%E5%BA%86%E5%BD%AD%E6%B0%B4%E5%B1%B1%E4%BD%93%E5%B4%A9%E5%A1%8C%E5%B7%B2%E8%87%B48%E4%BA%BA%E9%81%87%E9%9A%BE&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e87]: "1"
+            - text: 重庆彭水山体崩塌已致8人遇难
+          - generic [ref=e88]: 新
+        - listitem [ref=e89]:
+          - link "6 重庆山体崩塌救援面临三大困难" [ref=e90] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E9%87%8D%E5%BA%86%E5%B1%B1%E4%BD%93%E5%B4%A9%E5%A1%8C%E6%95%91%E6%8F%B4%E9%9D%A2%E4%B8%B4%E4%B8%89%E5%A4%A7%E5%9B%B0%E9%9A%BE&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e91]: "6"
+            - text: 重庆山体崩塌救援面临三大困难
+          - generic [ref=e92]: 热
+        - listitem [ref=e93]:
+          - link "2 山体崩塌现场还有34人失联" [ref=e94] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E5%B1%B1%E4%BD%93%E5%B4%A9%E5%A1%8C%E7%8E%B0%E5%9C%BA%E8%BF%98%E6%9C%8934%E4%BA%BA%E5%A4%B1%E8%81%94&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e95]: "2"
+            - text: 山体崩塌现场还有34人失联
+          - generic [ref=e96]: 新
+        - listitem [ref=e97]:
+          - link "7 夏天这些病都是省出来的" [ref=e98] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E5%A4%8F%E5%A4%A9%E8%BF%99%E4%BA%9B%E7%97%85%E9%83%BD%E6%98%AF%E7%9C%81%E5%87%BA%E6%9D%A5%E7%9A%84&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e99]: "7"
+            - text: 夏天这些病都是省出来的
+          - generic [ref=e100]: 新
+        - listitem [ref=e101]:
+          - link "3 这场大会让上海变成“未来城”" [ref=e102] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E8%BF%99%E5%9C%BA%E5%A4%A7%E4%BC%9A%E8%AE%A9%E4%B8%8A%E6%B5%B7%E5%8F%98%E6%88%90%E2%80%9C%E6%9C%AA%E6%9D%A5%E5%9F%8E%E2%80%9D&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e103]: "3"
+            - text: 这场大会让上海变成“未来城”
+        - listitem [ref=e105]:
+          - link "8 周星驰回应《功夫女足》给达叔留位置" [ref=e106] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E5%91%A8%E6%98%9F%E9%A9%B0%E5%9B%9E%E5%BA%94%E3%80%8A%E5%8A%9F%E5%A4%AB%E5%A5%B3%E8%B6%B3%E3%80%8B%E7%BB%99%E8%BE%BE%E5%8F%94%E7%95%99%E4%BD%8D%E7%BD%AE&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e107]: "8"
+            - text: 周星驰回应《功夫女足》给达叔留位置
+        - listitem [ref=e109]:
+          - link "4 美取消涉港国家紧急状态 中方赞赏" [ref=e110] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E7%BE%8E%E5%8F%96%E6%B6%88%E6%B6%89%E6%B8%AF%E5%9B%BD%E5%AE%B6%E7%B4%A7%E6%80%A5%E7%8A%B6%E6%80%81+%E4%B8%AD%E6%96%B9%E8%B5%9E%E8%B5%8F&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e111]: "4"
+            - text: 美取消涉港国家紧急状态 中方赞赏
+          - generic [ref=e112]: 热
+        - listitem [ref=e113]:
+          - link "9 批发商感慨买雪糕的人明显少了" [ref=e114] [cursor=pointer]:
+            - /url: https://www.baidu.com/s?wd=%E6%89%B9%E5%8F%91%E5%95%86%E6%84%9F%E6%85%A8%E4%B9%B0%E9%9B%AA%E7%B3%95%E7%9A%84%E4%BA%BA%E6%98%8E%E6%98%BE%E5%B0%91%E4%BA%86&sa=fyb_n_homepage&rsv_dl=fyb_n_homepage&from=super&cl=3&tn=baidutop10&fr=top1000&rsv_idx=2&hisfilter=1
+            - generic [ref=e115]: "9"
+            - text: 批发商感慨买雪糕的人明显少了

@@ -1,0 +1,364 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "首页" [ref=e8] [cursor=pointer]:
+            - /url: //www.bilibili.com
+        - listitem [ref=e12]:
+          - link "番剧" [ref=e13] [cursor=pointer]:
+            - /url: //www.bilibili.com/anime/
+        - listitem [ref=e14]:
+          - link "直播" [ref=e15] [cursor=pointer]:
+            - /url: //live.bilibili.com
+        - listitem [ref=e16]:
+          - link "游戏中心" [ref=e17] [cursor=pointer]:
+            - /url: //game.bilibili.com/platform
+        - listitem [ref=e18]:
+          - link "会员购" [ref=e19] [cursor=pointer]:
+            - /url: //show.bilibili.com/platform/home.html?msource=pc_web
+        - listitem [ref=e20]:
+          - link "漫画" [ref=e21] [cursor=pointer]:
+            - /url: //manga.bilibili.com?from=bill_top_mnav
+        - listitem [ref=e22]:
+          - link "赛事" [ref=e23] [cursor=pointer]:
+            - /url: //www.bilibili.com/match/home/
+        - listitem [ref=e24]:
+          - link "下载客户端" [ref=e25] [cursor=pointer]:
+            - /url: //app.bilibili.com
+      - textbox "奥特60周年光之创想季" [ref=e35]
+      - list [ref=e39]:
+        - listitem [ref=e40] [cursor=pointer]:
+          - listitem [ref=e41]:
+            - generic [ref=e42]: 登录
+            - generic [ref=e46]:
+              - paragraph [ref=e47]: 登录后你可以：
+              - generic [ref=e48]:
+                - generic [ref=e49]: 免费看高清视频
+                - generic [ref=e55]: 多端同步播放记录
+                - generic [ref=e60]: 发表弹幕/评论
+                - generic [ref=e68]: 热门番剧影视看不停
+              - generic [ref=e73]: 立即登录
+              - generic [ref=e74]: 首次使用？ 点我注册
+        - listitem [ref=e75] [cursor=pointer]:
+          - listitem [ref=e77]:
+            - link [ref=e78]:
+              - /url: //account.bilibili.com/big
+        - listitem [ref=e83] [cursor=pointer]
+        - listitem [ref=e88] [cursor=pointer]
+        - listitem [ref=e96] [cursor=pointer]
+        - listitem [ref=e101] [cursor=pointer]
+        - listitem [ref=e105] [cursor=pointer]
+        - listitem [ref=e111] [cursor=pointer]:
+          - listitem [ref=e112]
+    - link [ref=e122] [cursor=pointer]:
+      - /url: //www.bilibili.com
+      - img "B站 b站" [ref=e124]
+    - generic [ref=e125]:
+      - generic [ref=e126]:
+        - link "动态" [ref=e127] [cursor=pointer]:
+          - /url: //t.bilibili.com
+        - link "热门" [ref=e135] [cursor=pointer]:
+          - /url: //www.bilibili.com/v/popular/all
+      - generic [ref=e140]:
+        - generic [ref=e141]:
+          - link "番剧" [ref=e142] [cursor=pointer]:
+            - /url: //www.bilibili.com/anime/
+          - link "电影" [ref=e143] [cursor=pointer]:
+            - /url: //www.bilibili.com/movie/
+          - link "国创" [ref=e144] [cursor=pointer]:
+            - /url: //www.bilibili.com/guochuang/
+          - link "电视剧" [ref=e145] [cursor=pointer]:
+            - /url: //www.bilibili.com/tv/
+          - link "综艺" [ref=e146] [cursor=pointer]:
+            - /url: //www.bilibili.com/variety/
+          - link "纪录片" [ref=e147] [cursor=pointer]:
+            - /url: //www.bilibili.com/documentary/
+          - link "动画" [ref=e148] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/douga/
+          - link "游戏" [ref=e149] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/game/
+          - link "鬼畜" [ref=e150] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/kichiku/
+          - link "音乐" [ref=e151] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/music/
+          - link "舞蹈" [ref=e152] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/dance/
+          - link "影视" [ref=e153] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/cinephile/
+          - link "娱乐" [ref=e154] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/ent/
+          - link "知识" [ref=e155] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/knowledge/
+          - link "科技数码" [ref=e156] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/tech/
+          - link "资讯" [ref=e157] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/information/
+          - link "美食" [ref=e158] [cursor=pointer]:
+            - /url: //www.bilibili.com/c/food/
+          - generic [ref=e159]: 更多
+        - generic [ref=e163]:
+          - link "专栏" [ref=e164] [cursor=pointer]:
+            - /url: //www.bilibili.com/read/home/
+          - link "直播" [ref=e166] [cursor=pointer]:
+            - /url: //live.bilibili.com
+          - link "活动" [ref=e168] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/era/reward-activity-list-page.html#/list
+          - link "课堂" [ref=e170] [cursor=pointer]:
+            - /url: //www.bilibili.com/cheese/?csource=common_hp_channelclass_icon
+          - link "社区中心" [ref=e172] [cursor=pointer]:
+            - /url: //www.bilibili.com/blackboard/activity-5zJxM3spoS.html
+          - link "新歌热榜" [ref=e174] [cursor=pointer]:
+            - /url: //music.bilibili.com/pc/music-center/
+  - main [ref=e176]:
+    - generic [ref=e178]:
+      - generic [ref=e179]:
+        - generic [ref=e186]:
+          - generic [ref=e187]:
+            - link [ref=e191] [cursor=pointer]:
+              - /url: //www.bilibili.com/bangumi/play/ep4712803
+              - img "家长育儿一千问！" [ref=e193]
+            - link [ref=e197] [cursor=pointer]:
+              - /url: https://www.bilibili.com/blackboard/era/UQGRLtiFGDS0aurh.html
+              - img "全网顶流创作者潜入 B 站，流量现金双扶持~" [ref=e199]
+            - link [ref=e203] [cursor=pointer]:
+              - /url: //cm.bilibili.com/cm/api/fees/pc/sync/v2?msg=a%7C4696%2Cb%7Cbilibili%2Cc%7C1%2Cd%7C1%2Ce%7CCAAQABiAwJPHisSWrxAgACgAMB042CRCIDE3ODQzMDM5MTcwNDBxMTBhODRhMTA5YTIzOHE1NDA0SPCvtIb3M1IG5qGC5p6XWgblub%2Fopb9iBuS4reWbvWj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BcP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwF4gICAgMAhgAEAiAH9pQWSAScyNDA5OjhhNWM6MzIyMDpiOTAwOjcxODU6NGNiZjo3Yjg3OmU0NjaaAQCgAQCyASDuGyudQNGrKFFqUV5iX84Kq5VVbkHMHQ9005%2FWhTtb%2BboBWGh0dHBzOi8vd3d3LmJpbGlnYW1lLmNvbS9kZXRhaWwvP2lkPTEwODQwNiZzcG1faWRfZnJvbT01NTUuMjI0LjAuMCZzb3VyY2VGcm9tPTE2MDA4MjAwMTHCAQDSAQDYAYwC4AEA6AEA8AEAgAICiAIAuAIAwAIA0AIA2AIA6gIA8AKDgyz4AgCIAwCSAwCoAwCwAwC4AwDCAwDIA5%2BNBtIDsgF7IjEiOiIxMTc5NDc5MjQ4NzM2NjczNzkyIiwiMiI6IjI5IiwiMyI6IjI5IiwiNiI6IjE1NDRfMCIsIjEyIjoiNDY5NiIsIjEzIjoiNTU5NjIwIiwiMTQiOiIwIiwiMTUiOiIwIiwiMTYiOiI1NTk2MjBfMCIsIjE3IjoiNDY5NCIsIjE5IjoiODY3ODEiLCIyNSI6IjYyMSIsIjI2IjoiNjI2IiwiMjciOiIxMzc5MiJ94AMA6AMA8AMA%2BgMFb3RoZXKCBAludWxsOm51bGyYBACgBACqBAQIABAEsAQA4gSNAjU2LnsicHNJZCI6MTM4NzU0LCJ2MiI6IkEzNHB4WGNyUE5SX2tTWF9JekY1dXJZRjJPSWpLbUN6dHV3M1BEdklVQms0Vy0yWUY5THJyQXphbjVhM19fMGIwMTJxRWNzUENiSm1NNUcwM2lwSU1oWWJkZkZZZ3Z2S1dfMlR1czdVX2IxMElEVkRoLVZnTDF1dGJVSmtXSFFSeGlzUG1oVEpyd0o2U3ZaaGFjNE8zUWZ1d21IMDFyM3JZODRsVFRVUXUxWmdOLXk2MDd0cXUtS0UifTs2My57InBzSWQiOjEzODQ1NSwidjIiOiJQc2cifTs3MC57InBzSWQiOjExNDc4MCwidjIiOiJBQSJ9%2BgQCe32QBYAEkAWBBJAFgQiQBYUCkAWKCJAFiwiQBQ%2BQBY8GkAWTApAFmgKQBZwIkAWgCJAFowiQBaUIkAUmkAWmBpAFqgiQBasEkAWvBJAFsASQBbEEkAUykAWyBJAFM5AFswKQBbQEkAU1kAW3ApAFtwiQBbgEkAW7ApAFvRCQBb8IkAXAApAFwgKQBUOQBcMCkAXFCJAFSJAFyAiQBcsQkAXMApAFzgKQBc4QkAXTApAF1gKQBdcCkAXYApAF2gKQBdwCkAXfApAFYpAF5QSQBeoCkAXvApAF8AKQBXKQBfUCkAX8ApAF%2FQKQBf4CkAX%2FApAFggOQBYQBkAWGAZAFhgOQBYgBkAWJAZAFigOQBY0HkAWSA5AFkweQBZQDkAWhEZAFogOQBaQDkAWlA5AFpwOQBagDkAWsAZAFsAOQBbEBkAWxA5AFtAGQBcIHkAXGBZAFyAGQBcgFkAXNA5AF0AGQBdEBkAXSEZAF0wOQBdMHkAXUB5AF1wOQBdgBkAXiB5AF5QOQBegBkAXoA5AF6gOQBesDkAXxAZAF8gOQBfIHkAX1A5AF9wOQBfgDkAX%2FA6AFAMgFB9IFAOAFAw%3D%3D%2Cf%7Cclick_sync_3%2Cg%7C1%2Ch%7C2%2Ci%7C%2Cj%7C%2Ck%7C1784303918356%2Cl%7C4694%2Cm%7C1784303917372%2Cn%7C1%2Co%7C0%2Cp%7Cad_card&ts=1784303918356
+              - img "终末地「向渊行」版本现已开启" [ref=e205]
+            - link [ref=e209] [cursor=pointer]:
+              - /url: //cm.bilibili.com/cm/api/fees/pc/sync/v2?msg=a%7C4697%2Cb%7Cbilibili%2Cc%7C0%2Cd%7C1%2Ce%7CCAAQABiAoKvB5vuEsRAgACgAMKm4TDjZJEIgMTc4NDMwMzkxNzA0MHExMGE4NGExMDlhMjM4cTU0MDRI8K%2B0hvczUgbmoYLmnpdaBuW5v%2Bilv2IG5Lit5Zu9aP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwFw%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FAXiAgICAwCGAAQCIAeOfBZIBJzI0MDk6OGE1YzozMjIwOmI5MDA6NzE4NTo0Y2JmOjdiODc6ZTQ2NpoBAKABALIBIHBu1oGwIGoZus077Xnrh3fjHiqNR2H5PPgWqIe4vsynugFlaHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL2JsYWNrYm9hcmQvZXJhL25YdmR3U3RITkI3Mzl6blMuaHRtbC8%2Fc291cmNlRnJvbT0yMDAwMzMwMDIzJnNvdXJjZVR5cGU9YWRQdXTCAQDSAQDYAYwC4AEA6AEA8AEAgAICiAIAuAIAwAIA0AIA2AIA6gIA8AKf%2BCv4AudciAMAkgMAqAMAsAMAuAMAwgMAyAOfjQbSA8sBeyIxIjoiMTE4MDUyNzg5ODI3NTc5NDk0NCIsIjIiOiIxMjUyMzkzIiwiMyI6IjEyNTIzOTMiLCI2IjoiMTI1MjM5M18xMTg3OSIsIjEyIjoiNDY5NyIsIjEzIjoiMTIxNTQ2MCIsIjE0IjoiMCIsIjE1IjoiMCIsIjE2IjoiMTIxNTQ2MF8xMTg3OSIsIjE3IjoiNDY5NCIsIjE5IjoiODU5ODciLCIyNSI6IjExNDIiLCIyNiI6IjEyNTEiLCIyNyI6IjExODc5In3gAwDoAwDwAwD6AwVvdGhlcoIECW51bGw6bnVsbJgEAKAEAKoEBAgAEASwBADiBI0CNTYueyJwc0lkIjoxMzg3NTQsInYyIjoiQTM0cHhYY3JQTlJfa1NYX0l6RjV1cllGMk9JakttQ3p0dXczUER2SVVCazRXLTJZRjlMcnJBemFuNWEzX18wYjAxMnFFY3NQQ2JKbU01RzAzaXBJTWhZYmRmRllndnZLV18yVHVzN1VfYjEwSURWRGgtVmdMMXV0YlVKa1dIUVJ4aXNQbWhUSnJ3SjZTdlpoYWM0TzNRZnV3bUgwMXIzclk4NGxUVFVRdTFaZ04teTYwN3RxdS1LRSJ9OzYzLnsicHNJZCI6MTM4NDU1LCJ2MiI6IlBzZyJ9OzcwLnsicHNJZCI6MTE0NzgwLCJ2MiI6IkFBIn36BAJ7fZAFgASQBYAGkAWBBpAFgQiQBYIGkAUEkAWPBpAFkRKQBZgCkAWZEpAFmgKQBZ0CkAWeApAFnwKQBSWQBaYGkAWrBJAFrRKQBa8EkAWwBJAFsQSQBbIEkAUzkAWzApAFtASQBbcCkAW3CJAFuASQBboGkAU7kAVDkAXDApAFSJAFyAiQBcwCkAXOApAFU5AF0wKQBdYCkAXYApAF2gKQBdwCkAVekAXfApAFYpAF5QSQBe0EkAXwApAF%2FwKQBYQBkAWGAZAFhgOQBYgBkAWJAZAFjQOQBZIDkAWTB5AFlAOQBZgDkAWYEZAFmQOQBZoDkAWbA5AFnAOQBaEDkAWhB5AFogOQBaQDkAWnA5AFrAGQBbADkAWxAZAFsQOQBbMBkAW0AZAFwAOQBcEDkAXGBZAFyAGQBc0DkAXQAZAF0AOQBdMDkAXUAZAF1wOQBdgBkAXfBZAF4AOQBeUDkAXoAZAF6AOQBeoDkAXrA5AF8QGQBfIDkAX1A5AF9wOQBfgDkAX6A5AF%2BwOQBf8DoAUAyAUH0gUA4AUD%2Cf%7Cclick_sync_3%2Cg%7C1%2Ch%7C3%2Ci%7C%2Cj%7C%2Ck%7C1784303918356%2Cl%7C4694%2Cm%7C1784303917372%2Cn%7C1%2Co%7C0%2Cp%7Cad_card&ts=1784303918356
+              - img "全新区域及伊赞之土主线终章开启" [ref=e211]
+            - link [ref=e215] [cursor=pointer]:
+              - /url: //www.bilibili.com/video/BV1CRK36dE4V?track_id=
+              - img "说唱公主局？GALI盛宇TT于贞之音乐大作战" [ref=e217]
+            - link [ref=e221] [cursor=pointer]:
+              - /url: https://www.bilibili.com/blackboard/era/Y0GGFWvdXqBO7c3g.html
+              - img "小朋友专属，查看你的暑期福利>" [ref=e223]
+            - link [ref=e227] [cursor=pointer]:
+              - /url: https://www.bilibili.com/video/BV1yhNi6xEwj/?spm_id_from=333.337.search-card.all.click&vd_source=5c855e12309e22759afab4f9c0db53fa
+              - img "光夜五周年音乐盛典纯享版来袭" [ref=e229]
+            - link [ref=e233] [cursor=pointer]:
+              - /url: https://www.bilibili.com/blackboard/era/yS5rXnBiHvqtPgx1.html?auto_media_playback=1
+              - img "什么叫花一千万来赞助同人only展？" [ref=e235]
+            - link [ref=e239] [cursor=pointer]:
+              - /url: https://www.bilibili.com/toy/toystore/index.html
+              - img "【点击查看】UP主们都发布了什么网页创意>>" [ref=e241]
+            - link [ref=e245] [cursor=pointer]:
+              - /url: //www.bilibili.com/bangumi/play/ep4712803
+              - img "家长育儿一千问！" [ref=e247]
+            - link [ref=e251] [cursor=pointer]:
+              - /url: https://www.bilibili.com/blackboard/era/UQGRLtiFGDS0aurh.html
+              - img "全网顶流创作者潜入 B 站，流量现金双扶持~" [ref=e253]
+          - generic:
+            - link "全网顶流创作者潜入 B 站，流量现金双扶持~" [ref=e256] [cursor=pointer]:
+              - /url: https://www.bilibili.com/blackboard/era/UQGRLtiFGDS0aurh.html
+            - list [ref=e259]:
+              - listitem [ref=e260] [cursor=pointer]
+              - listitem [ref=e263] [cursor=pointer]
+              - listitem [ref=e266] [cursor=pointer]
+              - listitem [ref=e269] [cursor=pointer]
+              - listitem [ref=e272] [cursor=pointer]
+              - listitem [ref=e275] [cursor=pointer]
+              - listitem [ref=e278] [cursor=pointer]
+              - listitem [ref=e281] [cursor=pointer]
+              - listitem [ref=e284] [cursor=pointer]
+          - generic [ref=e287]:
+            - button [ref=e288]
+            - button [ref=e291]
+        - generic [ref=e297]:
+          - link [ref=e298] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV16PKG6SE4Q
+            - generic [ref=e299]:
+              - img "了不起的另类大世界游戏！不抽卡不卖数值，是怎么让玩家都能玩的？" [ref=e302]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 8.7万
+                    - generic: "420"
+                  - generic: 03:49
+          - generic [ref=e304]:
+            - heading [level=3] [ref=e305]:
+              - link "了不起的另类大世界游戏！不抽卡不卖数值，是怎么让玩家都能玩的？" [ref=e306] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV16PKG6SE4Q
+            - link "巛麻雀灬涛 · 昨天" [ref=e308] [cursor=pointer]:
+              - /url: //space.bilibili.com/108423490
+              - generic "巛麻雀灬涛" [ref=e313]
+              - generic [ref=e314]: · 昨天
+        - generic [ref=e318]:
+          - link [ref=e319] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV1VsN96WE1A
+            - generic [ref=e320]:
+              - img "第二次来纽约，真的被吓到了" [ref=e323]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 35.2万
+                    - generic: "700"
+                  - generic: 06:08
+          - generic [ref=e325]:
+            - heading [level=3] [ref=e326]:
+              - link "第二次来纽约，真的被吓到了" [ref=e327] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV1VsN96WE1A
+            - link "拉宏桑 · 07-15" [ref=e329] [cursor=pointer]:
+              - /url: //space.bilibili.com/11870568
+              - generic "拉宏桑" [ref=e334]
+              - generic [ref=e335]: · 07-15
+        - generic [ref=e339]:
+          - link [ref=e340] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV1hEKH6wEU3
+            - generic [ref=e341]:
+              - img "“错 位 时 空”" [ref=e344]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 2.9万
+                    - generic: "110"
+                  - generic: 01:47
+          - generic [ref=e346]:
+            - heading [level=3] [ref=e347]:
+              - link "“错 位 时 空”" [ref=e348] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV1hEKH6wEU3
+            - link "星雨Starrain · 6小时前" [ref=e350] [cursor=pointer]:
+              - /url: //space.bilibili.com/1042277203
+              - generic "星雨Starrain" [ref=e355]
+              - generic [ref=e356]: · 6小时前
+        - generic [ref=e360]:
+          - link [ref=e361] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV1vtKE6tEsm
+            - generic [ref=e362]:
+              - img "当年那个满脸痘的女孩，现在怎么样了？" [ref=e365]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 6.0万
+                    - generic: "968"
+                  - generic: 01:05:25
+          - generic [ref=e367]:
+            - heading [level=3] [ref=e368]:
+              - link "当年那个满脸痘的女孩，现在怎么样了？" [ref=e369] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV1vtKE6tEsm
+            - link "妍妍酱的一天 · 10小时前" [ref=e371] [cursor=pointer]:
+              - /url: //space.bilibili.com/282406197
+              - generic "妍妍酱的一天" [ref=e376]
+              - generic [ref=e377]: · 10小时前
+        - generic [ref=e381]:
+          - link [ref=e382] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV1apK56LEtJ
+            - generic [ref=e383]:
+              - img "【脑叶公司二创动画】第二集" [ref=e386]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 5.8万
+                    - generic: "737"
+                  - generic: 22:04
+          - generic [ref=e388]:
+            - heading [level=3] [ref=e389]:
+              - link "【脑叶公司二创动画】第二集" [ref=e390] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV1apK56LEtJ
+            - link "GMadaoG · 昨天" [ref=e392] [cursor=pointer]:
+              - /url: //space.bilibili.com/7961808
+              - generic "GMadaoG" [ref=e397]
+              - generic [ref=e398]: · 昨天
+        - generic [ref=e402]:
+          - link [ref=e403] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV1GeNq6VEQL
+            - generic [ref=e404]:
+              - img "洛洛VS晶晶！分兵换线是好活还是败笔？晶晶真有那么不堪吗？洛洛为什么不打团战？【洛洛历险记】" [ref=e407]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 29.6万
+                    - generic: "1112"
+                  - generic: 24:01
+          - generic [ref=e409]:
+            - heading [level=3] [ref=e410]:
+              - link "洛洛VS晶晶！分兵换线是好活还是败笔？晶晶真有那么不堪吗？洛洛为什么不打团战？【洛洛历险记】" [ref=e411] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV1GeNq6VEQL
+            - link "POP杂货铺 · 07-15" [ref=e413] [cursor=pointer]:
+              - /url: //space.bilibili.com/2063595238
+              - generic "POP杂货铺" [ref=e418]
+              - generic [ref=e419]: · 07-15
+        - generic [ref=e423]:
+          - link [ref=e424] [cursor=pointer]:
+            - /url: https://www.bilibili.com/video/BV1RCN36gEm7
+            - generic [ref=e425]:
+              - img "《来杯好茶摇一摇》但反话反义词" [ref=e428]
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: 278.3万
+                    - generic: 2.9万
+                  - generic: 01:02
+          - generic [ref=e430]:
+            - heading [level=3] [ref=e431]:
+              - link "《来杯好茶摇一摇》但反话反义词" [ref=e432] [cursor=pointer]:
+                - /url: https://www.bilibili.com/video/BV1RCN36gEm7
+            - link "阿咕不咕 · 07-12" [ref=e434] [cursor=pointer]:
+              - /url: //space.bilibili.com/376358805
+              - generic "阿咕不咕" [ref=e439]
+              - generic [ref=e440]: · 07-12
+        - generic [ref=e450]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e451]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e452]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e463]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e464]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e465]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e475]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e476]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+        - generic [ref=e477]:
+          - generic:
+            - generic:
+              - generic:
+                - paragraph
+                - paragraph
+                - paragraph
+      - button "换一换" [ref=e488] [cursor=pointer]
+  - generic: 点击视频卡片右上角添加！
