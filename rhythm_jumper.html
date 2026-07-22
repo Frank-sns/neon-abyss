@@ -281,14 +281,26 @@
 
     // ===== Obstacle =====
     class Obstacle {
-      constructor(x, groundY) {
+      constructor(x, groundY, type) {
         this.x = x;
         this.width = 22;
-        const heights = [25, 35, 45];
-        this.height = heights[Math.floor(Math.random() * heights.length)];
-        this.y = groundY - this.height;
+        this.type = type || 'ground';
         this.speed = 320;
         this.passed = false;
+
+        if (this.type === 'ground') {
+          const heights = [25, 35, 45];
+          this.height = heights[Math.floor(Math.random() * heights.length)];
+          this.y = groundY - this.height;
+        } else if (this.type === 'midair') {
+          const heights = [20, 28, 35];
+          this.height = heights[Math.floor(Math.random() * heights.length)];
+          this.y = groundY - 120 - this.height;
+        } else if (this.type === 'highair') {
+          const heights = [18, 24, 30];
+          this.height = heights[Math.floor(Math.random() * heights.length)];
+          this.y = groundY - 195 - this.height;
+        }
       }
 
       update(dt, speedMultiplier) {
@@ -296,26 +308,68 @@
       }
 
       draw(ctx) {
-        ctx.shadowColor = 'rgba(255, 0, 50, 0.6)';
-        ctx.shadowBlur = 14;
-
-        ctx.fillStyle = '#cc2233';
-        ctx.beginPath();
         const cx = this.x + this.width / 2;
-        ctx.moveTo(cx, this.y);
-        ctx.lineTo(this.x + this.width, this.y + this.height);
-        ctx.lineTo(this.x, this.y + this.height);
-        ctx.closePath();
-        ctx.fill();
 
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = '#ff4455';
-        ctx.beginPath();
-        ctx.moveTo(cx, this.y + 4);
-        ctx.lineTo(cx + 6, this.y + this.height);
-        ctx.lineTo(cx - 6, this.y + this.height);
-        ctx.closePath();
-        ctx.fill();
+        if (this.type === 'ground') {
+          // Red triangle (existing)
+          ctx.shadowColor = 'rgba(255, 0, 50, 0.6)';
+          ctx.shadowBlur = 14;
+          ctx.fillStyle = '#cc2233';
+          ctx.beginPath();
+          ctx.moveTo(cx, this.y);
+          ctx.lineTo(this.x + this.width, this.y + this.height);
+          ctx.lineTo(this.x, this.y + this.height);
+          ctx.closePath();
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#ff4455';
+          ctx.beginPath();
+          ctx.moveTo(cx, this.y + 4);
+          ctx.lineTo(cx + 6, this.y + this.height);
+          ctx.lineTo(cx - 6, this.y + this.height);
+          ctx.closePath();
+          ctx.fill();
+        } else if (this.type === 'midair') {
+          // Purple diamond shape
+          ctx.shadowColor = 'rgba(176, 64, 224, 0.6)';
+          ctx.shadowBlur = 14;
+          ctx.fillStyle = '#b040e0';
+          ctx.beginPath();
+          ctx.moveTo(cx, this.y);
+          ctx.lineTo(this.x + this.width, this.y + this.height / 2);
+          ctx.lineTo(cx, this.y + this.height);
+          ctx.lineTo(this.x, this.y + this.height / 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#d080f0';
+          ctx.beginPath();
+          ctx.moveTo(cx, this.y + 4);
+          ctx.lineTo(cx + 4, this.y + this.height / 2);
+          ctx.lineTo(cx, this.y + this.height - 4);
+          ctx.lineTo(cx - 4, this.y + this.height / 2);
+          ctx.closePath();
+          ctx.fill();
+        } else if (this.type === 'highair') {
+          // Orange inverted triangle ▼
+          ctx.shadowColor = 'rgba(255, 136, 0, 0.6)';
+          ctx.shadowBlur = 14;
+          ctx.fillStyle = '#ff8800';
+          ctx.beginPath();
+          ctx.moveTo(cx, this.y + this.height);
+          ctx.lineTo(this.x + this.width, this.y);
+          ctx.lineTo(this.x, this.y);
+          ctx.closePath();
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#ffaa44';
+          ctx.beginPath();
+          ctx.moveTo(cx, this.y + this.height - 4);
+          ctx.lineTo(cx + 5, this.y + 4);
+          ctx.lineTo(cx - 5, this.y + 4);
+          ctx.closePath();
+          ctx.fill();
+        }
       }
 
       getBounds() {
@@ -440,14 +494,39 @@
     let background;
     let obstacleTimer = 0;
     let obstacleInterval = 1.8;
+    let obstacleMinInterval = 1.4;
     let speedMultiplier = 1;
     let score = 0;
+
+    // ===== Obstacle Type Selection =====
+    function getObstacleType(currentScore) {
+      var rand = Math.random();
+      if (currentScore < 150) {
+        return 'ground';
+      } else if (currentScore < 350) {
+        return rand < 0.30 ? 'midair' : 'ground';
+      } else if (currentScore < 600) {
+        if (rand < 0.15) return 'highair';
+        if (rand < 0.50) return 'midair';
+        return 'ground';
+      } else if (currentScore < 900) {
+        if (rand < 0.25) return 'highair';
+        if (rand < 0.60) return 'midair';
+        return 'ground';
+      } else {
+        if (rand < 0.35) return 'highair';
+        if (rand < 0.70) return 'midair';
+        return 'ground';
+      }
+    }
 
     function initGame() {
       player = new Player(W * 0.2, groundY);
       obstacles = [];
       particles = [];
       obstacleTimer = 0;
+      obstacleInterval = 1.8;
+      obstacleMinInterval = 1.4;
       speedMultiplier = 1;
       score = 0;
       background = new Background(W, H);
@@ -470,8 +549,9 @@
         obstacleTimer += dt;
         if (obstacleTimer >= obstacleInterval) {
           obstacleTimer = 0;
-          obstacles.push(new Obstacle(W + 50, groundY));
-          obstacleInterval = 1.4 + Math.random() * 0.8;
+          var obsType = getObstacleType(score);
+          obstacles.push(new Obstacle(W + 50, groundY, obsType));
+          obstacleInterval = obstacleMinInterval + Math.random() * 0.6;
         }
 
         // Obstacle update + collision
@@ -507,6 +587,13 @@
         // Difficulty scaling
         speedMultiplier = 1 + Math.floor(score / 100) * 0.15;
         if (speedMultiplier > 3) speedMultiplier = 3;
+
+        // Dynamic min interval based on score
+        if (score < 150) obstacleMinInterval = 1.4;
+        else if (score < 350) obstacleMinInterval = 1.2;
+        else if (score < 600) obstacleMinInterval = 1.0;
+        else if (score < 900) obstacleMinInterval = 0.85;
+        else obstacleMinInterval = 0.7;
 
         if (keys['Space'] || keys['ArrowUp']) {
           if (player.jump()) {
