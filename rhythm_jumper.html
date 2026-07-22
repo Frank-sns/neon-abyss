@@ -2125,16 +2125,16 @@
     }
 
     // ===== Init =====
+    const keys = {};
+    let mouseDown = false;
+    let clickQueue = 0;
+    let mouseX = 0, mouseY = 0;
+
     resize();
     initGame();
     requestAnimationFrame(gameLoop);
 
     window.addEventListener('resize', resize);
-
-    const keys = {};
-    let mouseDown = false;
-    let clickQueue = 0;
-    let mouseX = 0, mouseY = 0;
     canvas.addEventListener('mousemove', function(e) {
       var rect = canvas.getBoundingClientRect();
       var sx = canvas.width / rect.width;
