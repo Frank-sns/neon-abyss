@@ -247,6 +247,13 @@
         // Power-up system
         this.powerLevel = 0;
         this.powerTimer = 0;
+        // Energy system
+        this.energy = 100;
+        this.maxEnergy = 100;
+        this.energyRegen = 3;
+        // Buffs
+        this.buffs = [];
+        this.shotDamage = 1;
       }
 
       jump() {
@@ -274,6 +281,8 @@
           this.powerTimer -= dt;
           if (this.powerTimer <= 0) this.powerLevel = 0;
         }
+        // Energy regen
+        this.energy = Math.min(this.maxEnergy, this.energy + this.energyRegen * dt);
       }
 
       takeDamage() {
@@ -711,31 +720,35 @@
 
         this.entryTargetX = W - 120;
 
-        // Entry animations
+        // Entry animation — unified slide-in (all boss types)
         if (this.state === 'entering') {
-          var es = this.config.entryStyle;
-          if (es === 'slide') {
-            this.x += (this.entryTargetX - this.x) * 4 * dt;
-            if (Math.abs(this.x - this.entryTargetX) < 5) { this.x = this.entryTargetX; this.state = 'active'; }
-          } else if (es === 'fade') {
-            if (this.stateTimer > 1.2) { this.x = this.entryTargetX; this.state = 'active'; }
-            else this.x = this.entryTargetX;
-          } else if (es === 'rise') {
-            var targetY = groundY - 220;
-            this.x += (this.entryTargetX - this.x) * 3 * dt;
-            this.y += (targetY - this.y) * 3 * dt;
-            if (Math.abs(this.y - targetY) < 10) { this.y = targetY; this.state = 'active'; }
-          } else if (es === 'warp') {
-            if (this.stateTimer > 0.6) { this.x = this.entryTargetX; this.state = 'active'; }
-          } else if (es === 'crash') {
-            var ty = groundY - 220;
-            this.y += (ty - this.y) * 8 * dt;
-            this.x += (this.entryTargetX - this.x) * 6 * dt;
-            if (Math.abs(this.y - ty) < 5) { this.y = ty; this.state = 'active'; }
+          this.x += (this.entryTargetX - this.x) * 4 * dt;
+          if (Math.abs(this.x - this.entryTargetX) < 5 || this.stateTimer > 1.5) {
+            this.x = this.entryTargetX;
+            this.state = 'active';
           }
         } else if (this.state === 'active') {
-          this.y = groundY - 220 + Math.sin(this.elapsedTime * this.oscSpeed) * 100;
-          this.y = Math.max(30, Math.min(groundY - this.height - 10, this.y));
+          // Free movement pattern based on boss type
+          var mvSpeed = 80 + this.stage * 10;
+          if (this.bossType === 'warden') {
+            this.x = this.entryTargetX + Math.sin(this.elapsedTime * 0.4) * 100;
+            this.y = groundY - 220 + Math.sin(this.elapsedTime * this.oscSpeed) * 120;
+          } else if (this.bossType === 'beamLord') {
+            this.x = W/2 + Math.sin(this.elapsedTime * 0.5) * (W/2 - 80);
+            this.y = groundY/2 + Math.cos(this.elapsedTime * 0.7) * (groundY/2 - 80);
+          } else if (this.bossType === 'mineDeployer') {
+            this.x = W/3 + Math.sin(this.elapsedTime * 0.35) * (W/3);
+            this.y = 80 + Math.abs(Math.cos(this.elapsedTime * 0.6)) * (groundY - 160);
+          } else if (this.bossType === 'summoner') {
+            this.x = W - 150 + Math.sin(this.elapsedTime * 0.3) * 80;
+            this.y = groundY - 200 + Math.sin(this.elapsedTime * 0.45) * 150;
+          } else if (this.bossType === 'berserker') {
+            var chaseSpeed = 0.03;
+            this.x += (player.x + 150 - this.x) * chaseSpeed;
+            this.y += (player.y - this.y) * chaseSpeed * 2;
+          }
+          this.x = Math.max(70, Math.min(W - 70, this.x));
+          this.y = Math.max(50, Math.min(groundY - this.height - 10, this.y));
           // Update mines and drones
           for (var mi = this.mines.length - 1; mi >= 0; mi--) {
             this.mines[mi].update(dt, 1);
@@ -897,8 +910,8 @@
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.width = 8;
-        this.height = 8;
+        this.width = 16;
+        this.height = 16;
         this.alive = true;
       }
 
@@ -912,18 +925,19 @@
       }
 
       draw(ctx) {
-        ctx.shadowColor = 'rgba(255, 50, 50, 0.8)';
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(255, 50, 50, 0.9)';
+        ctx.shadowBlur = 18;
         ctx.fillStyle = '#ff3333';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
         ctx.fill();
         // Bright core
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = '#ffaaaa';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = '#ffcccc';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.width / 4, 0, Math.PI * 2);
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
       getBounds() {
@@ -1104,6 +1118,93 @@
       }
     }
 
+    // ===== EnergyBlock =====
+    class EnergyBlock {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = 20;
+        this.height = 20;
+        this.hp = 2;
+        this.maxHp = 2;
+        this.flashTimer = 0;
+        this.alive = true;
+      }
+
+      update(dt) { if (this.flashTimer > 0) this.flashTimer -= dt; }
+
+      takeDamage() {
+        this.hp--;
+        this.flashTimer = 0.06;
+        return this.hp <= 0;
+      }
+
+      draw(ctx) {
+        ctx.shadowColor = 'rgba(0, 255, 200, 0.7)';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = this.flashTimer > 0 ? '#fff' : '#00ffcc';
+        ctx.fillRect(this.x - 10, this.y - 10, 20, 20);
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#00ffaa';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(this.x - 10, this.y - 10, 20, 20);
+        // HP dots
+        for (var ed = 0; ed < this.maxHp; ed++) {
+          ctx.fillStyle = ed < this.hp ? '#fff' : '#555';
+          ctx.fillRect(this.x - 6 + ed * 6, this.y - 14, 4, 3);
+        }
+      }
+
+      getBounds() { return { x: this.x - 10, y: this.y - 10, w: 20, h: 20 }; }
+    }
+
+    // ===== EnergyOrb =====
+    class EnergyOrb {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.size = 10;
+        this.alive = true;
+        this.glowTimer = 0;
+      }
+
+      update(dt, playerX, playerY) {
+        this.glowTimer += dt * 4;
+        // Magnetic pull toward player
+        var dx = playerX - this.x;
+        var dy = playerY - this.y;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (dist < 200) {
+          var pull = 300 / dist;
+          this.vx += (dx / dist) * pull * dt;
+          this.vy += (dy / dist) * pull * dt;
+        }
+        // Damping
+        this.vx *= 0.95;
+        this.vy *= 0.95;
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+      }
+
+      draw(ctx) {
+        ctx.shadowColor = 'rgba(0, 255, 200, 0.8)';
+        ctx.shadowBlur = 10 + Math.sin(this.glowTimer) * 3;
+        ctx.fillStyle = '#00ffcc';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      getBounds() { return { x: this.x - 5, y: this.y - 5, w: 10, h: 10 }; }
+    }
+
     // ===== Background =====
     class Background {
       constructor(w, h) {
@@ -1188,6 +1289,12 @@
     let playerShootCooldown = 0;
     let stageAnnounceText = '';
     let stageAnnounceTimer = 0;
+    let energyBlocks = [];
+    let energyOrbs = [];
+    let energyBlockTimer = 0;
+    let buffList = [];
+    let stageClearTimer = 0;
+    let buffMessage = '';
 
     // Pickup state
     let pickups = [];
@@ -1230,6 +1337,11 @@
       pickups = [];
       pickupTimer = 0;
       pickupInterval = 5;
+      energyBlocks = [];
+      energyOrbs = [];
+      energyBlockTimer = 0;
+      stageClearTimer = 0;
+      buffMessage = '';
       obstacleTimer = 0;
       obstacleInterval = 1.8;
       obstacleMinInterval = 1.4;
@@ -1329,19 +1441,22 @@
         // ===== Boss System =====
         if (gameState === STATE.PLAYING) {
 
-        // Player shooting (M key)
+        // Player shooting (M key) — energy-based
         playerShootCooldown -= dt;
         if (keys['KeyM']) {
-          if (playerShootCooldown <= 0) {
-            playerShootCooldown = 0.2;
+          if (playerShootCooldown <= 0 && player.energy >= 10) {
+            playerShootCooldown = 0.18;
+            player.energy -= 10;
             var px = player.x + player.width + 8;
             var py = player.y + player.height / 2;
             var lvl = player.powerLevel;
+            var baseCount = 1 + (player.buffs.indexOf('wideSpread') !== -1 ? 1 : 0);
             if (lvl <= 0) {
               playerProjectiles.push(new PlayerProjectile(px, py));
             } else {
-              var count = lvl === 1 ? 2 : (lvl === 2 ? 3 : 5);
-              var spread = lvl === 1 ? 3 : (lvl === 2 ? 8 : 12);
+              var count = lvl === 1 ? (2 + baseCount - 1) : (lvl === 2 ? (3 + baseCount - 1) : (5 + baseCount - 1));
+              count = Math.min(count, 7);
+              var spread = lvl === 1 ? 4 : (lvl === 2 ? 10 : 14);
               for (var si = 0; si < count; si++) {
                 var offset = (si - (count - 1) / 2) * spread;
                 var pp = new PlayerProjectile(px, py + offset);
@@ -1405,8 +1520,49 @@
           }
         }
 
+        // Energy block spawning (during boss fights)
+        if (boss && boss.state === 'active') {
+          energyBlockTimer += dt;
+          if (energyBlockTimer > 4 + Math.random() * 3 && energyBlocks.length < 3) {
+            energyBlockTimer = 0;
+            var ebx = 100 + Math.random() * (W - 200);
+            var eby = 60 + Math.random() * (groundY - 120);
+            energyBlocks.push(new EnergyBlock(ebx, eby));
+          }
+          // Energy block update
+          for (var ebi = energyBlocks.length - 1; ebi >= 0; ebi--) {
+            energyBlocks[ebi].update(dt);
+          }
+        }
+
+        // Player projectile vs energy block
+        for (var ppi5 = playerProjectiles.length - 1; ppi5 >= 0; ppi5--) {
+          for (var ebi2 = energyBlocks.length - 1; ebi2 >= 0; ebi2--) {
+            if (rectsCollide(playerProjectiles[ppi5].getBounds(), energyBlocks[ebi2].getBounds())) {
+              playerProjectiles.splice(ppi5, 1);
+              if (energyBlocks[ebi2].takeDamage()) {
+                energyOrbs.push(new EnergyOrb(energyBlocks[ebi2].x, energyBlocks[ebi2].y));
+                energyBlocks.splice(ebi2, 1);
+              }
+              break;
+            }
+          }
+        }
+
+        // Energy orb update + magnetic pickup
+        for (var eoi = energyOrbs.length - 1; eoi >= 0; eoi--) {
+          energyOrbs[eoi].update(dt, player.x + player.width/2, player.y + player.height/2);
+          if (rectsCollide(player.getBounds(), energyOrbs[eoi].getBounds())) {
+            player.energy = Math.min(player.maxEnergy, player.energy + 30);
+            energyOrbs.splice(eoi, 1);
+            sound.playScore();
+          }
+        }
+
         // Stage announcement timer
         if (stageAnnounceTimer > 0) stageAnnounceTimer -= dt;
+        if (stageClearTimer > 0) stageClearTimer -= dt;
+        if (buffMessage && stageClearTimer <= 0) buffMessage = '';
 
         // Boss spawning
         if (!boss && bossCooldownTimer <= 0 && score >= nextBossScore) {
@@ -1540,16 +1696,29 @@
             }
           }
 
-          // Boss defeated — explosion particles
+          // Boss defeated — explosion + buff
           if (boss.state === 'defeated') {
-            for (var ep = 0; ep < 20; ep++) {
+            for (var ep = 0; ep < 30; ep++) {
               particles.push(new Particle(boss.x, boss.y));
             }
             score += 300;
             sound.playHit();
             bossProjectiles = [];
+            energyBlocks = [];
+            energyOrbs = [];
+            // Grant buff
+            var buffOrder = ['energyRegen', 'powerShot', 'wideSpread', 'shield'];
+            var buffIdx = (bossStage - 1) % buffOrder.length;
+            var newBuff = buffOrder[buffIdx];
+            if (player.buffs.indexOf(newBuff) === -1) player.buffs.push(newBuff);
+            if (newBuff === 'energyRegen') player.energyRegen += 1.5;
+            if (newBuff === 'powerShot') player.shotDamage++;
+            if (newBuff === 'shield') player.maxHp = Math.min(5, player.maxHp + 1);
+            var buffNames = { energyRegen: '能量回复+', powerShot: '威力增强', wideSpread: '弹幕扩散', shield: '护盾+1HP' };
+            buffMessage = '获得Buff: ' + buffNames[newBuff] + '!';
+            stageClearTimer = 2;
             boss = null;
-            bossCooldownTimer = 3;
+            bossCooldownTimer = 3.5;
             nextBossScore = score + 400 + bossStage * 100;
           }
         }
@@ -1689,6 +1858,27 @@
       }
       ctx.shadowBlur = 0;
 
+      // Energy bar
+      var eBarW = 120, eBarH = 12, eBarX = 20, eBarY = 50;
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(eBarX - 1, eBarY - 1, eBarW + 2, eBarH + 2);
+      ctx.fillStyle = '#1a3a3a';
+      ctx.fillRect(eBarX, eBarY, eBarW, eBarH);
+      var eRatio = player.energy / player.maxEnergy;
+      var eColor = eRatio > 0.5 ? '#00ffcc' : eRatio > 0.2 ? '#ffaa00' : '#ff3344';
+      ctx.fillStyle = eColor;
+      ctx.fillRect(eBarX, eBarY, eBarW * eRatio, eBarH);
+      ctx.fillStyle = '#fff';
+      ctx.font = '10px "Courier New", monospace';
+      ctx.fillText('EN ' + Math.floor(player.energy), eBarX + 4, eBarY + 10);
+
+      // Buff indicators
+      for (var bfi = 0; bfi < player.buffs.length; bfi++) {
+        var buffIcons = { energyRegen: '⚡', powerShot: '💥', wideSpread: '🎯', shield: '🛡️' };
+        ctx.font = '14px Arial';
+        ctx.fillText(buffIcons[player.buffs[bfi]] || '?', eBarX + eBarW + 10 + bfi * 22, eBarY + 11);
+      }
+
       // Score
       ctx.fillStyle = '#ffd700';
       ctx.font = 'bold 28px "Courier New", monospace';
@@ -1703,6 +1893,15 @@
       ctx.font = 'bold 14px "Courier New", monospace';
       ctx.textAlign = 'right';
       ctx.fillText('STAGE ' + (bossStage + (boss ? 0 : 1)), W - 30, 78);
+
+      // Buff message
+      if (stageClearTimer > 0 && buffMessage) {
+        var bmAlpha = Math.min(1, stageClearTimer);
+        ctx.fillStyle = 'rgba(0, 255, 200, ' + bmAlpha + ')';
+        ctx.font = 'bold 20px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(buffMessage, W / 2, H / 2 - 50);
+      }
 
       // Stage announcement
       if (stageAnnounceTimer > 0) {
@@ -1747,6 +1946,10 @@
       for (const pu of pickups) {
         pu.draw(ctx);
       }
+
+      // Energy blocks & orbs
+      for (const eb of energyBlocks) eb.draw(ctx);
+      for (const eo of energyOrbs) eo.draw(ctx);
 
       // Obstacles
       for (const obs of obstacles) {

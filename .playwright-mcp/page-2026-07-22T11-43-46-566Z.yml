@@ -1,0 +1,5 @@
+- generic [ref=f6e3]:
+  - heading "游戏结束" [level=2] [ref=f6e4]
+  - generic [ref=f6e5]: "得分: 408"
+  - generic [ref=f6e6]: "最高分: 13236"
+  - button "重新开始" [ref=f6e7] [cursor=pointer]

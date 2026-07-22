@@ -1,0 +1,6 @@
+- generic [active] [ref=f6e1]:
+  - generic:
+    - generic:
+      - heading "按 空格键 开始游戏" [level=1]
+      - paragraph: "跳跃: 空格/↑ | 发射: M键"
+      - paragraph: "Press SPACE to start | Jump: SPACE/↑ | Shoot: M"
