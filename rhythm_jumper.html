@@ -24,6 +24,7 @@
 
     canvas {
       display: block;
+      cursor: crosshair;
     }
 
     #ui-layer {
@@ -2094,17 +2095,23 @@
         ctx.shadowBlur = 0;
       }
 
-      // Aim angle indicator
-      var aix = player.x + player.width + 10;
+      // Crosshair at mouse position
+      ctx.strokeStyle = 'rgba(255, 255, 100, 0.7)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(mouseX, mouseY, 8, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(mouseX-12, mouseY); ctx.lineTo(mouseX+12, mouseY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(mouseX, mouseY-12); ctx.lineTo(mouseX, mouseY+12); ctx.stroke();
+
+      // Aim line from player to mouse
+      var aix = player.x + player.width/2;
       var aiy = player.y + player.height/2;
-      var aimRad = player.aimAngle * Math.PI / 180;
-      var alen = 20;
-      ctx.strokeStyle = 'rgba(255, 255, 100, 0.6)';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255, 255, 100, 0.3)';
+      ctx.setLineDash([4, 6]);
       ctx.beginPath();
       ctx.moveTo(aix, aiy);
-      ctx.lineTo(aix + Math.cos(aimRad) * alen, aiy - Math.sin(aimRad) * alen);
+      ctx.lineTo(mouseX, mouseY);
       ctx.stroke();
+      ctx.setLineDash([]);
 
       // Block duration indicator
       if (player.blockDuration > 0) {
