@@ -127,6 +127,16 @@
   </div>
 
   <script>
+    // Mobile detection
+    if (/Mobi|Android|iPhone/i.test(navigator.userAgent) && window.innerWidth < 768) {
+      document.addEventListener('DOMContentLoaded', function() {
+        var hint = document.getElementById('start-hint');
+        if (hint) {
+          hint.innerHTML = '<h1>请用电脑打开获得最佳体验</h1><p>Best experienced on desktop</p>';
+        }
+      });
+    }
+
     // ===== SoundEngine =====
     class SoundEngine {
       constructor() {
@@ -206,6 +216,8 @@
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
       groundY = Math.floor(H * 0.85);
+      if (player) player.groundY = groundY;
+      if (typeof background !== 'undefined' && background) background = new Background(W, H);
     }
 
     // ===== Game State =====
