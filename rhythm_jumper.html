@@ -116,7 +116,8 @@
   <div id="ui-layer">
     <div id="start-hint">
       <h1>按 空格键 开始游戏</h1>
-      <p>Press SPACE to start</p>
+      <p>跳跃: 空格/↑ | 发射: M键</p>
+      <p>Press SPACE to start | Jump: SPACE/↑ | Shoot: M</p>
     </div>
     <div id="game-over-panel">
       <h2>游戏结束</h2>
@@ -875,9 +876,9 @@
         // ===== Boss System =====
         if (gameState === STATE.PLAYING) {
 
-        // Player shooting (Alt key)
+        // Player shooting (M key)
         playerShootCooldown -= dt;
-        if (keys['AltLeft'] || keys['AltRight']) {
+        if (keys['KeyM']) {
           if (playerShootCooldown <= 0) {
             playerShootCooldown = 0.2;
             var px = player.x + player.width + 8;
