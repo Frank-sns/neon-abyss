@@ -1,0 +1,5 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - heading "按 空格键 开始游戏" [level=1]
+      - paragraph: Press SPACE to start

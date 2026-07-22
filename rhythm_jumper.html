@@ -424,6 +424,252 @@
       get alive() { return this.life > 0; }
     }
 
+    // ===== Boss =====
+    class Boss {
+      constructor(stage) {
+        this.stage = stage;
+        this.width = 50;
+        this.height = 60;
+        this.maxHP = 3 + stage * 2;
+        this.hp = this.maxHP;
+        this.fireIntervalMin = Math.max(0.4, 0.8 - (stage - 1) * 0.1);
+        this.fireIntervalMax = Math.max(0.8, 1.5 - (stage - 1) * 0.2);
+        this.projectileSpeed = 250 + (stage - 1) * 50;
+        this.state = 'entering'; // entering, active, defeated, cooldown
+        this.stateTimer = 0;
+        this.fireTimer = 0;
+        this.nextFireTime = 1.5; // first shot delay
+        this.elapsedTime = 0;
+        this.angle = 0;
+        this.entryTargetX = W - 120;
+        this.x = W + 100; // start off-screen right
+        this.y = groundY - 220;
+        this.flashTimer = 0;
+      }
+
+      update(dt) {
+        this.elapsedTime += dt;
+        this.stateTimer += dt;
+        this.fireTimer += dt;
+        if (this.flashTimer > 0) this.flashTimer -= dt;
+
+        this.entryTargetX = W - 120;
+
+        if (this.state === 'entering') {
+          this.x += (this.entryTargetX - this.x) * 4 * dt;
+          if (Math.abs(this.x - this.entryTargetX) < 5) {
+            this.x = this.entryTargetX;
+            this.state = 'active';
+          }
+        } else if (this.state === 'active') {
+          this.y = groundY - 220 + Math.sin(this.elapsedTime * 1.2) * 100;
+          this.y = Math.max(30, Math.min(groundY - this.height - 10, this.y));
+        } else if (this.state === 'defeated') {
+          // Explosion animation — handled externally via particles
+        }
+
+        this.angle += dt * 2.5; // ring rotation
+      }
+
+      shouldFire() {
+        if (this.state !== 'active') return false;
+        if (this.fireTimer >= this.nextFireTime) {
+          this.fireTimer = 0;
+          this.nextFireTime = this.fireIntervalMin + Math.random() * (this.fireIntervalMax - this.fireIntervalMin);
+          return true;
+        }
+        return false;
+      }
+
+      takeDamage() {
+        this.hp--;
+        this.flashTimer = 0.1;
+        if (this.hp <= 0) {
+          this.state = 'defeated';
+          return true; // defeated
+        }
+        return false;
+      }
+
+      getBounds() {
+        return {
+          x: this.x - this.width / 2,
+          y: this.y - this.height / 2,
+          w: this.width,
+          h: this.height
+        };
+      }
+
+      draw(ctx) {
+        if (this.state === 'defeated') return;
+        if (this.state === 'cooldown') return;
+
+        const cx = this.x;
+        const cy = this.y;
+        const alpha = this.state === 'entering' ? Math.min(1, this.stateTimer / 0.8) : 1;
+        const flashColor = this.flashTimer > 0 && Math.floor(this.flashTimer * 30) % 2 === 0;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        // Outer ring (rotating)
+        ctx.strokeStyle = flashColor ? '#fff' : '#ff2266';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = 'rgba(255, 30, 80, 0.7)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, this.width * 0.7, this.height * 0.45, this.angle, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Core body (hexagonal)
+        ctx.shadowBlur = 15;
+        ctx.fillStyle = flashColor ? '#fff' : '#cc1144';
+        ctx.beginPath();
+        const r = this.width * 0.45;
+        for (let i = 0; i < 6; i++) {
+          const a = this.angle * 0.7 + (Math.PI / 3) * i;
+          const px = cx + Math.cos(a) * r;
+          const py = cy + Math.sin(a) * r * 0.7;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+
+        // Inner eye
+        ctx.shadowBlur = 25;
+        ctx.shadowColor = 'rgba(255, 255, 200, 0.9)';
+        ctx.fillStyle = '#ffdddd';
+        ctx.beginPath();
+        ctx.arc(cx, cy, this.width * 0.18, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+
+        // HP bar
+        if (this.state === 'active' || this.state === 'entering') {
+          const barW = 50;
+          const barH = 5;
+          const barX = cx - barW / 2;
+          const barY = cy - this.height / 2 - 16;
+          ctx.fillStyle = 'rgba(0,0,0,0.6)';
+          ctx.fillRect(barX - 1, barY - 1, barW + 2, barH + 2);
+          ctx.fillStyle = '#333';
+          ctx.fillRect(barX, barY, barW, barH);
+          const hpRatio = this.hp / this.maxHP;
+          const hpColor = hpRatio > 0.5 ? '#00ff44' : hpRatio > 0.25 ? '#ffaa00' : '#ff2244';
+          ctx.fillStyle = hpColor;
+          ctx.fillRect(barX, barY, barW * hpRatio, barH);
+        }
+      }
+    }
+
+    // ===== BossProjectile =====
+    class BossProjectile {
+      constructor(x, y, vx, vy) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.width = 8;
+        this.height = 8;
+        this.alive = true;
+      }
+
+      update(dt) {
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+        // Destroy if off left edge or hits ground
+        if (this.x < -20 || this.y > groundY) {
+          this.alive = false;
+        }
+      }
+
+      draw(ctx) {
+        ctx.shadowColor = 'rgba(255, 50, 50, 0.8)';
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = '#ff3333';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
+        ctx.fill();
+        // Bright core
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#ffaaaa';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      getBounds() {
+        return {
+          x: this.x - this.width / 2,
+          y: this.y - this.height / 2,
+          w: this.width,
+          h: this.height
+        };
+      }
+
+      isOffScreen() {
+        return !this.alive;
+      }
+    }
+
+    // ===== PlayerProjectile =====
+    class PlayerProjectile {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = 700;
+        this.vy = 0;
+        this.width = 6;
+        this.height = 12;
+        this.alive = true;
+        this.trail = [];
+      }
+
+      update(dt) {
+        this.trail.push({ x: this.x, y: this.y, life: 0.15 });
+        if (this.trail.length > 5) this.trail.shift();
+        for (const t of this.trail) t.life -= dt;
+
+        this.x += this.vx * dt;
+        if (this.x > W + 50) {
+          this.alive = false;
+        }
+      }
+
+      draw(ctx) {
+        // Trail
+        for (const t of this.trail) {
+          if (t.life <= 0) continue;
+          const alpha = t.life / 0.15;
+          ctx.fillStyle = 'rgba(0, 240, 255, ' + (alpha * 0.5) + ')';
+          ctx.fillRect(t.x - 2, t.y - 1, 6, 2);
+        }
+        // Main bolt
+        ctx.shadowColor = 'rgba(0, 240, 255, 0.9)';
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = '#00f0ff';
+        ctx.fillRect(this.x - 2, this.y - this.height / 2, 6, this.height);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(this.x - 1, this.y - 4, 2, 8);
+      }
+
+      getBounds() {
+        return {
+          x: this.x - 2,
+          y: this.y - this.height / 2,
+          w: 6,
+          h: this.height
+        };
+      }
+
+      isOffScreen() {
+        return !this.alive;
+      }
+    }
+
     // ===== Background =====
     class Background {
       constructor(w, h) {
@@ -498,6 +744,15 @@
     let speedMultiplier = 1;
     let score = 0;
 
+    // Boss state
+    let boss = null;
+    let bossProjectiles = [];
+    let playerProjectiles = [];
+    let bossStage = 0;
+    let nextBossScore = 300;
+    let bossCooldownTimer = 0;
+    let playerShootCooldown = 0;
+
     // ===== Obstacle Type Selection =====
     function getObstacleType(currentScore) {
       var rand = Math.random();
@@ -524,6 +779,13 @@
       player = new Player(W * 0.2, groundY);
       obstacles = [];
       particles = [];
+      bossProjectiles = [];
+      playerProjectiles = [];
+      boss = null;
+      bossStage = 0;
+      nextBossScore = 300;
+      bossCooldownTimer = 0;
+      playerShootCooldown = 0;
       obstacleTimer = 0;
       obstacleInterval = 1.8;
       obstacleMinInterval = 1.4;
@@ -609,10 +871,130 @@
           keys['Space'] = false;
           keys['ArrowUp'] = false;
         }
+
+        // ===== Boss System =====
+        if (gameState === STATE.PLAYING) {
+
+        // Player shooting (Alt key)
+        playerShootCooldown -= dt;
+        if (keys['AltLeft'] || keys['AltRight']) {
+          if (playerShootCooldown <= 0) {
+            playerShootCooldown = 0.2;
+            var px = player.x + player.width + 8;
+            var py = player.y + player.height / 2;
+            playerProjectiles.push(new PlayerProjectile(px, py));
+          }
+        }
+
+        // Boss spawning
+        if (!boss && bossCooldownTimer <= 0 && score >= nextBossScore) {
+          bossStage++;
+          boss = new Boss(bossStage);
+          bossCooldownTimer = 3; // brief delay before actual spawn
+        }
+        if (bossCooldownTimer > 0 && !boss) {
+          bossCooldownTimer -= dt;
+        }
+
+        // Boss update
+        if (boss) {
+          boss.update(dt);
+
+          // Boss firing
+          if (boss.shouldFire()) {
+            var bx = boss.x - boss.width / 2;
+            var by = boss.y;
+            var burstCount = 1 + Math.floor(Math.random() * 3);
+            for (var bi = 0; bi < burstCount; bi++) {
+              (function(delay) {
+                setTimeout(function() {
+                  if (gameState !== STATE.PLAYING || !boss || boss.state !== 'active') return;
+                  var pattern = Math.random() < 0.5 ? 'horizontal' : 'diagonal';
+                  var spd = boss.projectileSpeed;
+                  var vx = pattern === 'diagonal' ? -spd * 0.87 : -spd;
+                  var vy = pattern === 'diagonal' ? -spd * 0.5 : 0;
+                  bossProjectiles.push(new BossProjectile(bx, by, vx, vy));
+                }, delay * 150);
+              })(bi);
+            }
+          }
+
+          // Boss defeated — explosion particles
+          if (boss.state === 'defeated') {
+            for (var ep = 0; ep < 20; ep++) {
+              particles.push(new Particle(boss.x, boss.y));
+            }
+            score += 300;
+            sound.playHit();
+            bossProjectiles = [];
+            boss = null;
+            bossCooldownTimer = 3;
+            nextBossScore = score + 400 + bossStage * 100;
+          }
+        }
+
+        // Update boss projectiles
+        for (var bpi = bossProjectiles.length - 1; bpi >= 0; bpi--) {
+          bossProjectiles[bpi].update(dt);
+          if (bossProjectiles[bpi].isOffScreen()) {
+            bossProjectiles.splice(bpi, 1);
+          }
+        }
+
+        // Update player projectiles
+        for (var ppi = playerProjectiles.length - 1; ppi >= 0; ppi--) {
+          playerProjectiles[ppi].update(dt);
+          if (playerProjectiles[ppi].isOffScreen()) {
+            playerProjectiles.splice(ppi, 1);
+          }
+        }
+
+        // Collision: player projectile vs boss projectile
+        for (var ppi2 = playerProjectiles.length - 1; ppi2 >= 0; ppi2--) {
+          var pp = playerProjectiles[ppi2];
+          for (var bpi2 = bossProjectiles.length - 1; bpi2 >= 0; bpi2--) {
+            var bp = bossProjectiles[bpi2];
+            if (rectsCollide(pp.getBounds(), bp.getBounds())) {
+              playerProjectiles.splice(ppi2, 1);
+              bossProjectiles.splice(bpi2, 1);
+              score += 10;
+              sound.playScore();
+              break;
+            }
+          }
+        }
+
+        // Collision: player projectile vs boss
+        if (boss && (boss.state === 'active' || boss.state === 'entering')) {
+          for (var ppi3 = playerProjectiles.length - 1; ppi3 >= 0; ppi3--) {
+            if (rectsCollide(playerProjectiles[ppi3].getBounds(), boss.getBounds())) {
+              playerProjectiles.splice(ppi3, 1);
+              var defeated = boss.takeDamage();
+              if (defeated) {
+                // boss.state is now 'defeated', handled above next frame
+              }
+              break;
+            }
+          }
+        }
+
+        // Collision: boss projectile vs player
+        var playerBounds = player.getBounds();
+        for (var bpi3 = 0; bpi3 < bossProjectiles.length; bpi3++) {
+          if (rectsCollide(playerBounds, bossProjectiles[bpi3].getBounds())) {
+            gameState = STATE.GAMEOVER;
+            sound.playHit();
+            endGame();
+            break;
+          }
+        }
+        } // close if (STATE.PLAYING) for boss section
       } else if (gameState === STATE.IDLE) {
         if (keys['Space'] || keys['ArrowUp']) {
           gameState = STATE.PLAYING;
           obstacles = [];
+          bossProjectiles = [];
+          playerProjectiles = [];
           particles = [];
           document.getElementById('start-hint').style.display = 'none';
           if (player.jump()) {
@@ -661,12 +1043,25 @@
       ctx.shadowBlur = 0;
       ctx.textAlign = 'start';
 
+      // Boss projectiles
+      for (const bp of bossProjectiles) {
+        bp.draw(ctx);
+      }
+
       // Obstacles
       for (const obs of obstacles) {
         obs.draw(ctx);
       }
 
+      // Boss
+      if (boss) boss.draw(ctx);
+
       player.draw(ctx);
+
+      // Player projectiles
+      for (const pp of playerProjectiles) {
+        pp.draw(ctx);
+      }
 
       for (const p of particles) {
         p.draw(ctx);
