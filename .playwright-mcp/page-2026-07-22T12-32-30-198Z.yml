@@ -1,0 +1,111 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e2]:
+    - heading "NEON ABYSS" [level=1] [ref=f10e3]
+    - paragraph [ref=f10e4]: 霓虹深渊 — 赛博朋克 Boss Rush 射击游戏5 种独特 Boss · 能量系统 · Buff 成长 · 弹幕对决
+    - link "⚡ 开始游戏" [ref=f10e5] [cursor=pointer]:
+      - /url: rhythm_jumper.html
+    - generic [ref=f10e6]: ▼ 了解更多
+  - generic [ref=f10e8]:
+    - heading "游戏特色" [level=2] [ref=f10e9]
+    - paragraph [ref=f10e10]: 一场视觉与操作的赛博盛宴
+    - generic [ref=f10e11]:
+      - generic [ref=f10e12]:
+        - generic [ref=f10e13]: 👾
+        - heading "5 种 Boss 战" [level=3] [ref=f10e14]
+        - paragraph [ref=f10e15]: 守护者、光束领主、雷区部署者、召唤师、狂战士。每个 Boss 有独特的移动模式和专属技能，击败后获得永久 Buff。
+      - generic [ref=f10e16]:
+        - generic [ref=f10e17]: ⚡
+        - heading "能量管理系统" [level=3] [ref=f10e18]
+        - paragraph [ref=f10e19]: 100 格能量条，每发子弹消耗 10 能量。打爆场上的能量方块获取能量球，磁性吸附自动拾取。策略性资源管理！
+      - generic [ref=f10e20]:
+        - generic [ref=f10e21]: 💪
+        - heading "永久 Buff 成长" [level=3] [ref=f10e22]
+        - paragraph [ref=f10e23]: 每击败一个 Boss 获得一个永久 Buff：能量回复+、威力增强、弹幕扩散、护盾+1HP。最多叠加，越战越强！
+      - generic [ref=f10e24]:
+        - generic [ref=f10e25]: 💎
+        - heading "3 级能量球系统" [level=3] [ref=f10e26]
+        - paragraph [ref=f10e27]: 拾取能量球升级武器：Lv1 双发 · Lv2 三发散弹 · Lv3 五发宽散射。限时增幅，抓紧输出！
+      - generic [ref=f10e28]:
+        - generic [ref=f10e29]: 🎯
+        - heading "弹幕抵消机制" [level=3] [ref=f10e30]
+        - paragraph [ref=f10e31]: 用你的子弹精准抵消 Boss 弹幕！每一发精准拦截 +10 分。弹幕对撞，火花四溅，考验你的反应和枪法。
+      - generic [ref=f10e32]:
+        - generic [ref=f10e33]: 🛡️
+        - heading "容错 HP 系统" [level=3] [ref=f10e34]
+        - paragraph [ref=f10e35]: 3 颗心，碰障碍或中弹扣 1 滴。受伤后 1.5 秒无敌闪烁。拾取血包回血，不是一碰就死！
+  - generic [ref=f10e37]:
+    - heading "Boss 阵容" [level=2] [ref=f10e38]
+    - paragraph [ref=f10e39]: 每个 Boss 都有独特的攻击模式，你能战胜几个？
+    - generic [ref=f10e40]:
+      - generic [ref=f10e41]:
+        - generic [ref=f10e42]: 🔴
+        - heading "守护者 · Warden" [level=4] [ref=f10e43]
+        - paragraph [ref=f10e44]: 弹幕齐射 · 50%HP 护盾脉冲
+      - generic [ref=f10e45]:
+        - generic [ref=f10e46]: 🟣
+        - heading "光束领主 · Beam Lord" [level=4] [ref=f10e47]
+        - paragraph [ref=f10e48]: 激光扫射 · 垂直弹幕墙 · ∞字绕场
+      - generic [ref=f10e49]:
+        - generic [ref=f10e50]: 🟠
+        - heading "雷区部署者 · Mine Deployer" [level=4] [ref=f10e51]
+        - paragraph [ref=f10e52]: 浮雷布置 · 连锁引爆 · 之字折返
+      - generic [ref=f10e53]:
+        - generic [ref=f10e54]: 🔵
+        - heading "召唤师 · Summoner" [level=4] [ref=f10e55]
+        - paragraph [ref=f10e56]: 无人机召唤 · 同步齐射 · 区域巡逻
+      - generic [ref=f10e57]:
+        - generic [ref=f10e58]: ⚪
+        - heading "狂战士 · Berserker" [level=4] [ref=f10e59]
+        - paragraph [ref=f10e60]: 冲刺撞击 · 9 发散弹 · 30%HP 狂暴 · 追击模式
+  - generic [ref=f10e62]:
+    - heading "操作指南" [level=2] [ref=f10e63]
+    - paragraph [ref=f10e64]: 简单上手，难于精通
+    - generic [ref=f10e65]:
+      - generic [ref=f10e66]:
+        - generic [ref=f10e67]: Space / ↑
+        - generic [ref=f10e68]: 跳跃 / 二段跳
+      - generic [ref=f10e69]:
+        - generic [ref=f10e70]: M
+        - generic [ref=f10e71]: 发射弹幕（消耗能量）
+      - generic [ref=f10e72]:
+        - generic [ref=f10e73]: 能量球
+        - generic [ref=f10e74]: 拾取升级武器等级
+      - generic [ref=f10e75]:
+        - generic [ref=f10e76]: 能量方块
+        - generic [ref=f10e77]: 击破获取能量补充
+  - generic [ref=f10e79]:
+    - heading "☕ 支持开发者" [level=2] [ref=f10e80]
+    - paragraph [ref=f10e81]: 如果你喜欢这个游戏，请我喝杯咖啡吧！
+    - generic [ref=f10e82]:
+      - heading "❤️ 赞赏支持" [level=3] [ref=f10e83]
+      - paragraph [ref=f10e84]: 每一份支持都是我持续更新的动力扫码赞赏，或在 Buy Me a Coffee 支持
+      - generic [ref=f10e85]:
+        - generic [ref=f10e86]: 微信赞赏码（替换为你的二维码）
+        - generic [ref=f10e87]: 支付宝收款码（替换为你的二维码）
+      - link "☕ Buy Me a Coffee" [ref=f10e88] [cursor=pointer]:
+        - /url: https://www.buymeacoffee.com/
+  - generic [ref=f10e90]:
+    - heading "🚀 一键部署" [level=2] [ref=f10e91]
+    - paragraph [ref=f10e92]: 3 步让你的游戏上线
+    - generic [ref=f10e93]:
+      - generic [ref=f10e94]:
+        - generic [ref=f10e95]: "1"
+        - generic [ref=f10e96]:
+          - text: 在 GitHub 新建仓库，上传
+          - code [ref=f10e97]: index.html
+          - text: 和
+          - code [ref=f10e98]: rhythm_jumper.html
+      - generic [ref=f10e99]:
+        - generic [ref=f10e100]: "2"
+        - generic [ref=f10e101]:
+          - text: 进入 Settings → Pages → Source 选择
+          - code [ref=f10e102]: main
+          - text: 分支 → Save
+      - generic [ref=f10e103]:
+        - generic [ref=f10e104]: "3"
+        - generic [ref=f10e105]:
+          - text: 等待 1 分钟，访问
+          - code [ref=f10e106]: 你的用户名.github.io/仓库名
+          - text: 即可！
+  - contentinfo [ref=f10e107]:
+    - paragraph [ref=f10e108]: Neon Abyss © 2026 — Made with ❤️ and pure HTML/JS · 零依赖 · 开源免费

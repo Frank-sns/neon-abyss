@@ -115,9 +115,9 @@
 
   <div id="ui-layer">
     <div id="start-hint">
-      <h1>按 空格键 开始游戏</h1>
-      <p>跳跃: 空格/↑ | 发射: M键</p>
-      <p>Press SPACE to start | Jump: SPACE/↑ | Shoot: M</p>
+      <h1>按 W 键 开始游戏</h1>
+      <p>W 跳跃 | E 射击 | ↑↓ 瞄准 | Space 格挡</p>
+      <p>Press W to start | W:Jump E:Shoot Space:Block</p>
     </div>
     <div id="game-over-panel">
       <h2>游戏结束</h2>
@@ -136,6 +136,96 @@
           hint.innerHTML = '<h1>请用电脑打开获得最佳体验</h1><p>Best experienced on desktop</p>';
         }
       });
+    }
+
+    // ===== MusicEngine =====
+    class MusicEngine {
+      constructor() {
+        this.ctx = null;
+        this.mode = 'ambient'; // ambient, boss
+        this.bossType = null;
+        this.notes = [];
+        this.noteTimer = 0;
+        this.beatTimer = 0;
+        this.bassTimer = 0;
+        this.masterGain = null;
+        this.active = false;
+      }
+
+      init() {
+        if (this.ctx) return;
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.value = 0.08;
+        this.masterGain.connect(this.ctx.destination);
+      }
+
+      playNote(freq, duration, type, vol, when) {
+        if (!this.ctx) return;
+        var osc = this.ctx.createOscillator();
+        var gain = this.ctx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0, when || this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(vol || 0.06, (when || this.ctx.currentTime) + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, (when || this.ctx.currentTime) + duration);
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(when || this.ctx.currentTime);
+        osc.stop((when || this.ctx.currentTime) + duration + 0.05);
+      }
+
+      update(dt, hasBoss, bossTypeName) {
+        if (!this.ctx) return;
+        if (hasBoss && bossTypeName !== this.bossType) {
+          this.bossType = bossTypeName;
+          this.mode = 'boss';
+          this.noteTimer = 0;
+          this.beatTimer = 0;
+        } else if (!hasBoss && this.mode === 'boss') {
+          this.mode = 'ambient';
+          this.bossType = null;
+          this.noteTimer = 0;
+          this.beatTimer = 0;
+        }
+
+        this.noteTimer += dt;
+        this.beatTimer += dt;
+        this.bassTimer += dt;
+
+        if (this.mode === 'ambient') {
+          // Slow ambient drone + sparse arpeggios
+          var ambientBPM = 80;
+          var beatInterval = 60 / ambientBPM;
+          if (this.beatTimer >= beatInterval) { this.beatTimer -= beatInterval; }
+          if (this.bassTimer >= 4) { this.bassTimer = 0; this.playNote(65.4, 3.8, 'sine', 0.04, this.ctx.currentTime); } // C2 drone
+          if (this.noteTimer >= beatInterval * 0.5) {
+            this.noteTimer -= beatInterval * 0.5;
+            var notes = [261.6, 311.1, 349.2, 392.0, 466.2, 349.2, 311.1, 293.7];
+            var n = notes[Math.floor(Math.random() * notes.length)];
+            this.playNote(n, 0.3, 'triangle', 0.025, this.ctx.currentTime);
+          }
+        } else {
+          // Boss music — scale depends on boss type
+          var scales = {
+            warden: [261.6, 293.7, 311.1, 349.2, 392.0, 415.3, 466.2], // C minor
+            beamLord: [293.7, 349.2, 369.9, 392.0, 440.0, 466.2, 523.3], // D minor
+            mineDeployer: [329.6, 349.2, 392.0, 415.3, 440.0, 493.9, 523.3], // E phrygian
+            summoner: [349.2, 392.0, 415.3, 440.0, 466.2, 523.3, 587.3], // F minor
+            berserker: [392.0, 415.3, 466.2, 523.3, 587.3, 622.3, 698.5] // G minor
+          };
+          var scale = scales[this.bossType] || scales.warden;
+          var bossBPMs = { warden: 140, beamLord: 150, mineDeployer: 130, summoner: 145, berserker: 160 };
+          var bpm = bossBPMs[this.bossType] || 140;
+          var bi = 60 / bpm;
+          if (this.bassTimer >= bi * 2) { this.bassTimer = 0; this.playNote(scale[0] * 0.5, bi * 1.8, 'sawtooth', 0.05, this.ctx.currentTime); }
+          if (this.noteTimer >= bi * 0.25) {
+            this.noteTimer -= bi * 0.25;
+            var ni = Math.floor(Math.random() * scale.length);
+            this.playNote(scale[ni], 0.15, 'square', 0.03, this.ctx.currentTime);
+          }
+        }
+      }
     }
 
     // ===== SoundEngine =====
@@ -205,6 +295,7 @@
     }
 
     const sound = new SoundEngine();
+    const music = new MusicEngine();
 
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
@@ -254,6 +345,12 @@
         // Buffs
         this.buffs = [];
         this.shotDamage = 1;
+        // Block
+        this.blockActive = false;
+        this.blockCooldown = 0;
+        this.blockDuration = 0;
+        // Aim
+        this.aimAngle = 0;
       }
 
       jump() {
@@ -283,10 +380,14 @@
         }
         // Energy regen
         this.energy = Math.min(this.maxEnergy, this.energy + this.energyRegen * dt);
+        // Block timers
+        if (this.blockCooldown > 0) this.blockCooldown -= dt;
+        if (this.blockDuration > 0) { this.blockDuration -= dt; if (this.blockDuration <= 0) this.blockActive = false; }
       }
 
       takeDamage() {
         if (this.invincibleTimer > 0) return false;
+        if (this.blockActive) return false; // Block negates damage
         this.hp--;
         this.invincibleTimer = 1.5;
         return this.hp <= 0;
@@ -1362,6 +1463,8 @@
       if (gameState === STATE.PLAYING) {
         player.update(dt, groundY);
         background.update(dt, speedMultiplier);
+        music.init();
+        music.update(dt, !!boss, boss ? boss.bossType : null);
 
         // Obstacle spawning
         obstacleTimer += dt;
@@ -1423,7 +1526,8 @@
         else if (score < 900) obstacleMinInterval = 0.85;
         else obstacleMinInterval = 0.7;
 
-        if (keys['Space'] || keys['ArrowUp']) {
+        // Jump (W)
+        if (keys['KeyW']) {
           if (player.jump()) {
             for (let i = 0; i < 6; i++) {
               particles.push(new Particle(player.x + player.width / 2, player.y + player.height));
@@ -1434,25 +1538,41 @@
               sound.playJump();
             }
           }
+          keys['KeyW'] = false;
+        }
+
+        // Aim control (Arrow keys)
+        if (keys['ArrowUp']) { player.aimAngle = Math.min(45, player.aimAngle + 15); keys['ArrowUp'] = false; }
+        if (keys['ArrowDown']) { player.aimAngle = Math.max(-45, player.aimAngle - 15); keys['ArrowDown'] = false; }
+        if (keys['ArrowLeft']) { player.aimAngle = 0; keys['ArrowLeft'] = false; }
+
+        // Block (Space)
+        if (keys['Space'] && player.blockCooldown <= 0) {
+          player.blockActive = true;
+          player.blockDuration = 0.5;
+          player.blockCooldown = 3;
           keys['Space'] = false;
-          keys['ArrowUp'] = false;
         }
 
         // ===== Boss System =====
         if (gameState === STATE.PLAYING) {
 
-        // Player shooting (M key) — energy-based
+        // Player shooting (E key) — energy-based + aimable
         playerShootCooldown -= dt;
-        if (keys['KeyM']) {
+        if (keys['KeyE']) {
           if (playerShootCooldown <= 0 && player.energy >= 10) {
             playerShootCooldown = 0.18;
             player.energy -= 10;
             var px = player.x + player.width + 8;
             var py = player.y + player.height / 2;
+            var aimRad = player.aimAngle * Math.PI / 180;
             var lvl = player.powerLevel;
             var baseCount = 1 + (player.buffs.indexOf('wideSpread') !== -1 ? 1 : 0);
             if (lvl <= 0) {
-              playerProjectiles.push(new PlayerProjectile(px, py));
+              var pp0 = new PlayerProjectile(px, py);
+              pp0.vx = 700 * Math.cos(aimRad);
+              pp0.vy = -700 * Math.sin(aimRad);
+              playerProjectiles.push(pp0);
             } else {
               var count = lvl === 1 ? (2 + baseCount - 1) : (lvl === 2 ? (3 + baseCount - 1) : (5 + baseCount - 1));
               count = Math.min(count, 7);
@@ -1460,10 +1580,12 @@
               for (var si = 0; si < count; si++) {
                 var offset = (si - (count - 1) / 2) * spread;
                 var pp = new PlayerProjectile(px, py + offset);
+                pp.vx = 700 * Math.cos(aimRad);
+                pp.vy = -700 * Math.sin(aimRad);
                 if (offset !== 0) {
-                  var angle = offset > 0 ? 0.25 : -0.25;
-                  if (lvl >= 3) angle *= (Math.abs(offset) / spread) * 1.5;
-                  pp.vy = pp.vx * Math.sin(angle) * (offset > 0 ? 1 : -1) * (lvl >= 3 ? 1.5 : 1);
+                  var fangle = offset > 0 ? 0.25 : -0.25;
+                  if (lvl >= 3) fangle *= (Math.abs(offset) / spread) * 1.5;
+                  pp.vy += pp.vx * Math.sin(fangle) * (offset > 0 ? 1 : -1) * (lvl >= 3 ? 1.5 : 1);
                 }
                 playerProjectiles.push(pp);
               }
@@ -1804,7 +1926,7 @@
         }
         } // close if (STATE.PLAYING) for boss section
       } else if (gameState === STATE.IDLE) {
-        if (keys['Space'] || keys['ArrowUp']) {
+        if (keys['KeyW']) {
           gameState = STATE.PLAYING;
           obstacles = [];
           bossProjectiles = [];
@@ -1818,14 +1940,12 @@
             }
             sound.playJump();
           }
-          keys['Space'] = false;
-          keys['ArrowUp'] = false;
+          keys['KeyW'] = false;
         }
       } else if (gameState === STATE.GAMEOVER) {
-        if (keys['Space'] || keys['ArrowUp']) {
+        if (keys['KeyW']) {
           resetGame();
-          keys['Space'] = false;
-          keys['ArrowUp'] = false;
+          keys['KeyW'] = false;
         }
       }
 
@@ -1961,6 +2081,39 @@
 
       player.draw(ctx);
 
+      // Block shield visual
+      if (player.blockActive) {
+        ctx.strokeStyle = 'rgba(0, 255, 255, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = 'rgba(0, 255, 255, 0.8)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.arc(player.x + player.width/2, player.y + player.height/2, 28, 0, Math.PI*2);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      // Aim angle indicator
+      var aix = player.x + player.width + 10;
+      var aiy = player.y + player.height/2;
+      var aimRad = player.aimAngle * Math.PI / 180;
+      var alen = 20;
+      ctx.strokeStyle = 'rgba(255, 255, 100, 0.6)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(aix, aiy);
+      ctx.lineTo(aix + Math.cos(aimRad) * alen, aiy - Math.sin(aimRad) * alen);
+      ctx.stroke();
+
+      // Block cooldown indicator
+      if (player.blockCooldown > 0) {
+        var bcRatio = player.blockCooldown / 3;
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(player.x - 5, player.y - 12, player.width + 10, 4);
+        ctx.fillStyle = bcRatio > 0.3 ? '#44aaff' : '#00ff44';
+        ctx.fillRect(player.x - 5, player.y - 12, (player.width + 10) * (1 - bcRatio), 4);
+      }
+
       // Player projectiles
       for (const pp of playerProjectiles) {
         pp.draw(ctx);
@@ -1982,14 +2135,14 @@
 
     window.addEventListener('keydown', function(e) {
       keys[e.code] = true;
-      if (e.code === 'Space' || e.code === 'ArrowUp') {
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'KeyE' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
         e.preventDefault();
       }
     });
 
     window.addEventListener('keyup', function(e) {
       keys[e.code] = false;
-      if (e.code === 'Space' || e.code === 'ArrowUp') {
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'KeyE' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
         e.preventDefault();
       }
     });
