@@ -530,54 +530,86 @@
       }
 
       draw(ctx) {
-        // Invincibility flash
-        if (this.invincibleTimer > 0 && Math.floor(this.invincibleTimer * 15) % 2 === 0) {
-          ctx.globalAlpha = 0.4;
-        }
+        var cx = this.x + this.width/2, cy = this.y + this.height/2;
+        var t = performance.now() / 1000;
+        var flash = this.invincibleTimer > 0 && Math.floor(this.invincibleTimer * 15) % 2 === 0;
+        if (flash) ctx.globalAlpha = 0.4;
 
-        // Skin colors based on power level
-        var skinColors = ['#fff', '#44ff44', '#4488ff', '#ffd700'];
-        var skinGlows = ['#00f0ff', '#44ff44', '#4488ff', '#ffd700'];
-        var skin = skinColors[this.powerLevel] || '#fff';
-        var skinGlow = skinGlows[this.powerLevel] || '#00f0ff';
+        // Power level colors
+        var pColors = [{ main:'#fff', glow:'#00f0ff', inner:'rgba(0,240,255,0.6)' },
+                       { main:'#eeffee', glow:'#44ff44', inner:'rgba(68,255,68,0.7)' },
+                       { main:'#eeeeff', glow:'#4488ff', inner:'rgba(68,136,255,0.7)' },
+                       { main:'#ffffdd', glow:'#ffd700', inner:'rgba(255,215,0,0.7)' }];
+        var pc = pColors[this.powerLevel] || pColors[0];
 
-        // Aura ring for power level
+        // Aura ring (pulsing)
         if (this.powerLevel > 0) {
-          var auraAlpha = 0.2 + Math.sin(performance.now()/300) * 0.1;
-          ctx.fillStyle = 'rgba(' + (this.powerLevel===1?'68,255,68':this.powerLevel===2?'68,136,255':'255,215,0') + ',' + auraAlpha + ')';
-          ctx.beginPath();
-          ctx.arc(this.x + this.width/2, this.y + this.height/2, 22 + this.powerLevel*4, 0, Math.PI*2);
-          ctx.fill();
+          var ar = 24 + this.powerLevel * 5 + Math.sin(t*4)*2;
+          ctx.fillStyle = 'rgba('+(this.powerLevel===1?'68,255,68':this.powerLevel===2?'68,136,255':'255,215,0')+','+(0.15+Math.sin(t*3)*0.08)+')';
+          ctx.beginPath(); ctx.arc(cx, cy, ar, 0, Math.PI*2); ctx.fill();
+          ctx.strokeStyle = pc.glow; ctx.lineWidth = 1; ctx.globalAlpha = 0.3 + Math.sin(t*5)*0.1;
+          ctx.beginPath(); ctx.arc(cx, cy, ar+3, 0, Math.PI*2); ctx.stroke();
+          if (flash) ctx.globalAlpha = 0.4;
         }
 
-        // Buff indicators (small orbiting dots)
+        // Buff orbiting dots
         if (this.buffs.length > 0) {
-          var t = performance.now() / 800;
+          var bcolors = { energyRegen: '#00ffcc', powerShot: '#ff6644', wideSpread: '#ffdd00', shield: '#ff88cc' };
           for (var bi = 0; bi < this.buffs.length; bi++) {
-            var ba = t + (Math.PI*2/this.buffs.length)*bi;
-            var buffColors = { energyRegen: '#00ffcc', powerShot: '#ff6644', wideSpread: '#ffdd00', shield: '#ff88cc' };
-            ctx.fillStyle = buffColors[this.buffs[bi]] || '#fff';
-            var bpx = this.x + this.width/2 + Math.cos(ba)*18;
-            var bpy = this.y + this.height/2 + Math.sin(ba)*18;
-            ctx.fillRect(bpx-2, bpy-2, 4, 4);
+            var ba = t*2.5 + (Math.PI*2/this.buffs.length)*bi;
+            var bpx = cx + Math.cos(ba)*20, bpy = cy + Math.sin(ba)*20;
+            ctx.fillStyle = bcolors[this.buffs[bi]] || '#fff';
+            ctx.shadowColor = bcolors[this.buffs[bi]]; ctx.shadowBlur = 6;
+            ctx.beginPath(); ctx.arc(bpx, bpy, 3, 0, Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
           }
         }
 
-        // Main body
-        ctx.shadowColor = skinGlow;
-        ctx.shadowBlur = 12 + this.powerLevel * 4;
-        ctx.fillStyle = skin;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // === NEON MECH BODY ===
+        ctx.shadowColor = pc.glow; ctx.shadowBlur = 14 + this.powerLevel * 5;
 
-        // Inner highlight
+        // Thrusters (bottom glow)
+        var thr = 2 + Math.sin(t*10)*1;
+        ctx.fillStyle = pc.inner;
+        ctx.fillRect(this.x + 2, this.y + this.height - 2, 4, 6 + thr);
+        ctx.fillRect(this.x + this.width - 6, this.y + this.height - 2, 4, 6 + thr);
+
+        // Legs
+        ctx.fillStyle = pc.main;
+        ctx.fillRect(this.x + 2, this.y + this.height - 10, 5, 8);
+        ctx.fillRect(this.x + this.width - 7, this.y + this.height - 10, 5, 8);
+
+        // Torso (chest plate)
+        var grad = ctx.createLinearGradient(cx, this.y + 4, cx, this.y + this.height - 8);
+        grad.addColorStop(0, '#222233'); grad.addColorStop(0.5, '#111122'); grad.addColorStop(1, '#1a1a2e');
+        ctx.fillStyle = grad;
+        ctx.fillRect(this.x + 3, this.y + 2, this.width - 6, this.height - 10);
+
+        // Chest core (glowing reactor)
+        var corePulse = 4 + Math.sin(t*6)*1.5;
+        ctx.fillStyle = pc.glow; ctx.shadowBlur = 16;
+        ctx.beginPath(); ctx.arc(cx, cy - 2, corePulse, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.arc(cx, cy - 2, corePulse*0.4, 0, Math.PI*2); ctx.fill();
+
+        // Helmet (visor)
+        ctx.fillStyle = pc.main; ctx.shadowBlur = 12;
+        ctx.fillRect(this.x + 2, this.y, this.width - 4, 8);
+        // Visor line
+        ctx.fillStyle = pc.glow;
+        ctx.fillRect(this.x + 4, this.y + 2, this.width - 8, 2);
+        ctx.shadowBlur = 6;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(cx - 4, this.y + 2, 8, 1.5);
+
+        // Shoulder pads
+        ctx.fillStyle = '#1a1a33';
+        ctx.shadowBlur = 6;
+        ctx.fillRect(this.x - 1, this.y + 8, 3, 8);
+        ctx.fillRect(this.x + this.width - 2, this.y + 8, 3, 8);
+
         ctx.shadowBlur = 0;
-        var innerColor = this.powerLevel === 1 ? 'rgba(68,255,68,0.5)' : (this.powerLevel===2?'rgba(68,136,255,0.5)':(this.powerLevel===3?'rgba(255,215,0,0.5)':'rgba(0,240,255,0.5)'));
-        ctx.fillStyle = innerColor;
-        ctx.fillRect(this.x - 2, this.y + this.height - 4, this.width + 4, 8);
-
-        if (this.invincibleTimer > 0 && Math.floor(this.invincibleTimer * 15) % 2 === 0) {
-          ctx.globalAlpha = 1;
-        }
+        ctx.globalAlpha = 1;
       }
 
       getBounds() {
