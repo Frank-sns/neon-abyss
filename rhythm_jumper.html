@@ -19,6 +19,7 @@
       align-items: center;
       width: 100vw;
       height: 100vh;
+      font-family: 'Courier New', monospace;
     }
 
     canvas {
@@ -137,22 +138,120 @@
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
       groundY = Math.floor(H * 0.85);
-      draw();
     }
 
-    function draw() {
-      ctx.fillStyle = '#0a0a1a';
+    // ===== Game State =====
+    const STATE = { IDLE: 'idle', PLAYING: 'playing', GAMEOVER: 'gameover' };
+    let gameState = STATE.IDLE;
+
+    // ===== Player =====
+    class Player {
+      constructor(x, groundY) {
+        this.x = x;
+        this.y = groundY;
+        this.width = 20;
+        this.height = 30;
+        this.vy = 0;
+        this.gravity = 1800;
+        this.jumpForce = -620;
+        this.doubleJumpForce = -520;
+        this.jumpsLeft = 2;
+        this.maxJumps = 2;
+        this.groundY = groundY;
+        this.isOnGround = true;
+      }
+
+      jump() {
+        if (this.jumpsLeft <= 0) return false;
+        const force = this.jumpsLeft === 2 ? this.jumpForce : this.doubleJumpForce;
+        this.vy = force;
+        this.jumpsLeft--;
+        this.isOnGround = false;
+        return true;
+      }
+
+      update(dt, groundY) {
+        this.groundY = groundY;
+        this.vy += this.gravity * dt;
+        this.y += this.vy * dt;
+
+        if (this.y + this.height >= groundY) {
+          this.y = groundY - this.height;
+          this.vy = 0;
+          this.jumpsLeft = this.maxJumps;
+          this.isOnGround = true;
+        }
+      }
+
+      draw(ctx) {
+        ctx.shadowColor = '#00f0ff';
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
+        ctx.fillRect(this.x - 2, this.y + this.height - 4, this.width + 4, 8);
+      }
+
+      getBounds() {
+        return { x: this.x, y: this.y, w: this.width, h: this.height };
+      }
+    }
+
+    // ===== Game Loop =====
+    let player;
+    let lastTime = 0;
+
+    function initGame() {
+      player = new Player(W * 0.2, groundY);
+    }
+
+    function gameLoop(timestamp) {
+      requestAnimationFrame(gameLoop);
+
+      if (lastTime === 0) lastTime = timestamp;
+      let dt = (timestamp - lastTime) / 1000;
+      if (dt > 0.1) dt = 0.016;
+      lastTime = timestamp;
+
+      // Update
+      if (gameState === STATE.PLAYING) {
+        player.update(dt, groundY);
+
+        if (keys['Space'] || keys['ArrowUp']) {
+          player.jump();
+          keys['Space'] = false;
+          keys['ArrowUp'] = false;
+        }
+      } else if (gameState === STATE.IDLE) {
+        if (keys['Space'] || keys['ArrowUp']) {
+          gameState = STATE.PLAYING;
+          document.getElementById('start-hint').style.display = 'none';
+          player.jump();
+          keys['Space'] = false;
+          keys['ArrowUp'] = false;
+        }
+      }
+
+      // Render
+      ctx.clearRect(0, 0, W, H);
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, '#0a0a1a');
+      grad.addColorStop(1, '#1a0a2e');
+      ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
 
-      ctx.strokeStyle = '#00ffff';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(0, groundY);
-      ctx.lineTo(W, groundY);
-      ctx.stroke();
+      ctx.fillStyle = '#00f0ff';
+      ctx.fillRect(0, groundY, W, 2);
+
+      player.draw(ctx);
     }
 
+    // ===== Init =====
     resize();
+    initGame();
+    requestAnimationFrame(gameLoop);
 
     window.addEventListener('resize', resize);
 
@@ -167,8 +266,6 @@
       keys[e.code] = false;
       e.preventDefault();
     });
-
-    console.log('[Rhythm Jumper] Canvas initialized: ' + W + 'x' + H + ' (groundY=' + groundY + ')');
   </script>
 </body>
 </html>
