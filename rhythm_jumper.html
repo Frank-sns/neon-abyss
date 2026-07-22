@@ -352,6 +352,14 @@
         this.blockDuration = 0;
         // Aim
         this.aimAngle = 0;
+        // Skills
+        this.skills = [];
+        this.selectedSkill = -1;
+        this.skillEnergy = 0;
+        this.maxSkillEnergy = 100;
+        this.skillActive = false;
+        this.skillTimer = 0;
+        this.skillTargets = [];
       }
 
       jump() {
@@ -578,6 +586,15 @@
       isOffScreen() {
         return this.x + this.width < 0;
       }
+    }
+
+    // ===== Math Helpers =====
+    function distToSegment(px, py, x1, y1, x2, y2) {
+      var dx = x2-x1, dy = y2-y1;
+      var len2 = dx*dx+dy*dy;
+      if (len2 === 0) return Math.sqrt((px-x1)*(px-x1)+(py-y1)*(py-y1));
+      var t = Math.max(0, Math.min(1, ((px-x1)*dx+(py-y1)*dy)/len2));
+      return Math.sqrt((px-(x1+t*dx))*(px-(x1+t*dx))+(py-(y1+t*dy))*(py-(y1+t*dy)));
     }
 
     // ===== Collision Detection =====
@@ -1493,11 +1510,96 @@
     let buffList = [];
     let stageClearTimer = 0;
     let buffMessage = '';
+    let skillProjectiles = [];
+    let rightMouseDown = false;
 
     // Pickup state
     let pickups = [];
     let pickupTimer = 0;
     let pickupInterval = 5;
+
+    // ===== Skill Definitions =====
+    var SKILLS = [
+      { name: '追踪导弹', icon: '🎯', desc: '发射一枚强力追踪导弹', color: '#ff6644',
+        execute: function() {
+          var mx = player.x + player.width + 15, my = player.y + player.height/2;
+          var sp = new BossProjectile(mx, my, 500, 0, 1.0);
+          sp.width = 20; sp.height = 20;
+          sp.draw = function(ctx) {
+            ctx.shadowColor='rgba(255,100,50,0.9)';ctx.shadowBlur=20;
+            ctx.fillStyle='#ff5533';ctx.beginPath();ctx.arc(this.x,this.y,10,0,Math.PI*2);ctx.fill();
+            ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(this.x,this.y,4,0,Math.PI*2);ctx.fill();
+            ctx.shadowBlur=0;
+          };
+          sp.getBounds = function(){return {x:this.x-10,y:this.y-10,w:20,h:20};};
+          skillProjectiles.push(sp);
+          return '追踪导弹发射！';
+        }
+      },
+      { name: '新星爆发', icon: '💥', desc: '以自身为中心大范围爆炸', color: '#ffaa00',
+        execute: function() {
+          for (var nv = 0; nv < 20; nv++) {
+            var na = (Math.PI*2/20)*nv;
+            var sp = new BossProjectile(player.x+player.width/2, player.y+player.height/2, Math.cos(na)*350, Math.sin(na)*350, 0);
+            sp.width = 12; sp.height = 12; sp.isNova = true;
+            skillProjectiles.push(sp);
+          }
+          return '新星爆发！';
+        }
+      },
+      { name: '激光束', icon: '⚡', desc: '向瞄准方向发射穿透激光', color: '#00ddff',
+        execute: function() {
+          player.skillActive = true; player.skillTimer = 0.8;
+          player.skillLaser = { x1: player.x+player.width, y1: player.y+player.height/2,
+            x2: player.x+player.width+Math.cos(player.aimAngle*Math.PI/180)*W,
+            y2: player.y+player.height/2-Math.sin(player.aimAngle*Math.PI/180)*W };
+          return '激光束发射！';
+        }
+      },
+      { name: '轨道护盾', icon: '🛡️', desc: '召唤3颗旋转护盾弹丸', color: '#88ddff',
+        execute: function() {
+          for (var os = 0; os < 3; os++) {
+            var sp = new BossProjectile(player.x+player.width/2, player.y+player.height/2, 0, 0, 0);
+            sp.width = 14; sp.height = 14; sp.isOrbital = true; sp.orbitalAngle = (Math.PI*2/3)*os;
+            sp.orbitalDist = 40; sp.orbitalSpeed = 3;
+            sp.draw = function(ctx) {
+              ctx.shadowColor='rgba(136,221,255,0.8)';ctx.shadowBlur=15;
+              ctx.fillStyle='#88ddff';ctx.beginPath();ctx.arc(this.x,this.y,7,0,Math.PI*2);ctx.fill();
+              ctx.shadowBlur=0;
+            };
+            sp.getBounds = function(){return {x:this.x-7,y:this.y-7,w:14,h:14};};
+            skillProjectiles.push(sp);
+          }
+          return '轨道护盾启动！';
+        }
+      },
+      { name: '连锁闪电', icon: '⚡', desc: '连锁弹射伤害附近所有敌人', color: '#ffdd00',
+        execute: function() {
+          var targets = [];
+          if (boss) targets.push(boss);
+          for (var ci = 0; ci < obstacles.length && targets.length < 8; ci++) targets.push(obstacles[ci]);
+          for (var cj = 0; cj < bossProjectiles.length && targets.length < 10; cj++) targets.push(bossProjectiles[cj]);
+          var last = { x: player.x+player.width/2, y: player.y+player.height/2 };
+          for (var ck = 0; ck < Math.min(targets.length, 6); ck++) {
+            var t = targets[ck], tx = t.x !== undefined ? (t.x+t.width/2||t.x) : t.x, ty = t.y !== undefined ? (t.y+t.height/2||t.y) : t.y;
+            (function(lx,ly,ex,ey,delay){
+              setTimeout(function(){
+                var sp = new BossProjectile(ex, ey, 0, 0, 0);
+                sp.width=8;sp.height=8;sp.alive=true;sp.life=0.2;
+                sp.update=function(dt2){this.life-=dt2;if(this.life<=0)this.alive=false;};
+                sp.draw=function(ctx2){ctx2.strokeStyle='#ffdd00';ctx2.lineWidth=2;ctx2.beginPath();ctx2.moveTo(lx,ly);ctx2.lineTo(ex,ey);ctx2.stroke();};
+                skillProjectiles.push(sp);
+                if (t.takeDamage) t.takeDamage();
+                if (t.hp !== undefined && t.hp <= 0 && obstacles.indexOf(t)!==-1) { score+=25;player.energy=Math.min(player.maxEnergy,player.energy+125);obstacles.splice(obstacles.indexOf(t),1); }
+                if (t.alive !== undefined && bossProjectiles.indexOf(t)!==-1) { score+=10;player.energy=Math.min(player.maxEnergy,player.energy+125);bossProjectiles.splice(bossProjectiles.indexOf(t),1); }
+              },delay*80);
+            })(last.x,last.y,tx,ty,ck);
+            last = { x: tx, y: ty };
+          }
+          return '连锁闪电！';
+        }
+      }
+    ];
 
     // ===== Obstacle Type Selection =====
     function getObstacleType(currentScore) {
@@ -1536,6 +1638,10 @@
       pickupTimer = 0;
       pickupInterval = 5;
       clickQueue = 0;
+      skillProjectiles = [];
+      player.skillEnergy = 0;
+      player.skillActive = false;
+      player.skillTimer = 0;
       energyBlocks = [];
       energyOrbs = [];
       energyBlockTimer = 0;
@@ -1690,6 +1796,81 @@
           }
         }
 
+        // Skill energy regen (same rate as normal)
+        player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + player.energyRegen * 0.5 * dt);
+
+        // Skill execution (right click)
+        if (rightMouseDown && player.skillEnergy >= player.maxSkillEnergy && player.selectedSkill >= 0) {
+          rightMouseDown = false;
+          player.skillEnergy = 0;
+          var skillMsg = SKILLS[player.selectedSkill].execute();
+          stageAnnounceText = skillMsg;
+          stageAnnounceTimer = 1.2;
+          sound.playScore();
+        }
+
+        // Skill projectile update
+        for (var spi = skillProjectiles.length - 1; spi >= 0; spi--) {
+          var skp = skillProjectiles[spi];
+          if (skp.isOrbital) {
+            skp.orbitalAngle += skp.orbitalSpeed * dt;
+            skp.x = player.x + player.width/2 + Math.cos(skp.orbitalAngle) * skp.orbitalDist;
+            skp.y = player.y + player.height/2 + Math.sin(skp.orbitalAngle) * skp.orbitalDist;
+            // Orbital hits boss projectiles
+            for (var obpi = bossProjectiles.length - 1; obpi >= 0; obpi--) {
+              if (rectsCollide(skp.getBounds(), bossProjectiles[obpi].getBounds())) {
+                bossProjectiles.splice(obpi, 1);
+                score += 10;
+                player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
+              }
+            }
+            if (boss && rectsCollide(skp.getBounds(), boss.getBounds()) && boss.state==='active') {
+              boss.takeDamage(); skp.alive = false;
+            }
+            if (skp.alive === false || !player.blockActive) { /* orbitals stay while player alive */ }
+          } else if (skp.update) {
+            skp.update(dt, player.x+player.width/2, player.y+player.height/2);
+            // Hits boss
+            if (boss && boss.state==='active' && rectsCollide(skp.getBounds(), boss.getBounds())) {
+              boss.takeDamage(); boss.takeDamage(); boss.takeDamage(); // heavy damage
+              skp.alive = false;
+            }
+            // Hits boss projectiles
+            for (var obpi2 = bossProjectiles.length - 1; obpi2 >= 0; obpi2--) {
+              if (rectsCollide(skp.getBounds(), bossProjectiles[obpi2].getBounds())) {
+                bossProjectiles.splice(obpi2, 1);
+                score += 10; player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
+                if (!skp.isNova) skp.alive = false;
+              }
+            }
+            if (skp.alive === false || skp.x < -50 || skp.x > W+50 || skp.y < -50 || skp.y > H+50) {
+              skillProjectiles.splice(spi, 1);
+            }
+          }
+        }
+
+        // Laser beam damage (ongoing skill)
+        if (player.skillActive && player.skillTimer > 0) {
+          player.skillTimer -= dt;
+          var lx1 = player.x+player.width, ly1 = player.y+player.height/2;
+          var aimR = player.aimAngle * Math.PI / 180;
+          var lx2 = lx1 + Math.cos(aimR)*W, ly2 = ly1 - Math.sin(aimR)*W;
+          for (var bpiL = bossProjectiles.length - 1; bpiL >= 0; bpiL--) {
+            var bp2 = bossProjectiles[bpiL];
+            var d = distToSegment(bp2.x, bp2.y, lx1, ly1, lx2, ly2);
+            if (d < 20) { bossProjectiles.splice(bpiL, 1); score+=10; player.energy=Math.min(player.maxEnergy,player.energy+125); }
+          }
+          if (boss && boss.state==='active') {
+            var bd = distToSegment(boss.x, boss.y, lx1, ly1, lx2, ly2);
+            if (bd < 30) { boss.takeDamage(); boss.takeDamage(); }
+          }
+          player.skillLaser = { x1: lx1, y1: ly1, x2: lx2, y2: ly2 };
+          if (player.skillTimer <= 0) { player.skillActive = false; }
+        }
+
+        // Share energy gains with skill bar
+        // (handled in obstacle/boss proj destruction — add skillEnergy there too)
+
         // Pickup spawning
         pickupTimer += dt;
         if (pickupTimer >= pickupInterval) {
@@ -1760,7 +1941,7 @@
             if (rectsCollide(playerProjectiles[ppi5].getBounds(), energyBlocks[ebi2].getBounds())) {
               playerProjectiles.splice(ppi5, 1);
               if (energyBlocks[ebi2].takeDamage()) {
-                player.energy = Math.min(player.maxEnergy, player.energy + 125);
+                player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
                 sound.playScore();
                 energyBlocks.splice(ebi2, 1);
               }
@@ -1773,7 +1954,7 @@
         for (var eoi = energyOrbs.length - 1; eoi >= 0; eoi--) {
           energyOrbs[eoi].update(dt, player.x + player.width/2, player.y + player.height/2);
           if (rectsCollide(player.getBounds(), energyOrbs[eoi].getBounds()) || energyOrbs[eoi].x < player.x + 80) {
-            player.energy = Math.min(player.maxEnergy, player.energy + 30);
+            player.energy = Math.min(player.maxEnergy, player.energy + 30); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 30);
             energyOrbs.splice(eoi, 1);
             sound.playScore();
           }
@@ -1995,7 +2176,13 @@
             if (newBuff === 'shield') player.maxHp = Math.min(5, player.maxHp + 1);
             var buffNames = { energyRegen: '能量回复+', powerShot: '威力增强', wideSpread: '弹幕扩散', shield: '护盾+1HP' };
             buffMessage = '获得Buff: ' + buffNames[newBuff] + '!';
-            stageClearTimer = 2;
+            // Grant skill (one per boss, up to 5)
+            if (bossStage <= 5 && player.skills.indexOf(bossStage - 1) === -1) {
+              player.skills.push(bossStage - 1);
+              if (player.selectedSkill === -1) player.selectedSkill = 0;
+              buffMessage += ' | 新技能: ' + SKILLS[bossStage-1].name + '!';
+            }
+            stageClearTimer = 2.5;
             boss = null;
             bossCooldownTimer = 3.5;
             nextBossScore = score + 400 + bossStage * 100;
@@ -2027,7 +2214,7 @@
               playerProjectiles.splice(ppi2, 1);
               bossProjectiles.splice(bpi2, 1);
               score += 10;
-              player.energy = Math.min(player.maxEnergy, player.energy + 125);
+              player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
               sound.playScore();
               break;
             }
@@ -2045,7 +2232,7 @@
                   particles.push(new Particle(obstacles[oi].x + obstacles[oi].width / 2, obstacles[oi].y + obstacles[oi].height / 2));
                 }
                 score += 25;
-                player.energy = Math.min(player.maxEnergy, player.energy + 125);
+                player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
                 obstacles.splice(oi, 1);
               }
               break;
@@ -2150,6 +2337,35 @@
       ctx.fillStyle = '#fff';
       ctx.font = '10px "Courier New", monospace';
       ctx.fillText('EN ' + Math.floor(player.energy), eBarX + 4, eBarY + 10);
+
+      // Skill energy bar
+      if (player.skills.length > 0) {
+        var sBarY = eBarY + 16;
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(eBarX-1, sBarY-1, eBarW+2, eBarH+2);
+        ctx.fillStyle = '#2a1a3a';
+        ctx.fillRect(eBarX, sBarY, eBarW, eBarH);
+        var sRatio = player.skillEnergy / player.maxSkillEnergy;
+        ctx.fillStyle = sRatio >= 1 ? '#ff6644' : '#664466';
+        ctx.fillRect(eBarX, sBarY, eBarW * sRatio, eBarH);
+        ctx.fillStyle = '#fff';
+        ctx.font = '10px "Courier New", monospace';
+        var skillName = player.selectedSkill >= 0 ? SKILLS[player.selectedSkill].name : '';
+        ctx.fillText('SK ' + skillName + (sRatio>=1?' [就绪]':''), eBarX+4, sBarY+10);
+      }
+
+      // Skill selection indicator
+      if (player.skills.length > 0) {
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px "Courier New", monospace';
+        for (var ski = 0; ski < player.skills.length; ski++) {
+          var sx = eBarX + ski * 28;
+          var sy = eBarY + 32;
+          ctx.fillStyle = ski === player.selectedSkill ? '#ff6644' : '#444';
+          ctx.fillText(SKILLS[player.skills[ski]].icon, sx, sy);
+        }
+        ctx.fillText('↕滚轮切换 | 右键释放', eBarX, eBarY + 46);
+      }
 
       // Buff indicators
       for (var bfi = 0; bfi < player.buffs.length; bfi++) {
@@ -2309,6 +2525,25 @@
         ctx.fillRect(player.x - 5, player.y - 12, (player.width + 10) * bdRatio, 4);
       }
 
+      // Laser beam (skill)
+      if (player.skillActive && player.skillLaser) {
+        var l = player.skillLaser;
+        ctx.strokeStyle = 'rgba(0,220,255,0.8)';
+        ctx.lineWidth = 4;
+        ctx.shadowColor = 'rgba(0,220,255,0.9)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 1; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      // Skill projectiles
+      for (const skp of skillProjectiles) {
+        if (skp.draw) skp.draw(ctx);
+      }
+
       // Player projectiles
       for (const pp of playerProjectiles) {
         pp.draw(ctx);
@@ -2347,8 +2582,16 @@
       mouseDown = true;
       clickQueue++;
     });
-    canvas.addEventListener('mouseup', function(e) { mouseDown = false; });
+    canvas.addEventListener('mouseup', function(e) { if (e.button === 2) rightMouseDown = true; else mouseDown = false; });
     canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    canvas.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      if (player.skills.length === 0) return;
+      var idx = player.selectedSkill;
+      if (e.deltaY > 0) idx = (idx + 1) % player.skills.length;
+      else idx = (idx - 1 + player.skills.length) % player.skills.length;
+      player.selectedSkill = idx;
+    }, { passive: false });
 
     window.addEventListener('keydown', function(e) {
       keys[e.code] = true;
