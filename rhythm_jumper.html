@@ -1563,13 +1563,15 @@
             player.energy -= 10;
             var px = player.x + player.width + 8;
             var py = player.y + player.height / 2;
-            var aimRad = Math.atan2(-(mouseY - py), mouseX - px);
+            var mdx = mouseX - px;
+            var mdy = mouseY - py;
+            var mdist = Math.sqrt(mdx * mdx + mdy * mdy) || 1;
             var lvl = player.powerLevel;
             var baseCount = 1 + (player.buffs.indexOf('wideSpread') !== -1 ? 1 : 0);
             if (lvl <= 0) {
               var pp0 = new PlayerProjectile(px, py);
-              pp0.vx = 700 * Math.cos(aimRad);
-              pp0.vy = 700 * Math.sin(aimRad);
+              pp0.vx = 700 * mdx / mdist;
+              pp0.vy = 700 * mdy / mdist;
               playerProjectiles.push(pp0);
             } else {
               var count = lvl === 1 ? (2 + baseCount - 1) : (lvl === 2 ? (3 + baseCount - 1) : (5 + baseCount - 1));
@@ -1578,12 +1580,10 @@
               for (var si = 0; si < count; si++) {
                 var offset = (si - (count - 1) / 2) * spread;
                 var pp = new PlayerProjectile(px, py + offset);
-                pp.vx = 700 * Math.cos(aimRad);
-                pp.vy = 700 * Math.sin(aimRad);
+                pp.vx = 700 * mdx / mdist;
+                pp.vy = 700 * mdy / mdist;
                 if (offset !== 0) {
-                  var fangle = offset > 0 ? 0.35 : -0.35;
-                  if (lvl >= 3) fangle *= 1.5;
-                  pp.vy += 700 * Math.sin(aimRad + fangle) * 0.4;
+                  pp.vy += offset * 8;
                 }
                 playerProjectiles.push(pp);
               }
@@ -2134,12 +2134,18 @@
     let mouseX = 0, mouseY = 0;
     canvas.addEventListener('mousemove', function(e) {
       var rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left; mouseY = e.clientY - rect.top;
+      var sx = canvas.width / rect.width;
+      var sy = canvas.height / rect.height;
+      mouseX = (e.clientX - rect.left) * sx;
+      mouseY = (e.clientY - rect.top) * sy;
     });
     canvas.addEventListener('mousedown', function(e) {
       e.preventDefault(); mouseDown = true;
       var rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left; mouseY = e.clientY - rect.top;
+      var sx = canvas.width / rect.width;
+      var sy = canvas.height / rect.height;
+      mouseX = (e.clientX - rect.left) * sx;
+      mouseY = (e.clientY - rect.top) * sy;
     });
     canvas.addEventListener('mouseup', function(e) { mouseDown = false; });
     canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
