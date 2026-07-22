@@ -199,12 +199,74 @@
       }
     }
 
+    // ===== Obstacle =====
+    class Obstacle {
+      constructor(x, groundY) {
+        this.x = x;
+        this.width = 22;
+        const heights = [25, 35, 45];
+        this.height = heights[Math.floor(Math.random() * heights.length)];
+        this.y = groundY - this.height;
+        this.speed = 320;
+        this.passed = false;
+      }
+
+      update(dt, speedMultiplier) {
+        this.x -= this.speed * speedMultiplier * dt;
+      }
+
+      draw(ctx) {
+        ctx.shadowColor = 'rgba(255, 0, 50, 0.6)';
+        ctx.shadowBlur = 14;
+
+        ctx.fillStyle = '#cc2233';
+        ctx.beginPath();
+        const cx = this.x + this.width / 2;
+        ctx.moveTo(cx, this.y);
+        ctx.lineTo(this.x + this.width, this.y + this.height);
+        ctx.lineTo(this.x, this.y + this.height);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#ff4455';
+        ctx.beginPath();
+        ctx.moveTo(cx, this.y + 4);
+        ctx.lineTo(cx + 6, this.y + this.height);
+        ctx.lineTo(cx - 6, this.y + this.height);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      getBounds() {
+        return {
+          x: this.x + 4,
+          y: this.y + 6,
+          w: this.width - 8,
+          h: this.height - 6
+        };
+      }
+
+      isOffScreen() {
+        return this.x + this.width < 0;
+      }
+    }
+
     // ===== Game Loop =====
     let player;
     let lastTime = 0;
+    let obstacles = [];
+    let obstacleTimer = 0;
+    let obstacleInterval = 1.8;
+    let speedMultiplier = 1;
+    let score = 0;
 
     function initGame() {
       player = new Player(W * 0.2, groundY);
+      obstacles = [];
+      obstacleTimer = 0;
+      speedMultiplier = 1;
+      score = 0;
     }
 
     function gameLoop(timestamp) {
@@ -219,6 +281,22 @@
       if (gameState === STATE.PLAYING) {
         player.update(dt, groundY);
 
+        // Obstacle spawning
+        obstacleTimer += dt;
+        if (obstacleTimer >= obstacleInterval) {
+          obstacleTimer = 0;
+          obstacles.push(new Obstacle(W + 50, groundY));
+          obstacleInterval = 1.4 + Math.random() * 0.8;
+        }
+
+        // Obstacle update
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+          obstacles[i].update(dt, speedMultiplier);
+          if (obstacles[i].isOffScreen()) {
+            obstacles.splice(i, 1);
+          }
+        }
+
         if (keys['Space'] || keys['ArrowUp']) {
           player.jump();
           keys['Space'] = false;
@@ -227,6 +305,7 @@
       } else if (gameState === STATE.IDLE) {
         if (keys['Space'] || keys['ArrowUp']) {
           gameState = STATE.PLAYING;
+          obstacles = [];
           document.getElementById('start-hint').style.display = 'none';
           player.jump();
           keys['Space'] = false;
@@ -244,6 +323,11 @@
 
       ctx.fillStyle = '#00f0ff';
       ctx.fillRect(0, groundY, W, 2);
+
+      // Obstacles
+      for (const obs of obstacles) {
+        obs.draw(ctx);
+      }
 
       player.draw(ctx);
     }
