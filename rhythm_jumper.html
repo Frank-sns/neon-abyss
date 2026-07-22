@@ -252,6 +252,36 @@
       }
     }
 
+    // ===== Collision Detection =====
+    function rectsCollide(a, b) {
+      const margin = 2;
+      return (
+        a.x + margin < b.x + b.w - margin &&
+        a.x + a.w - margin > b.x + margin &&
+        a.y + margin < b.y + b.h - margin &&
+        a.y + a.h - margin > b.y + margin
+      );
+    }
+
+    function endGame() {
+      document.getElementById('game-over-panel').style.display = 'block';
+      document.getElementById('final-score').textContent = Math.floor(score);
+
+      const prevHigh = parseInt(localStorage.getItem('rhythmJumperHighScore') || '0');
+      const currentHigh = Math.max(prevHigh, Math.floor(score));
+      localStorage.setItem('rhythmJumperHighScore', currentHigh);
+      document.getElementById('high-score').textContent = currentHigh;
+    }
+
+    function resetGame() {
+      initGame();
+      gameState = STATE.IDLE;
+      document.getElementById('game-over-panel').style.display = 'none';
+      document.getElementById('start-hint').style.display = 'block';
+    }
+
+    document.getElementById('restart-btn').addEventListener('click', resetGame);
+
     // ===== Game Loop =====
     let player;
     let lastTime = 0;
@@ -289,9 +319,18 @@
           obstacleInterval = 1.4 + Math.random() * 0.8;
         }
 
-        // Obstacle update
+        // Obstacle update + collision
         for (let i = obstacles.length - 1; i >= 0; i--) {
           obstacles[i].update(dt, speedMultiplier);
+
+          const playerBounds = player.getBounds();
+          const obsBounds = obstacles[i].getBounds();
+          if (rectsCollide(playerBounds, obsBounds)) {
+            gameState = STATE.GAMEOVER;
+            endGame();
+            break;
+          }
+
           if (obstacles[i].isOffScreen()) {
             obstacles.splice(i, 1);
           }
@@ -308,6 +347,12 @@
           obstacles = [];
           document.getElementById('start-hint').style.display = 'none';
           player.jump();
+          keys['Space'] = false;
+          keys['ArrowUp'] = false;
+        }
+      } else if (gameState === STATE.GAMEOVER) {
+        if (keys['Space'] || keys['ArrowUp']) {
+          resetGame();
           keys['Space'] = false;
           keys['ArrowUp'] = false;
         }
