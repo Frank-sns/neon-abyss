@@ -38,25 +38,58 @@
 
     #start-hint {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      color: rgba(0, 255, 255, 0.8);
       text-align: center;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Courier New', monospace;
+      pointer-events: auto;
       user-select: none;
+      z-index: 10;
     }
-
-    #start-hint h1 {
-      font-size: 28px;
+    #start-hint .menu-title {
+      font-size: 56px;
       font-weight: bold;
+      background: linear-gradient(180deg, #00f0ff 0%, #cc44ff 50%, #ff3355 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 30px rgba(0,240,255,0.5));
       margin-bottom: 8px;
+      letter-spacing: 4px;
+      animation: titlePulse 2s ease-in-out infinite;
     }
-
-    #start-hint p {
-      font-size: 14px;
-      color: rgba(0, 255, 255, 0.5);
+    @keyframes titlePulse {
+      0%,100% { filter: drop-shadow(0 0 30px rgba(0,240,255,0.5)); }
+      50% { filter: drop-shadow(0 0 60px rgba(204,68,255,0.7)); }
     }
+    #start-hint .menu-subtitle {
+      font-size: 16px; color: rgba(200,200,220,0.6); margin-bottom: 36px;
+    }
+    #start-hint .menu-btn {
+      display: inline-block;
+      padding: 16px 56px;
+      font-size: 22px; font-weight: bold; font-family: 'Courier New', monospace;
+      color: #0a0a1a;
+      background: linear-gradient(135deg, #00f0ff, #00aacc);
+      border: none; border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(0,240,255,0.4), 0 0 60px rgba(0,200,220,0.2);
+      transition: all 0.3s;
+      letter-spacing: 3px;
+      margin-bottom: 28px;
+      animation: btnGlow 2s ease-in-out infinite;
+    }
+    @keyframes btnGlow {
+      0%,100% { box-shadow: 0 0 30px rgba(0,240,255,0.4), 0 0 60px rgba(0,200,220,0.2); }
+      50% { box-shadow: 0 0 50px rgba(0,240,255,0.7), 0 0 90px rgba(204,68,255,0.4); }
+    }
+    #start-hint .menu-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(0,240,255,0.8), 0 0 100px rgba(204,68,255,0.5);
+    }
+    #start-hint .menu-controls {
+      font-size: 13px; color: rgba(180,190,210,0.5); line-height: 1.9;
+    }
+    #start-hint .menu-controls span { color: rgba(0,240,255,0.7); }
 
     #game-over-panel {
       display: none;
@@ -116,9 +149,13 @@
 
   <div id="ui-layer">
     <div id="start-hint">
-      <h1>按 W 键 开始游戏</h1>
-      <p>W 跳跃 | 鼠标移动瞄准 + 左键/E 射击 | Space 格挡</p>
-      <p>Press W to start | W:Jump Mouse:Aim+Shoot E:Shoot Space:Block</p>
+      <div class="menu-title">NEON ABYSS</div>
+      <div class="menu-subtitle">霓 虹 深 渊</div>
+      <div class="menu-btn" id="menu-start-btn">⚡ 开始游戏</div>
+      <div class="menu-controls">
+        <span>W</span> 跳跃 &nbsp; <span>鼠标</span> 瞄准射击 &nbsp; <span>Space</span> 格挡<br>
+        <span>右键</span> 技能 &nbsp; <span>滚轮</span> 切换 &nbsp; <span>E</span> 键盘射击
+      </div>
     </div>
     <div id="game-over-panel">
       <h2>游戏结束</h2>
@@ -2373,7 +2410,8 @@
         }
         } // close if (STATE.PLAYING) for boss section
       } else if (gameState === STATE.IDLE) {
-        if (keys['KeyW']) {
+        if (keys['KeyW'] || (rightMouseDown && gameState === STATE.IDLE)) {
+          rightMouseDown = false;
           gameState = STATE.PLAYING;
           obstacles = [];
           bossProjectiles = [];
@@ -2705,6 +2743,29 @@
     });
     canvas.addEventListener('mouseup', function(e) { if (e.button === 2) rightMouseDown = true; else mouseDown = false; });
     canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+
+    // Menu start button — right click to start
+    var menuBtn = document.getElementById('menu-start-btn');
+    if (menuBtn) {
+      menuBtn.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        if (gameState === STATE.IDLE) {
+          gameState = STATE.PLAYING;
+          obstacles = []; bossProjectiles = []; playerProjectiles = []; pickups = []; particles = [];
+          document.getElementById('start-hint').style.display = 'none';
+          if (player.jump()) { sound.playJump(); }
+        }
+      });
+      menuBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (gameState === STATE.IDLE) {
+          gameState = STATE.PLAYING;
+          obstacles = []; bossProjectiles = []; playerProjectiles = []; pickups = []; particles = [];
+          document.getElementById('start-hint').style.display = 'none';
+          if (player.jump()) { sound.playJump(); }
+        }
+      });
+    }
     canvas.addEventListener('wheel', function(e) {
       e.preventDefault();
       if (player.skills.length === 0) return;
