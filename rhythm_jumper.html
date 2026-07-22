@@ -116,8 +116,8 @@
   <div id="ui-layer">
     <div id="start-hint">
       <h1>按 W 键 开始游戏</h1>
-      <p>W 跳跃 | E 射击 | ↑↓ 瞄准 | Space 格挡</p>
-      <p>Press W to start | W:Jump E:Shoot Space:Block</p>
+      <p>W 跳跃 | E/鼠标左键 射击 | ↑↓ 瞄准 | Space 格挡</p>
+      <p>Press W to start | W:Jump E/LMB:Shoot Space:Block</p>
     </div>
     <div id="game-over-panel">
       <h2>游戏结束</h2>
@@ -1546,12 +1546,10 @@
         if (keys['ArrowDown']) { player.aimAngle = Math.max(-45, player.aimAngle - 15); keys['ArrowDown'] = false; }
         if (keys['ArrowLeft']) { player.aimAngle = 0; keys['ArrowLeft'] = false; }
 
-        // Block (Space)
-        if (keys['Space'] && player.blockCooldown <= 0) {
+        // Block (Space) — no cooldown
+        if (keys['Space']) {
           player.blockActive = true;
           player.blockDuration = 0.5;
-          player.blockCooldown = 3;
-          keys['Space'] = false;
         }
 
         // ===== Boss System =====
@@ -1559,7 +1557,7 @@
 
         // Player shooting (E key) — energy-based + aimable
         playerShootCooldown -= dt;
-        if (keys['KeyE']) {
+        if (keys['KeyE'] || mouseDown) {
           if (playerShootCooldown <= 0 && player.energy >= 10) {
             playerShootCooldown = 0.18;
             player.energy -= 10;
@@ -2105,13 +2103,13 @@
       ctx.lineTo(aix + Math.cos(aimRad) * alen, aiy - Math.sin(aimRad) * alen);
       ctx.stroke();
 
-      // Block cooldown indicator
-      if (player.blockCooldown > 0) {
-        var bcRatio = player.blockCooldown / 3;
+      // Block duration indicator
+      if (player.blockDuration > 0) {
+        var bdRatio = player.blockDuration / 0.5;
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(player.x - 5, player.y - 12, player.width + 10, 4);
-        ctx.fillStyle = bcRatio > 0.3 ? '#44aaff' : '#00ff44';
-        ctx.fillRect(player.x - 5, player.y - 12, (player.width + 10) * (1 - bcRatio), 4);
+        ctx.fillStyle = '#00ffcc';
+        ctx.fillRect(player.x - 5, player.y - 12, (player.width + 10) * bdRatio, 4);
       }
 
       // Player projectiles
@@ -2132,6 +2130,10 @@
     window.addEventListener('resize', resize);
 
     const keys = {};
+    let mouseDown = false;
+    canvas.addEventListener('mousedown', function(e) { e.preventDefault(); mouseDown = true; });
+    canvas.addEventListener('mouseup', function(e) { mouseDown = false; });
+    canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
     window.addEventListener('keydown', function(e) {
       keys[e.code] = true;
