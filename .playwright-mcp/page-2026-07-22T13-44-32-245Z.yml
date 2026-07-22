@@ -1,0 +1,12 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - heading "按 W 键 开始游戏" [level=1]
+      - paragraph: W 跳跃 | 鼠标移动瞄准 + 左键/E 射击 | Space 格挡
+      - paragraph: Press W to start | W:Jump Mouse:Aim+Shoot E:Shoot Space:Block
+  - generic [ref=e3]:
+    - link "← 返回首页" [ref=e4] [cursor=pointer]:
+      - /url: index.html
+    - text: "|"
+    - link "☕ 支持开发者" [ref=e5] [cursor=pointer]:
+      - /url: "#"

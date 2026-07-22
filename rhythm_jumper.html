@@ -1438,6 +1438,7 @@
       pickups = [];
       pickupTimer = 0;
       pickupInterval = 5;
+      clickQueue = 0;
       energyBlocks = [];
       energyOrbs = [];
       energyBlockTimer = 0;
@@ -1557,8 +1558,9 @@
 
         // Player shooting (E key / mouse) — energy-based + aim toward mouse
         playerShootCooldown -= dt;
-        if (keys['KeyE'] || mouseDown) {
+        if (keys['KeyE'] || mouseDown || clickQueue > 0) {
           if (playerShootCooldown <= 0 && player.energy >= 10) {
+            if (clickQueue > 0) clickQueue--;
             playerShootCooldown = 0.18;
             player.energy -= 10;
             var px = player.x + player.width + 8;
@@ -2131,6 +2133,7 @@
 
     const keys = {};
     let mouseDown = false;
+    let clickQueue = 0;
     let mouseX = 0, mouseY = 0;
     canvas.addEventListener('mousemove', function(e) {
       var rect = canvas.getBoundingClientRect();
@@ -2140,12 +2143,14 @@
       mouseY = (e.clientY - rect.top) * sy;
     });
     canvas.addEventListener('mousedown', function(e) {
-      e.preventDefault(); mouseDown = true;
+      e.preventDefault();
       var rect = canvas.getBoundingClientRect();
       var sx = canvas.width / rect.width;
       var sy = canvas.height / rect.height;
       mouseX = (e.clientX - rect.left) * sx;
       mouseY = (e.clientY - rect.top) * sy;
+      mouseDown = true;
+      clickQueue++;
     });
     canvas.addEventListener('mouseup', function(e) { mouseDown = false; });
     canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
