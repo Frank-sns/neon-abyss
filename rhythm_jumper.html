@@ -1760,7 +1760,7 @@
             if (rectsCollide(playerProjectiles[ppi5].getBounds(), energyBlocks[ebi2].getBounds())) {
               playerProjectiles.splice(ppi5, 1);
               if (energyBlocks[ebi2].takeDamage()) {
-                player.energy = Math.min(player.maxEnergy, player.energy + 30);
+                player.energy = Math.min(player.maxEnergy, player.energy + 125);
                 sound.playScore();
                 energyBlocks.splice(ebi2, 1);
               }
@@ -2027,7 +2027,7 @@
               playerProjectiles.splice(ppi2, 1);
               bossProjectiles.splice(bpi2, 1);
               score += 10;
-              player.energy = Math.min(player.maxEnergy, player.energy + 5);
+              player.energy = Math.min(player.maxEnergy, player.energy + 125);
               sound.playScore();
               break;
             }
@@ -2045,7 +2045,7 @@
                   particles.push(new Particle(obstacles[oi].x + obstacles[oi].width / 2, obstacles[oi].y + obstacles[oi].height / 2));
                 }
                 score += 25;
-                player.energy = Math.min(player.maxEnergy, player.energy + 10);
+                player.energy = Math.min(player.maxEnergy, player.energy + 125);
                 obstacles.splice(oi, 1);
               }
               break;

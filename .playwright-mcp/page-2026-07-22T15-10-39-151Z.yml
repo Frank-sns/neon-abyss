@@ -1,0 +1,882 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - generic [ref=e53]: Search or jump to...
+            - link "Sign in" [ref=e59] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2FFrank-sns%2Fneon-abyss%2Fcommits%2Fmain
+            - link "Sign up" [ref=e60] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fcommits%2Fshow&source=header-repo&source_repo=Frank-sns%2Fneon-abyss
+            - button "Appearance settings" [ref=e63] [cursor=pointer]
+  - main [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e71]:
+          - link "Frank-sns" [ref=e75] [cursor=pointer]:
+            - /url: /Frank-sns
+          - generic [ref=e76]: /
+          - strong [ref=e77]:
+            - link "neon-abyss" [ref=e78] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss
+          - generic [ref=e79]: Public
+        - generic [ref=e80]:
+          - list:
+            - listitem [ref=e81]:
+              - link "You must be signed in to change notification settings" [ref=e82] [cursor=pointer]:
+                - /url: /login?return_to=%2FFrank-sns%2Fneon-abyss
+                - text: Notifications
+            - listitem [ref=e85]:
+              - link "Fork 0" [ref=e86] [cursor=pointer]:
+                - /url: /login?return_to=%2FFrank-sns%2Fneon-abyss
+                - text: Fork
+                - generic "0" [ref=e89]
+            - listitem [ref=e90]:
+              - link "You must be signed in to star a repository" [ref=e92] [cursor=pointer]:
+                - /url: /login?return_to=%2FFrank-sns%2Fneon-abyss
+                - text: Star
+                - generic "0 users starred this repository" [ref=e95]: "0"
+      - navigation "Repository" [ref=e96]:
+        - list [ref=e97]:
+          - listitem [ref=e98]:
+            - link "Code" [ref=e99] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss
+          - listitem [ref=e103]:
+            - link "Issues" [ref=e104] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/issues
+          - listitem [ref=e109]:
+            - link "Pull requests" [ref=e110] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/pulls
+          - listitem [ref=e114]:
+            - link "Actions" [ref=e115] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/actions
+          - listitem [ref=e119]:
+            - link "Projects" [ref=e120] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/projects
+          - listitem [ref=e124]:
+            - link "Security and quality" [ref=e125] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/security
+          - listitem [ref=e129]:
+            - link "Insights" [ref=e130] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/pulse
+    - generic [ref=e139]:
+      - heading "Commits" [level=1] [ref=e143]
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - heading "Branch selector" [level=2] [ref=e150]
+          - button "main branch" [ref=e151] [cursor=pointer]:
+            - generic [ref=e152]: main
+          - generic [ref=e160]:
+            - heading "User selector" [level=2] [ref=e161]
+            - button "All users" [ref=e163] [cursor=pointer]
+            - button "All time" [ref=e171] [cursor=pointer]
+        - generic [ref=e174]:
+          - heading "Commit history" [level=2] [ref=e175]
+          - generic [ref=e182]:
+            - heading "Commits on Jul 22, 2026" [level=3] [ref=e183]
+            - list "Commits on Jul 22, 2026" [ref=e186]:
+              - listitem "More information available below." [ref=e187]:
+                - heading [level=4] [ref=e189]:
+                  - 'link "revert: block/shield is free again, no energy cost" [ref=e190] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/600cc9119318c0aac969dbb3a8ba0c596b4c0130
+                - generic [ref=e195]:
+                  - generic [ref=e196]:
+                    - link [ref=e197] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e198]
+                    - link "commits by Frank-sns" [ref=e199] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e200]: committed
+                - generic [ref=e206]:
+                  - generic [ref=e207]:
+                    - tooltip "View commit details" [ref=e208]:
+                      - link "600cc91" [ref=e209] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/600cc9119318c0aac969dbb3a8ba0c596b4c0130
+                    - button "Copy full SHA for 600cc91" [ref=e213] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e217]:
+                    - link "Browse repository at this point" [ref=e218] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/600cc9119318c0aac969dbb3a8ba0c596b4c0130
+              - listitem "More information available below." [ref=e221]:
+                - heading [level=4] [ref=e223]:
+                  - 'link "feat: energy auto-absorb, obstacles/boss projectiles give energy, block costs 5 energy, base energy 250" [ref=e224] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/2d5b5082a4fad676e8d3febe1056d8c660b7d928
+                - generic [ref=e229]:
+                  - generic [ref=e230]:
+                    - link [ref=e231] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e232]
+                    - link "commits by Frank-sns" [ref=e233] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e234]: committed
+                - generic [ref=e240]:
+                  - generic [ref=e241]:
+                    - tooltip "View commit details" [ref=e242]:
+                      - link "2d5b508" [ref=e243] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/2d5b5082a4fad676e8d3febe1056d8c660b7d928
+                    - button "Copy full SHA for 2d5b508" [ref=e247] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e251]:
+                    - link "Browse repository at this point" [ref=e252] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/2d5b5082a4fad676e8d3febe1056d8c660b7d928
+              - listitem "More information available below." [ref=e255]:
+                - heading [level=4] [ref=e257]:
+                  - 'link "fix: tracking now maintains proper speed (250-500 range), won''t slow down or orbit boss" [ref=e258] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/3dd8416688a8ddbad54bb80f8ea69d615299f47d
+                - generic [ref=e263]:
+                  - generic [ref=e264]:
+                    - link [ref=e265] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e266]
+                    - link "commits by Frank-sns" [ref=e267] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e268]: committed
+                - generic [ref=e274]:
+                  - generic [ref=e275]:
+                    - tooltip "View commit details" [ref=e276]:
+                      - link "3dd8416" [ref=e277] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/3dd8416688a8ddbad54bb80f8ea69d615299f47d
+                    - button "Copy full SHA for 3dd8416" [ref=e281] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e285]:
+                    - link "Browse repository at this point" [ref=e286] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/3dd8416688a8ddbad54bb80f8ea69d615299f47d
+              - listitem "More information available below." [ref=e289]:
+                - heading [level=4] [ref=e291]:
+                  - 'link "feat: homing projectiles (all bosses), player skins (green/blue/gold glow + buff orbit), per-boss tracking strength" [ref=e292] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/53d99599cf311ed3df7c71de1dac2a0b5434cedc
+                - generic [ref=e297]:
+                  - generic [ref=e298]:
+                    - link [ref=e299] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e300]
+                    - link "commits by Frank-sns" [ref=e301] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e302]: committed
+                - generic [ref=e308]:
+                  - generic [ref=e309]:
+                    - tooltip "View commit details" [ref=e310]:
+                      - link "53d9959" [ref=e311] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/53d99599cf311ed3df7c71de1dac2a0b5434cedc
+                    - button "Copy full SHA for 53d9959" [ref=e315] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e319]:
+                    - link "Browse repository at this point" [ref=e320] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/53d99599cf311ed3df7c71de1dac2a0b5434cedc
+              - listitem "More information available below." [ref=e323]:
+                - heading [level=4] [ref=e325]:
+                  - 'link "feat: 3 new bosses (Void Weaver/Storm Caller/Frost Titan), 12 new attack patterns, longer power-up durations, harder difficulty" [ref=e326] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/ca5d001ad33926cfcbd190b27f315a94013d235b
+                - generic [ref=e331]:
+                  - generic [ref=e332]:
+                    - link [ref=e333] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e334]
+                    - link "commits by Frank-sns" [ref=e335] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e336]: committed
+                - generic [ref=e342]:
+                  - generic [ref=e343]:
+                    - tooltip "View commit details" [ref=e344]:
+                      - link "ca5d001" [ref=e345] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/ca5d001ad33926cfcbd190b27f315a94013d235b
+                    - button "Copy full SHA for ca5d001" [ref=e349] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e353]:
+                    - link "Browse repository at this point" [ref=e354] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/ca5d001ad33926cfcbd190b27f315a94013d235b
+              - listitem "More information available below." [ref=e357]:
+                - heading [level=4] [ref=e359]:
+                  - 'link "feat: add crosshair + aim line from player to mouse for visual aiming feedback" [ref=e360] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/80ae645c653ad60d91ab1a68890ea83c75634531
+                - generic [ref=e365]:
+                  - generic [ref=e366]:
+                    - link [ref=e367] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e368]
+                    - link "commits by Frank-sns" [ref=e369] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e370]: committed
+                - generic [ref=e376]:
+                  - generic [ref=e377]:
+                    - tooltip "View commit details" [ref=e378]:
+                      - link "80ae645" [ref=e379] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/80ae645c653ad60d91ab1a68890ea83c75634531
+                    - button "Copy full SHA for 80ae645" [ref=e383] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e387]:
+                    - link "Browse repository at this point" [ref=e388] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/80ae645c653ad60d91ab1a68890ea83c75634531
+              - listitem "More information available below." [ref=e391]:
+                - heading [level=4] [ref=e393]:
+                  - 'link "fix: PlayerProjectile now moves in both x and y directions" [ref=e394] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/011bf67e18eec7fb4d7425eb19d81df056627635
+                - generic [ref=e399]:
+                  - generic [ref=e400]:
+                    - link [ref=e401] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e402]
+                    - link "commits by Frank-sns" [ref=e403] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e404]: committed
+                - generic [ref=e410]:
+                  - generic [ref=e411]:
+                    - tooltip "View commit details" [ref=e412]:
+                      - link "011bf67" [ref=e413] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/011bf67e18eec7fb4d7425eb19d81df056627635
+                    - button "Copy full SHA for 011bf67" [ref=e417] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e421]:
+                    - link "Browse repository at this point" [ref=e422] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/011bf67e18eec7fb4d7425eb19d81df056627635
+              - listitem "More information available below." [ref=e425]:
+                - heading [level=4] [ref=e427]:
+                  - 'link "fix: move clickQueue declaration before initGame call to prevent TDZ error" [ref=e428] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/d2ab34a6198332c79e207081458b3afbf1ad4ce6
+                - generic [ref=e433]:
+                  - generic [ref=e434]:
+                    - link [ref=e435] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e436]
+                    - link "commits by Frank-sns" [ref=e437] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e438]: committed
+                - generic [ref=e444]:
+                  - generic [ref=e445]:
+                    - tooltip "View commit details" [ref=e446]:
+                      - link "d2ab34a" [ref=e447] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/d2ab34a6198332c79e207081458b3afbf1ad4ce6
+                    - button "Copy full SHA for d2ab34a" [ref=e451] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e455]:
+                    - link "Browse repository at this point" [ref=e456] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/d2ab34a6198332c79e207081458b3afbf1ad4ce6
+              - listitem "More information available below." [ref=e459]:
+                - heading [level=4] [ref=e461]:
+                  - 'link "fix: click queue ensures every mouse click fires a shot, even between frames" [ref=e462] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/89436eecb778731b6b5a1662817853b843829666
+                - generic [ref=e467]:
+                  - generic [ref=e468]:
+                    - link [ref=e469] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e470]
+                    - link "commits by Frank-sns" [ref=e471] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e472]: committed
+                - generic [ref=e478]:
+                  - generic [ref=e479]:
+                    - tooltip "View commit details" [ref=e480]:
+                      - link "89436ee" [ref=e481] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/89436eecb778731b6b5a1662817853b843829666
+                    - button "Copy full SHA for 89436ee" [ref=e485] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e489]:
+                    - link "Browse repository at this point" [ref=e490] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/89436eecb778731b6b5a1662817853b843829666
+              - listitem "More information available below." [ref=e493]:
+                - heading [level=4] [ref=e495]:
+                  - 'link "fix: use direct vector math for bullet direction, fix canvas coordinate scaling" [ref=e496] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/436be56c8c1b75a066790efdd85e2a88b95a937c
+                - generic [ref=e501]:
+                  - generic [ref=e502]:
+                    - link [ref=e503] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e504]
+                    - link "commits by Frank-sns" [ref=e505] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e506]: committed
+                - generic [ref=e512]:
+                  - generic [ref=e513]:
+                    - tooltip "View commit details" [ref=e514]:
+                      - link "436be56" [ref=e515] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/436be56c8c1b75a066790efdd85e2a88b95a937c
+                    - button "Copy full SHA for 436be56" [ref=e519] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e523]:
+                    - link "Browse repository at this point" [ref=e524] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/436be56c8c1b75a066790efdd85e2a88b95a937c
+              - listitem "More information available below." [ref=e527]:
+                - heading [level=4] [ref=e529]:
+                  - 'link "fix: mouse coordinates now canvas-relative, bullets fire toward click position" [ref=e530] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/e87db46e6b25cf37e830badfc1e6f3eae4564c37
+                - generic [ref=e535]:
+                  - generic [ref=e536]:
+                    - link [ref=e537] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e538]
+                    - link "commits by Frank-sns" [ref=e539] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e540]: committed
+                - generic [ref=e546]:
+                  - generic [ref=e547]:
+                    - tooltip "View commit details" [ref=e548]:
+                      - link "e87db46" [ref=e549] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/e87db46e6b25cf37e830badfc1e6f3eae4564c37
+                    - button "Copy full SHA for e87db46" [ref=e553] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e557]:
+                    - link "Browse repository at this point" [ref=e558] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/e87db46e6b25cf37e830badfc1e6f3eae4564c37
+              - listitem "More information available below." [ref=e561]:
+                - heading [level=4] [ref=e563]:
+                  - 'link "feat: mouse aim + click to shoot, remove arrow key aim system" [ref=e564] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/d5030a3bfdea2d7d8c4a326c8ca9ee62eda89574
+                - generic [ref=e569]:
+                  - generic [ref=e570]:
+                    - link [ref=e571] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e572]
+                    - link "commits by Frank-sns" [ref=e573] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e574]: committed
+                - generic [ref=e580]:
+                  - generic [ref=e581]:
+                    - tooltip "View commit details" [ref=e582]:
+                      - link "d5030a3" [ref=e583] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/d5030a3bfdea2d7d8c4a326c8ca9ee62eda89574
+                    - button "Copy full SHA for d5030a3" [ref=e587] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e591]:
+                    - link "Browse repository at this point" [ref=e592] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/d5030a3bfdea2d7d8c4a326c8ca9ee62eda89574
+              - listitem "More information available below." [ref=e595]:
+                - heading [level=4] [ref=e597]:
+                  - 'link "feat: left mouse click to shoot, remove block cooldown" [ref=e598] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/544f068b444305190a335b6007ea63234ef4e214
+                - generic [ref=e603]:
+                  - generic [ref=e604]:
+                    - link [ref=e605] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e606]
+                    - link "commits by Frank-sns" [ref=e607] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e608]: committed
+                - generic [ref=e614]:
+                  - generic [ref=e615]:
+                    - tooltip "View commit details" [ref=e616]:
+                      - link "544f068" [ref=e617] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/544f068b444305190a335b6007ea63234ef4e214
+                    - button "Copy full SHA for 544f068" [ref=e621] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e625]:
+                    - link "Browse repository at this point" [ref=e626] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/544f068b444305190a335b6007ea63234ef4e214
+              - listitem "More information available below." [ref=e629]:
+                - heading [level=4] [ref=e631]:
+                  - 'link "feat: W jump, E shoot aimable, Space block, procedural BGM per boss, aim indicator, block shield" [ref=e632] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/bd8d224c04aab1d060020bb8ff3b95bc3c555c7a
+                - generic [ref=e637]:
+                  - generic [ref=e638]:
+                    - link [ref=e639] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e640]
+                    - link "commits by Frank-sns" [ref=e641] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e642]: committed
+                - generic [ref=e648]:
+                  - generic [ref=e649]:
+                    - tooltip "View commit details" [ref=e650]:
+                      - link "bd8d224" [ref=e651] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/bd8d224c04aab1d060020bb8ff3b95bc3c555c7a
+                    - button "Copy full SHA for bd8d224" [ref=e655] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e659]:
+                    - link "Browse repository at this point" [ref=e660] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/bd8d224c04aab1d060020bb8ff3b95bc3c555c7a
+              - listitem "More information available below." [ref=e663]:
+                - heading [level=4] [ref=e665]:
+                  - 'link "balance: HP 3→6, max energy 100→150, energy regen 3→8/s" [ref=e666] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/168f4d0164bccd8d760a23641d68dc757cb020ab
+                - generic [ref=e671]:
+                  - generic [ref=e672]:
+                    - link [ref=e673] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e674]
+                    - link "commits by Frank-sns" [ref=e675] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e676]: committed
+                - generic [ref=e682]:
+                  - generic [ref=e683]:
+                    - tooltip "View commit details" [ref=e684]:
+                      - link "168f4d0" [ref=e685] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/168f4d0164bccd8d760a23641d68dc757cb020ab
+                    - button "Copy full SHA for 168f4d0" [ref=e689] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e693]:
+                    - link "Browse repository at this point" [ref=e694] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/168f4d0164bccd8d760a23641d68dc757cb020ab
+              - listitem "More information available below." [ref=e697]:
+                - heading [level=4] [ref=e699]:
+                  - 'link "fix: remove deploy section from landing page" [ref=e700] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/5406e8148536fcd2f62232770ef9228473fd95f3
+                - generic [ref=e705]:
+                  - generic [ref=e706]:
+                    - link [ref=e707] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e708]
+                    - link "commits by Frank-sns" [ref=e709] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e710]: committed
+                - generic [ref=e716]:
+                  - generic [ref=e717]:
+                    - tooltip "View commit details" [ref=e718]:
+                      - link "5406e81" [ref=e719] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/5406e8148536fcd2f62232770ef9228473fd95f3
+                    - button "Copy full SHA for 5406e81" [ref=e723] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e727]:
+                    - link "Browse repository at this point" [ref=e728] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/5406e8148536fcd2f62232770ef9228473fd95f3
+              - listitem "More information available below." [ref=e731]:
+                - heading [level=4] [ref=e733]:
+                  - 'link "feat: add WeChat/Alipay QR codes" [ref=e734] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/87ad261ad50eb8e658369ed814d743d1d9f03b5e
+                - generic [ref=e739]:
+                  - generic [ref=e740]:
+                    - link [ref=e741] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e742]
+                    - link "commits by Frank-sns" [ref=e743] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e744]: committed
+                - generic [ref=e750]:
+                  - generic [ref=e751]:
+                    - tooltip "View commit details" [ref=e752]:
+                      - link "87ad261" [ref=e753] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/87ad261ad50eb8e658369ed814d743d1d9f03b5e
+                    - button "Copy full SHA for 87ad261" [ref=e757] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e761]:
+                    - link "Browse repository at this point" [ref=e762] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/87ad261ad50eb8e658369ed814d743d1d9f03b5e
+              - listitem "More information available below." [ref=e765]:
+                - heading [level=4] [ref=e767]:
+                  - 'link "feat: add marketing landing page, donation footer, and GitHub Pages deploy guide" [ref=e768] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/faf3f83a4ff90c46c54b7cad40c1059b54a36508
+                - generic [ref=e773]:
+                  - generic [ref=e774]:
+                    - link [ref=e775] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e776]
+                    - link "commits by Frank-sns" [ref=e777] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e778]: committed
+                - generic [ref=e784]:
+                  - generic [ref=e785]:
+                    - tooltip "View commit details" [ref=e786]:
+                      - link "faf3f83" [ref=e787] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/faf3f83a4ff90c46c54b7cad40c1059b54a36508
+                    - button "Copy full SHA for faf3f83" [ref=e791] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e795]:
+                    - link "Browse repository at this point" [ref=e796] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/faf3f83a4ff90c46c54b7cad40c1059b54a36508
+              - listitem "More information available below." [ref=e799]:
+                - heading [level=4] [ref=e801]:
+                  - 'link "feat: fix boss entry bug, add energy system (bar/block/orb), free boss movement, bigger projectiles, post-boss buffs" [ref=e802] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/190644c2c7a6455dbd84fc6a5536c9fdafa3b78e
+                - generic [ref=e807]:
+                  - generic [ref=e808]:
+                    - link [ref=e809] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e810]
+                    - link "commits by Frank-sns" [ref=e811] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e812]: committed
+                - generic [ref=e818]:
+                  - generic [ref=e819]:
+                    - tooltip "View commit details" [ref=e820]:
+                      - link "190644c" [ref=e821] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/190644c2c7a6455dbd84fc6a5536c9fdafa3b78e
+                    - button "Copy full SHA for 190644c" [ref=e825] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e829]:
+                    - link "Browse repository at this point" [ref=e830] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/190644c2c7a6455dbd84fc6a5536c9fdafa3b78e
+              - listitem "More information available below." [ref=e833]:
+                - heading [level=4] [ref=e835]:
+                  - 'link "feat: 5 boss types (Warden/BeamLord/MineDeployer/Summoner/Berserker), stage system, unique attack patterns, entry effects" [ref=e836] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/2d86e80c1feef7ac4ad6e4fd34bc9344111ed08a
+                - generic [ref=e841]:
+                  - generic [ref=e842]:
+                    - link [ref=e843] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e844]
+                    - link "commits by Frank-sns" [ref=e845] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e846]: committed
+                - generic [ref=e852]:
+                  - generic [ref=e853]:
+                    - tooltip "View commit details" [ref=e854]:
+                      - link "2d86e80" [ref=e855] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/2d86e80c1feef7ac4ad6e4fd34bc9344111ed08a
+                    - button "Copy full SHA for 2d86e80" [ref=e859] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e863]:
+                    - link "Browse repository at this point" [ref=e864] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/2d86e80c1feef7ac4ad6e4fd34bc9344111ed08a
+              - listitem "More information available below." [ref=e867]:
+                - heading [level=4] [ref=e869]:
+                  - 'link "feat: player HP system (3 hearts), destructible obstacles, boss slowdown, energy orbs (3 levels), health packs" [ref=e870] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/0b596e4631d649545786a06d185012c723d9bc64
+                - generic [ref=e875]:
+                  - generic [ref=e876]:
+                    - link [ref=e877] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e878]
+                    - link "commits by Frank-sns" [ref=e879] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e880]: committed
+                - generic [ref=e886]:
+                  - generic [ref=e887]:
+                    - tooltip "View commit details" [ref=e888]:
+                      - link "0b596e4" [ref=e889] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/0b596e4631d649545786a06d185012c723d9bc64
+                    - button "Copy full SHA for 0b596e4" [ref=e893] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e897]:
+                    - link "Browse repository at this point" [ref=e898] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/0b596e4631d649545786a06d185012c723d9bc64
+              - listitem "More information available below." [ref=e901]:
+                - heading [level=4] [ref=e903]:
+                  - 'link "change: switch player shooting from Alt to M key, update UI hints" [ref=e904] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/b917b1cd382f687071209ad4bcf3324e000ffea6
+                - generic [ref=e909]:
+                  - generic [ref=e910]:
+                    - link [ref=e911] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e912]
+                    - link "commits by Frank-sns" [ref=e913] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e914]: committed
+                - generic [ref=e920]:
+                  - generic [ref=e921]:
+                    - tooltip "View commit details" [ref=e922]:
+                      - link "b917b1c" [ref=e923] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/b917b1cd382f687071209ad4bcf3324e000ffea6
+                    - button "Copy full SHA for b917b1c" [ref=e927] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e931]:
+                    - link "Browse repository at this point" [ref=e932] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/b917b1cd382f687071209ad4bcf3324e000ffea6
+              - listitem "More information available below." [ref=e935]:
+                - heading [level=4] [ref=e937]:
+                  - 'link "feat: add boss system with projectiles, Alt key shooting, and stage progression" [ref=e938] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/5996ce3a6b3641396c94ee7d6523f6b3f8b82b6c
+                - generic [ref=e943]:
+                  - generic [ref=e944]:
+                    - link [ref=e945] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e946]
+                    - link "commits by Frank-sns" [ref=e947] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e948]: committed
+                - generic [ref=e954]:
+                  - generic [ref=e955]:
+                    - tooltip "View commit details" [ref=e956]:
+                      - link "5996ce3" [ref=e957] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/5996ce3a6b3641396c94ee7d6523f6b3f8b82b6c
+                    - button "Copy full SHA for 5996ce3" [ref=e961] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e965]:
+                    - link "Browse repository at this point" [ref=e966] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/5996ce3a6b3641396c94ee7d6523f6b3f8b82b6c
+              - listitem "More information available below." [ref=e969]:
+                - heading [level=4] [ref=e971]:
+                  - 'link "feat: add mid-air and high-air obstacles with score-based difficulty progression" [ref=e972] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/7d88bcbea1c20477dbbf3ff25a6e1543f3b9e7e2
+                - generic [ref=e977]:
+                  - generic [ref=e978]:
+                    - link [ref=e979] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e980]
+                    - link "commits by Frank-sns" [ref=e981] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e982]: committed
+                - generic [ref=e988]:
+                  - generic [ref=e989]:
+                    - tooltip "View commit details" [ref=e990]:
+                      - link "7d88bcb" [ref=e991] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/7d88bcbea1c20477dbbf3ff25a6e1543f3b9e7e2
+                    - button "Copy full SHA for 7d88bcb" [ref=e995] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e999]:
+                    - link "Browse repository at this point" [ref=e1000] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/7d88bcbea1c20477dbbf3ff25a6e1543f3b9e7e2
+              - listitem "More information available below." [ref=e1003]:
+                - heading [level=4] [ref=e1005]:
+                  - 'link "fix: swap jump/double-jump sounds and limit preventDefault to game keys" [ref=e1006] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/66f3740f1525e0225088bdc2d816cc0403b1d04e
+                - generic [ref=e1011]:
+                  - generic [ref=e1012]:
+                    - link [ref=e1013] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1014]
+                    - link "commits by Frank-sns" [ref=e1015] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1016]: committed
+                - generic [ref=e1022]:
+                  - generic [ref=e1023]:
+                    - tooltip "View commit details" [ref=e1024]:
+                      - link "66f3740" [ref=e1025] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/66f3740f1525e0225088bdc2d816cc0403b1d04e
+                    - button "Copy full SHA for 66f3740" [ref=e1029] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1033]:
+                    - link "Browse repository at this point" [ref=e1034] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/66f3740f1525e0225088bdc2d816cc0403b1d04e
+              - listitem "More information available below." [ref=e1037]:
+                - heading [level=4] [ref=e1039]:
+                  - 'link "Task 8: Final polish — resize handling and mobile detection" [ref=e1040] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/035ad914f569b9f3d3392975d45f3bf2fded80bc
+                - generic [ref=e1045]:
+                  - generic [ref=e1046]:
+                    - link [ref=e1047] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1048]
+                    - link "commits by Frank-sns" [ref=e1049] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1050]: committed
+                - generic [ref=e1056]:
+                  - generic [ref=e1057]:
+                    - tooltip "View commit details" [ref=e1058]:
+                      - link "035ad91" [ref=e1059] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/035ad914f569b9f3d3392975d45f3bf2fded80bc
+                    - button "Copy full SHA for 035ad91" [ref=e1063] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1067]:
+                    - link "Browse repository at this point" [ref=e1068] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/035ad914f569b9f3d3392975d45f3bf2fded80bc
+              - listitem "More information available below." [ref=e1071]:
+                - heading [level=4] [ref=e1073]:
+                  - 'link "Task 7: Sound effects with Web Audio API" [ref=e1074] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/2435c139fc2b7eee75883a12613d5ee2c7c7c6a0
+                - generic [ref=e1079]:
+                  - generic [ref=e1080]:
+                    - link [ref=e1081] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1082]
+                    - link "commits by Frank-sns" [ref=e1083] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1084]: committed
+                - generic [ref=e1090]:
+                  - generic [ref=e1091]:
+                    - tooltip "View commit details" [ref=e1092]:
+                      - link "2435c13" [ref=e1093] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/2435c139fc2b7eee75883a12613d5ee2c7c7c6a0
+                    - button "Copy full SHA for 2435c13" [ref=e1097] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1101]:
+                    - link "Browse repository at this point" [ref=e1102] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/2435c139fc2b7eee75883a12613d5ee2c7c7c6a0
+              - listitem "More information available below." [ref=e1105]:
+                - heading [level=4] [ref=e1107]:
+                  - 'link "Task 6: Visual effects — particles, city lights, moving ground grid" [ref=e1108] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/e1bdad7caf1ca9b9b415f00b54a4f3d7df607e45
+                - generic [ref=e1113]:
+                  - generic [ref=e1114]:
+                    - link [ref=e1115] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1116]
+                    - link "commits by Frank-sns" [ref=e1117] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1118]: committed
+                - generic [ref=e1124]:
+                  - generic [ref=e1125]:
+                    - tooltip "View commit details" [ref=e1126]:
+                      - link "e1bdad7" [ref=e1127] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/e1bdad7caf1ca9b9b415f00b54a4f3d7df607e45
+                    - button "Copy full SHA for e1bdad7" [ref=e1131] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1135]:
+                    - link "Browse repository at this point" [ref=e1136] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/e1bdad7caf1ca9b9b415f00b54a4f3d7df607e45
+              - listitem "More information available below." [ref=e1139]:
+                - heading [level=4] [ref=e1141]:
+                  - 'link "Task 5: Score display and difficulty scaling" [ref=e1142] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/aeffe99657a41c45b2aba874f8fce93bf0619e6f
+                - generic [ref=e1147]:
+                  - generic [ref=e1148]:
+                    - link [ref=e1149] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1150]
+                    - link "commits by Frank-sns" [ref=e1151] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1152]: committed
+                - generic [ref=e1158]:
+                  - generic [ref=e1159]:
+                    - tooltip "View commit details" [ref=e1160]:
+                      - link "aeffe99" [ref=e1161] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/aeffe99657a41c45b2aba874f8fce93bf0619e6f
+                    - button "Copy full SHA for aeffe99" [ref=e1165] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1169]:
+                    - link "Browse repository at this point" [ref=e1170] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/aeffe99657a41c45b2aba874f8fce93bf0619e6f
+              - listitem "More information available below." [ref=e1173]:
+                - heading [level=4] [ref=e1175]:
+                  - 'link "Task 4: Collision detection and game-over logic" [ref=e1176] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/c6f896d18ca36d1d12566440ce10d0662624a9fa
+                - generic [ref=e1181]:
+                  - generic [ref=e1182]:
+                    - link [ref=e1183] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1184]
+                    - link "commits by Frank-sns" [ref=e1185] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1186]: committed
+                - generic [ref=e1192]:
+                  - generic [ref=e1193]:
+                    - tooltip "View commit details" [ref=e1194]:
+                      - link "c6f896d" [ref=e1195] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/c6f896d18ca36d1d12566440ce10d0662624a9fa
+                    - button "Copy full SHA for c6f896d" [ref=e1199] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1203]:
+                    - link "Browse repository at this point" [ref=e1204] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/c6f896d18ca36d1d12566440ce10d0662624a9fa
+              - listitem "More information available below." [ref=e1207]:
+                - heading [level=4] [ref=e1209]:
+                  - 'link "Task 3: Obstacle class with spawning and rendering" [ref=e1210] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/de68ce5853acc0cac4157fc400a6b1132f8c3e54
+                - generic [ref=e1215]:
+                  - generic [ref=e1216]:
+                    - link [ref=e1217] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1218]
+                    - link "commits by Frank-sns" [ref=e1219] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1220]: committed
+                - generic [ref=e1226]:
+                  - generic [ref=e1227]:
+                    - tooltip "View commit details" [ref=e1228]:
+                      - link "de68ce5" [ref=e1229] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/de68ce5853acc0cac4157fc400a6b1132f8c3e54
+                    - button "Copy full SHA for de68ce5" [ref=e1233] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1237]:
+                    - link "Browse repository at this point" [ref=e1238] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/de68ce5853acc0cac4157fc400a6b1132f8c3e54
+              - listitem "More information available below." [ref=e1241]:
+                - heading [level=4] [ref=e1243]:
+                  - 'link "Task 2: Game loop with Player class and jump physics" [ref=e1244] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/a6d25b153a7ab3f56797b4ca5c0e7162b7a541c5
+                - generic [ref=e1249]:
+                  - generic [ref=e1250]:
+                    - link [ref=e1251] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1252]
+                    - link "commits by Frank-sns" [ref=e1253] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1254]: committed
+                - generic [ref=e1260]:
+                  - generic [ref=e1261]:
+                    - tooltip "View commit details" [ref=e1262]:
+                      - link "a6d25b1" [ref=e1263] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/a6d25b153a7ab3f56797b4ca5c0e7162b7a541c5
+                    - button "Copy full SHA for a6d25b1" [ref=e1267] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1271]:
+                    - link "Browse repository at this point" [ref=e1272] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/a6d25b153a7ab3f56797b4ca5c0e7162b7a541c5
+              - listitem "More information available below." [ref=e1275]:
+                - heading [level=4] [ref=e1277]:
+                  - 'link "Task 1: HTML skeleton with Canvas initialization" [ref=e1278] [cursor=pointer]':
+                    - /url: /Frank-sns/neon-abyss/commit/50f75b338b6eb81818d0bda40740f9f702fb1f1a
+                - generic [ref=e1283]:
+                  - generic [ref=e1284]:
+                    - link [ref=e1285] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1286]
+                    - link "commits by Frank-sns" [ref=e1287] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1288]: committed
+                - generic [ref=e1294]:
+                  - generic [ref=e1295]:
+                    - tooltip "View commit details" [ref=e1296]:
+                      - link "50f75b3" [ref=e1297] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/50f75b338b6eb81818d0bda40740f9f702fb1f1a
+                    - button "Copy full SHA for 50f75b3" [ref=e1301] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1305]:
+                    - link "Browse repository at this point" [ref=e1306] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/50f75b338b6eb81818d0bda40740f9f702fb1f1a
+              - listitem "More information available below." [ref=e1309]:
+                - heading [level=4] [ref=e1311]:
+                  - link "Initial commit" [ref=e1312] [cursor=pointer]:
+                    - /url: /Frank-sns/neon-abyss/commit/c3760fee6404e201921c7c6ad5afd08c7351a2f1
+                - generic [ref=e1317]:
+                  - generic [ref=e1318]:
+                    - link [ref=e1319] [cursor=pointer]:
+                      - /url: /Frank-sns
+                      - img "Frank-sns" [ref=e1320]
+                    - link "commits by Frank-sns" [ref=e1321] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/commits?author=Frank-sns
+                      - text: Frank-sns
+                  - generic [ref=e1322]: committed
+                - generic [ref=e1328]:
+                  - generic [ref=e1329]:
+                    - tooltip "View commit details" [ref=e1330]:
+                      - link "c3760fe" [ref=e1331] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/commit/c3760fee6404e201921c7c6ad5afd08c7351a2f1
+                    - button "Copy full SHA for c3760fe" [ref=e1335] [cursor=pointer]
+                  - tooltip "Browse repository at this point" [ref=e1339]:
+                    - link "Browse repository at this point" [ref=e1340] [cursor=pointer]:
+                      - /url: /Frank-sns/neon-abyss/tree/c3760fee6404e201921c7c6ad5afd08c7351a2f1
+  - contentinfo [ref=e1343]:
+    - heading "Footer" [level=2] [ref=e1344]
+    - generic [ref=e1345]:
+      - generic [ref=e1346]:
+        - link "GitHub Homepage" [ref=e1347] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=e1350]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=e1351]:
+        - heading "Footer navigation" [level=3] [ref=e1352]
+        - list "Footer navigation" [ref=e1353]:
+          - listitem [ref=e1354]:
+            - link "Terms" [ref=e1355] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=e1356]:
+            - link "Privacy" [ref=e1357] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=e1358]:
+            - link "Security" [ref=e1359] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=e1360]:
+            - link "Status" [ref=e1361] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=e1362]:
+            - link "Community" [ref=e1363] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=e1364]:
+            - link "Docs" [ref=e1365] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=e1366]:
+            - link "Contact" [ref=e1367] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=e1368]:
+            - button "Manage cookies" [ref=e1370] [cursor=pointer]
+          - listitem [ref=e1371]:
+            - button "Do not share my personal information" [ref=e1373] [cursor=pointer]

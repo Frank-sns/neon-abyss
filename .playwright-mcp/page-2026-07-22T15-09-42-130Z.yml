@@ -1,0 +1,533 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - generic [ref=e53]: Search or jump to...
+            - link "Sign in" [ref=e59] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2FFrank-sns%2Fneon-abyss
+            - link "Sign up" [ref=e60] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=Frank-sns%2Fneon-abyss
+            - button "Appearance settings" [ref=e63] [cursor=pointer]
+  - main [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e71]:
+          - link "Frank-sns" [ref=e75] [cursor=pointer]:
+            - /url: /Frank-sns
+          - generic [ref=e76]: /
+          - strong [ref=e77]:
+            - link "neon-abyss" [ref=e78] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss
+          - generic [ref=e79]: Public
+        - generic [ref=e80]:
+          - list:
+            - listitem [ref=e81]:
+              - link "You must be signed in to change notification settings" [ref=e82] [cursor=pointer]:
+                - /url: /login?return_to=%2FFrank-sns%2Fneon-abyss
+                - text: Notifications
+            - listitem [ref=e85]:
+              - link "Fork 0" [ref=e86] [cursor=pointer]:
+                - /url: /login?return_to=%2FFrank-sns%2Fneon-abyss
+                - text: Fork
+                - generic "0" [ref=e89]
+            - listitem [ref=e90]:
+              - link "You must be signed in to star a repository" [ref=e92] [cursor=pointer]:
+                - /url: /login?return_to=%2FFrank-sns%2Fneon-abyss
+                - text: Star
+                - generic "0 users starred this repository" [ref=e95]: "0"
+      - navigation "Repository" [ref=e96]:
+        - list [ref=e97]:
+          - listitem [ref=e98]:
+            - link "Code" [ref=e99] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss
+          - listitem [ref=e103]:
+            - link "Issues" [ref=e104] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/issues
+          - listitem [ref=e109]:
+            - link "Pull requests" [ref=e110] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/pulls
+          - listitem [ref=e114]:
+            - link "Actions" [ref=e115] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/actions
+          - listitem [ref=e119]:
+            - link "Projects" [ref=e120] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/projects
+          - listitem [ref=e124]:
+            - link "Security and quality" [ref=e125] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/security
+          - listitem [ref=e129]:
+            - link "Insights" [ref=e130] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/pulse
+    - generic [ref=e146]:
+      - heading "Frank-sns/neon-abyss" [level=1] [ref=e148]
+      - generic [ref=e149]:
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - button "main branch" [ref=e156] [cursor=pointer]:
+                - generic [ref=e157]: main
+              - generic [ref=e165]:
+                - link "Branches" [ref=e166] [cursor=pointer]:
+                  - /url: /Frank-sns/neon-abyss/branches
+                - link "Tags" [ref=e169] [cursor=pointer]:
+                  - /url: /Frank-sns/neon-abyss/tags
+            - generic [ref=e172]:
+              - combobox "Go to file" [ref=e180]
+              - button "Code" [ref=e181] [cursor=pointer]
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - heading "Folders and files" [level=2] [ref=e186]
+              - table "Folders and files" [ref=e187]:
+                - rowgroup:
+                  - row "Name Last commit message Last commit date":
+                    - columnheader "Name"
+                    - columnheader "Last commit message"
+                    - columnheader "Last commit date"
+                - rowgroup [ref=e188]:
+                  - row [ref=e189]:
+                    - cell "Latest commit History 34 Commits" [ref=e190]:
+                      - generic [ref=e191]:
+                        - heading "Latest commit" [level=2] [ref=e192]
+                        - generic [ref=e195]:
+                          - heading "History" [level=2] [ref=e196]
+                          - link "34 Commits" [ref=e197] [cursor=pointer]:
+                            - /url: /Frank-sns/neon-abyss/commits/main/
+                  - row ".playwright-mcp, (Directory)" [ref=e200]:
+                    - cell [ref=e201]:
+                      - link ".playwright-mcp, (Directory)" [ref=e208] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/tree/main/.playwright-mcp
+                        - text: .playwright-mcp
+                    - cell [ref=e209]
+                    - cell [ref=e211]
+                  - row ".superpowers/sdd, (Directory)" [ref=e214]:
+                    - cell [ref=e215]:
+                      - link ".superpowers/sdd, (Directory)" [ref=e222] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/tree/main/.superpowers/sdd
+                        - text: .superpowers/sdd
+                    - cell [ref=e223]
+                    - cell [ref=e225]
+                  - row ".vscode, (Directory)" [ref=e228]:
+                    - cell [ref=e229]:
+                      - link ".vscode, (Directory)" [ref=e236] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/tree/main/.vscode
+                        - text: .vscode
+                    - cell [ref=e237]
+                    - cell [ref=e239]
+                  - row "docs/superpowers, (Directory)" [ref=e242]:
+                    - cell [ref=e243]:
+                      - link "docs/superpowers, (Directory)" [ref=e250] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/tree/main/docs/superpowers
+                        - text: docs/superpowers
+                    - cell [ref=e251]
+                    - cell [ref=e253]
+                  - row "node_modules, (Directory)" [ref=e256]:
+                    - cell [ref=e257]:
+                      - link "node_modules, (Directory)" [ref=e264] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/tree/main/node_modules
+                        - text: node_modules
+                    - cell [ref=e265]
+                    - cell [ref=e267]
+                  - row "AI学习实施计划表.docx, (File)" [ref=e270]:
+                    - cell [ref=e271]:
+                      - link "AI学习实施计划表.docx, (File)" [ref=e278] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/AI%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%96%BD%E8%AE%A1%E5%88%92%E8%A1%A8.docx
+                        - text: AI学习实施计划表.docx
+                    - cell [ref=e279]
+                    - cell [ref=e281]
+                  - row "AI学习实施计划表.md, (File)" [ref=e284]:
+                    - cell [ref=e285]:
+                      - link "AI学习实施计划表.md, (File)" [ref=e292] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/AI%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%96%BD%E8%AE%A1%E5%88%92%E8%A1%A8.md
+                        - text: AI学习实施计划表.md
+                    - cell [ref=e293]
+                    - cell [ref=e295]
+                  - row "README.md, (File)" [ref=e298]:
+                    - cell [ref=e299]:
+                      - link "README.md, (File)" [ref=e306] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/README.md
+                        - text: README.md
+                    - cell [ref=e307]
+                    - cell [ref=e309]
+                  - row "alipay.jpg, (File)" [ref=e312]:
+                    - cell [ref=e313]:
+                      - link "alipay.jpg, (File)" [ref=e320] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/alipay.jpg
+                        - text: alipay.jpg
+                    - cell [ref=e321]
+                    - cell [ref=e323]
+                  - row "boss-test.png, (File)" [ref=e326]:
+                    - cell [ref=e327]:
+                      - link "boss-test.png, (File)" [ref=e334] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/boss-test.png
+                        - text: boss-test.png
+                    - cell [ref=e335]
+                    - cell [ref=e337]
+                  - row "generate_docx.js, (File)" [ref=e340]:
+                    - cell [ref=e341]:
+                      - link "generate_docx.js, (File)" [ref=e348] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/generate_docx.js
+                        - text: generate_docx.js
+                    - cell [ref=e349]
+                    - cell [ref=e351]
+                  - row "index.html, (File)" [ref=e354]:
+                    - cell [ref=e355]:
+                      - link "index.html, (File)" [ref=e362] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/index.html
+                        - text: index.html
+                    - cell [ref=e363]
+                    - cell [ref=e365]
+                  - row "package-lock.json, (File)" [ref=e368]:
+                    - cell [ref=e369]:
+                      - link "package-lock.json, (File)" [ref=e376] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/package-lock.json
+                        - text: package-lock.json
+                    - cell [ref=e377]
+                    - cell [ref=e379]
+                  - row "package.json, (File)" [ref=e382]:
+                    - cell [ref=e383]:
+                      - link "package.json, (File)" [ref=e390] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/package.json
+                        - text: package.json
+                    - cell [ref=e391]
+                    - cell [ref=e393]
+                  - row "rhythm_jumper.html, (File)" [ref=e396]:
+                    - cell [ref=e397]:
+                      - link "rhythm_jumper.html, (File)" [ref=e404] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/rhythm_jumper.html
+                        - text: rhythm_jumper.html
+                    - cell [ref=e405]
+                    - cell [ref=e407]
+                  - row "wechat.jpg, (File)" [ref=e410]:
+                    - cell [ref=e411]:
+                      - link "wechat.jpg, (File)" [ref=e418] [cursor=pointer]:
+                        - /url: /Frank-sns/neon-abyss/blob/main/wechat.jpg
+                        - text: wechat.jpg
+                    - cell [ref=e419]
+                    - cell [ref=e421]
+            - generic [ref=e425]:
+              - generic [ref=e426]:
+                - heading "Repository files navigation" [level=2] [ref=e427]
+                - navigation "Repository files" [ref=e428]:
+                  - list [ref=e429]:
+                    - listitem [ref=e430]:
+                      - link "README" [ref=e431] [cursor=pointer]:
+                        - /url: "#"
+                - button "Outline" [ref=e433] [cursor=pointer]
+              - article [ref=e437]:
+                - generic [ref=e438]:
+                  - heading "🎮 Neon Abyss — 霓虹深渊" [level=1] [ref=e439]
+                  - 'link "Permalink: 🎮 Neon Abyss — 霓虹深渊" [ref=e440] [cursor=pointer]':
+                    - /url: "#-neon-abyss--霓虹深渊"
+                - blockquote [ref=e443]:
+                  - paragraph [ref=e444]: 赛博朋克 Boss Rush 射击游戏 | 纯 HTML/JS | 零依赖 | 开源免费
+                - generic [ref=e445]:
+                  - heading "🚀 快速部署到 GitHub Pages（免费）" [level=2] [ref=e446]
+                  - 'link "Permalink: 🚀 快速部署到 GitHub Pages（免费）" [ref=e447] [cursor=pointer]':
+                    - /url: "#-快速部署到-github-pages免费"
+                - generic [ref=e450]:
+                  - heading "第 1 步：创建 GitHub 仓库" [level=3] [ref=e451]
+                  - 'link "Permalink: 第 1 步：创建 GitHub 仓库" [ref=e452] [cursor=pointer]':
+                    - /url: "#第-1-步创建-github-仓库"
+                - list [ref=e455]:
+                  - listitem [ref=e456]:
+                    - text: 登录
+                    - link "GitHub" [ref=e457] [cursor=pointer]:
+                      - /url: https://github.com
+                    - text: （没有账号的话免费注册一个）
+                  - listitem [ref=e458]:
+                    - text: 点击右上角
+                    - strong [ref=e459]: +
+                    - text: →
+                    - strong [ref=e460]: New repository
+                  - listitem [ref=e461]:
+                    - text: 仓库名填写：
+                    - code [ref=e462]: neon-abyss
+                    - text: （或任意名字）
+                  - listitem [ref=e463]:
+                    - text: 选择
+                    - strong [ref=e464]: Public
+                    - text: （公开）
+                  - listitem [ref=e465]:
+                    - text: 点击
+                    - strong [ref=e466]: Create repository
+                - generic [ref=e467]:
+                  - heading "第 2 步：上传文件" [level=3] [ref=e468]
+                  - 'link "Permalink: 第 2 步：上传文件" [ref=e469] [cursor=pointer]':
+                    - /url: "#第-2-步上传文件"
+                - paragraph [ref=e472]:
+                  - strong [ref=e473]: 方法 A — 网页上传（最简单）：
+                - list [ref=e474]:
+                  - listitem [ref=e475]:
+                    - text: 在仓库页面点击
+                    - strong [ref=e476]: uploading an existing file
+                  - listitem [ref=e477]:
+                    - text: 把这两个文件拖进去：
+                    - list [ref=e478]:
+                      - listitem [ref=e479]:
+                        - code [ref=e480]: index.html
+                        - text: （首页/宣传页）
+                      - listitem [ref=e481]:
+                        - code [ref=e482]: rhythm_jumper.html
+                        - text: （游戏本体）
+                  - listitem [ref=e483]:
+                    - text: 点击
+                    - strong [ref=e484]: Commit changes
+                - paragraph [ref=e485]:
+                  - strong [ref=e486]: 方法 B — 命令行（推荐）：
+                - generic [ref=e487]:
+                  - generic [ref=e488]:
+                    - text: git init git add index.html rhythm_jumper.html README.md git commit -m
+                    - generic [ref=e489]: "\"Initial release: Neon Abyss\""
+                    - text: git branch -M main git remote add origin https://github.com/你的用户名/neon-abyss.git git push -u origin main
+                  - button "Copy code to clipboard" [ref=e491] [cursor=pointer]
+                - generic [ref=e495]:
+                  - heading "第 3 步：开启 GitHub Pages" [level=3] [ref=e496]
+                  - 'link "Permalink: 第 3 步：开启 GitHub Pages" [ref=e497] [cursor=pointer]':
+                    - /url: "#第-3-步开启-github-pages"
+                - list [ref=e500]:
+                  - listitem [ref=e501]:
+                    - text: 进入仓库
+                    - strong [ref=e502]: Settings
+                    - text: →
+                    - strong [ref=e503]: Pages
+                  - listitem [ref=e504]:
+                    - strong [ref=e505]: Source
+                    - text: 选择
+                    - code [ref=e506]: Deploy from a branch
+                  - listitem [ref=e507]:
+                    - strong [ref=e508]: Branch
+                    - text: 选择
+                    - code [ref=e509]: main
+                    - text: ，文件夹选
+                    - code [ref=e510]: / (root)
+                  - listitem [ref=e511]:
+                    - text: 点击
+                    - strong [ref=e512]: Save
+                  - listitem [ref=e513]:
+                    - text: 等待 30-60 秒，页面会显示你的网址：
+                    - generic [ref=e514]:
+                      - code [ref=e516]: https://你的用户名.github.io/neon-abyss/
+                      - button "Copy code to clipboard" [ref=e518] [cursor=pointer]
+                - generic [ref=e522]:
+                  - heading "第 4 步：分享赚钱！" [level=3] [ref=e523]
+                  - 'link "Permalink: 第 4 步：分享赚钱！" [ref=e524] [cursor=pointer]':
+                    - /url: "#第-4-步分享赚钱"
+                - paragraph [ref=e527]: 把链接发给朋友、发到社交媒体、游戏论坛！
+                - generic [ref=e528]:
+                  - heading "💰 如何变现" [level=2] [ref=e529]
+                  - 'link "Permalink: 💰 如何变现" [ref=e530] [cursor=pointer]':
+                    - /url: "#-如何变现"
+                - generic [ref=e533]:
+                  - heading "1. 赞赏码（已在首页预留位置）" [level=3] [ref=e534]
+                  - 'link "Permalink: 1. 赞赏码（已在首页预留位置）" [ref=e535] [cursor=pointer]':
+                    - /url: "#1-赞赏码已在首页预留位置"
+                - list [ref=e538]:
+                  - listitem [ref=e539]:
+                    - text: 替换
+                    - code [ref=e540]: index.html
+                    - text: 中
+                    - code [ref=e541]: qr-placeholder
+                    - text: 的微信/支付宝赞赏码图片
+                  - listitem [ref=e542]:
+                    - text: 将二维码图片放到仓库中，然后修改 HTML 中的
+                    - code [ref=e543]: <img>
+                    - text: 标签
+                - generic [ref=e544]:
+                  - heading "2. Buy Me a Coffee" [level=3] [ref=e545]
+                  - 'link "Permalink: 2. Buy Me a Coffee" [ref=e546] [cursor=pointer]':
+                    - /url: "#2-buy-me-a-coffee"
+                - list [ref=e549]:
+                  - listitem [ref=e550]:
+                    - text: 访问
+                    - link "buymeacoffee.com" [ref=e551] [cursor=pointer]:
+                      - /url: https://www.buymeacoffee.com/
+                    - text: 注册
+                  - listitem [ref=e552]: 将首页中的链接替换为你的个人链接
+                - generic [ref=e553]:
+                  - heading "3. Google AdSense（进阶）" [level=3] [ref=e554]
+                  - 'link "Permalink: 3. Google AdSense（进阶）" [ref=e555] [cursor=pointer]':
+                    - /url: "#3-google-adsense进阶"
+                - list [ref=e558]:
+                  - listitem [ref=e559]:
+                    - text: 在
+                    - code [ref=e560]: rhythm_jumper.html
+                    - text: 的
+                    - code [ref=e561]: <head>
+                    - text: 中添加 AdSense 代码
+                  - listitem [ref=e562]: 广告收入按展示和点击计算
+                  - listitem [ref=e563]: 需要网站有一定流量后才能申请
+                - generic [ref=e564]:
+                  - heading "4. 自定义域名" [level=3] [ref=e565]
+                  - 'link "Permalink: 4. 自定义域名" [ref=e566] [cursor=pointer]':
+                    - /url: "#4-自定义域名"
+                - list [ref=e569]:
+                  - listitem [ref=e570]:
+                    - text: 购买域名（如
+                    - code [ref=e571]: neon-abyss.com
+                    - text: ）
+                  - listitem [ref=e572]: 在 GitHub Pages Settings 中配置 Custom Domain
+                  - listitem [ref=e573]:
+                    - text: 在域名提供商处添加 CNAME 记录指向
+                    - code [ref=e574]: 你的用户名.github.io
+                - generic [ref=e575]:
+                  - heading "🎯 游戏玩法" [level=2] [ref=e576]
+                  - 'link "Permalink: 🎯 游戏玩法" [ref=e577] [cursor=pointer]':
+                    - /url: "#-游戏玩法"
+                - table [ref=e581]:
+                  - rowgroup [ref=e582]:
+                    - row [ref=e583]:
+                      - columnheader "按键" [ref=e584]
+                      - columnheader "操作" [ref=e585]
+                  - rowgroup [ref=e586]:
+                    - row [ref=e587]:
+                      - cell "Space / ↑" [ref=e588]
+                      - cell "跳跃 / 二段跳" [ref=e589]
+                    - row [ref=e590]:
+                      - cell "M" [ref=e591]
+                      - cell "发射弹幕（消耗能量）" [ref=e592]
+                - list [ref=e593]:
+                  - listitem [ref=e594]: 击败 5 种 Boss，获取永久 Buff
+                  - listitem [ref=e595]: 打爆能量方块获取能量
+                  - listitem [ref=e596]: 拾取能量球升级武器
+                  - listitem [ref=e597]: 3 条命，捡血包回血
+                - generic [ref=e598]:
+                  - heading "📁 文件说明" [level=2] [ref=e599]
+                  - 'link "Permalink: 📁 文件说明" [ref=e600] [cursor=pointer]':
+                    - /url: "#-文件说明"
+                - generic [ref=e603]:
+                  - code [ref=e605]: index.html ← 酷炫宣传首页 rhythm_jumper.html ← 游戏本体（单文件，浏览器直接打开） README.md ← 本文件
+                  - button "Copy code to clipboard" [ref=e607] [cursor=pointer]
+                - generic [ref=e611]:
+                  - heading "🛠️ 技术栈" [level=2] [ref=e612]
+                  - 'link "Permalink: 🛠️ 技术栈" [ref=e613] [cursor=pointer]':
+                    - /url: "#️-技术栈"
+                - list [ref=e616]:
+                  - listitem [ref=e617]: 纯 HTML + CSS + JavaScript
+                  - listitem [ref=e618]: Canvas 2D API 渲染
+                  - listitem [ref=e619]: Web Audio API 音效
+                  - listitem [ref=e620]: 零外部依赖，浏览器即开即玩
+                  - listitem [ref=e621]: 兼容所有现代浏览器（Chrome/Firefox/Edge/Safari）
+                - generic [ref=e622]:
+                  - heading "📝 License" [level=2] [ref=e623]
+                  - 'link "Permalink: 📝 License" [ref=e624] [cursor=pointer]':
+                    - /url: "#-license"
+                - paragraph [ref=e627]: MIT — 随意使用、修改、商用。如果能保留作者署名就更好了 ❤️
+        - generic [ref=e631]:
+          - generic [ref=e634]:
+            - heading "About" [level=2] [ref=e635]
+            - generic [ref=e636]: No description, website, or topics provided.
+            - heading "Resources" [level=3] [ref=e637]
+            - link "Readme" [ref=e639] [cursor=pointer]:
+              - /url: "#readme-ov-file"
+            - link "Activity" [ref=e643] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/activity
+            - heading "Stars" [level=3] [ref=e646]
+            - generic [ref=e648]:
+              - strong [ref=e651]: "0"
+              - text: stars
+            - heading "Watchers" [level=3] [ref=e652]
+            - generic [ref=e654]:
+              - strong [ref=e657]: "0"
+              - text: watching
+            - heading "Forks" [level=3] [ref=e658]
+            - link [ref=e660] [cursor=pointer]:
+              - /url: /Frank-sns/neon-abyss/forks
+              - strong [ref=e663]: "0"
+              - text: forks
+            - link "Report repository" [ref=e665] [cursor=pointer]:
+              - /url: /contact/report-content?content_url=https%3A%2F%2Fgithub.com%2FFrank-sns%2Fneon-abyss&report=Frank-sns+%28user%29
+          - generic [ref=e667]:
+            - heading [level=2] [ref=e668]:
+              - link "Releases" [ref=e669] [cursor=pointer]:
+                - /url: /Frank-sns/neon-abyss/releases
+            - generic [ref=e670]: No releases published
+          - generic [ref=e672]:
+            - heading [level=2] [ref=e673]:
+              - link "Packages" [ref=e674] [cursor=pointer]:
+                - /url: /users/Frank-sns/packages?repo_name=neon-abyss
+            - generic [ref=e675]: No packages published
+          - generic [ref=e677]:
+            - heading [level=2] [ref=e678]:
+              - link "Contributors 1" [ref=e679] [cursor=pointer]:
+                - /url: /Frank-sns/neon-abyss/graphs/contributors
+                - text: Contributors
+                - generic "1" [ref=e680]
+            - list [ref=e681]:
+              - listitem [ref=e682]:
+                - link [ref=e683] [cursor=pointer]:
+                  - /url: https://github.com/Frank-sns
+                  - img "@Frank-sns" [ref=e684]
+                - link [ref=e686] [cursor=pointer]:
+                  - /url: https://github.com/Frank-sns
+                  - strong [ref=e687]: Frank-sns
+          - generic [ref=e689]:
+            - heading "Languages" [level=2] [ref=e690]
+            - list [ref=e695]:
+              - listitem [ref=e696]:
+                - link "HTML 78.1%" [ref=e697] [cursor=pointer]:
+                  - /url: /Frank-sns/neon-abyss/search?l=html
+                  - generic [ref=e700]: HTML
+                  - generic [ref=e701]: 78.1%
+              - listitem [ref=e702]:
+                - link "JavaScript 21.9%" [ref=e703] [cursor=pointer]:
+                  - /url: /Frank-sns/neon-abyss/search?l=javascript
+                  - generic [ref=e706]: JavaScript
+                  - generic [ref=e707]: 21.9%
+  - contentinfo [ref=e709]:
+    - heading "Footer" [level=2] [ref=e710]
+    - generic [ref=e711]:
+      - generic [ref=e712]:
+        - link "GitHub Homepage" [ref=e713] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=e716]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=e717]:
+        - heading "Footer navigation" [level=3] [ref=e718]
+        - list "Footer navigation" [ref=e719]:
+          - listitem [ref=e720]:
+            - link "Terms" [ref=e721] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=e722]:
+            - link "Privacy" [ref=e723] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=e724]:
+            - link "Security" [ref=e725] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=e726]:
+            - link "Status" [ref=e727] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=e728]:
+            - link "Community" [ref=e729] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=e730]:
+            - link "Docs" [ref=e731] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=e732]:
+            - link "Contact" [ref=e733] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=e734]:
+            - button "Manage cookies" [ref=e736] [cursor=pointer]
+          - listitem [ref=e737]:
+            - button "Do not share my personal information" [ref=e739] [cursor=pointer]
