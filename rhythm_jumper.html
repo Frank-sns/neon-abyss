@@ -476,59 +476,154 @@
       get alive() { return this.life > 0; }
     }
 
-    // ===== Boss =====
-    class Boss {
-      constructor(stage) {
-        this.stage = stage;
-        this.width = 50;
-        this.height = 60;
-        this.maxHP = 3 + stage * 2;
-        this.hp = this.maxHP;
-        this.fireIntervalMin = Math.max(0.4, 0.8 - (stage - 1) * 0.1);
-        this.fireIntervalMax = Math.max(0.8, 1.5 - (stage - 1) * 0.2);
-        this.projectileSpeed = 250 + (stage - 1) * 50;
-        this.state = 'entering'; // entering, active, defeated, cooldown
-        this.stateTimer = 0;
+    // ===== Boss Types Config =====
+    var BOSS_TYPES = {
+      warden: {
+        name: 'Warden', nameCN: '守护者',
+        color: '#cc1144', glowColor: 'rgba(255,30,80,0.7)',
+        projectileColor: '#ff3333',
+        shape: 'hexagon',
+        hpFormula: function(stage) { return 3 + stage * 2; },
+        fireInterval: function(stage) { return [Math.max(0.4, 0.8-(stage-1)*0.1), Math.max(0.8,1.5-(stage-1)*0.2)]; },
+        projSpeed: function(stage) { return 250 + (stage-1) * 50; },
+        oscSpeed: 1.2,
+        entryStyle: 'slide'
+      },
+      beamLord: {
+        name: 'Beam Lord', nameCN: '光束领主',
+        color: '#9944ff', glowColor: 'rgba(153,68,255,0.7)',
+        projectileColor: '#cc44ff',
+        shape: 'diamond',
+        hpFormula: function(stage) { return 5 + stage * 2; },
+        fireInterval: function(stage) { return [1.0, 2.0]; },
+        projSpeed: function(stage) { return 300 + (stage-1) * 50; },
+        oscSpeed: 0.6,
+        entryStyle: 'fade',
+        specials: ['laserSweep', 'bulletWall']
+      },
+      mineDeployer: {
+        name: 'Mine Deployer', nameCN: '雷区部署者',
+        color: '#ff8800', glowColor: 'rgba(255,136,0,0.7)',
+        projectileColor: '#ff8800',
+        shape: 'square',
+        hpFormula: function(stage) { return 6 + stage * 2; },
+        fireInterval: function(stage) { return [1.5, 2.5]; },
+        projSpeed: function(stage) { return 200 + (stage-1) * 40; },
+        oscSpeed: 0.8,
+        entryStyle: 'rise',
+        specials: ['deployMine', 'chainDetonate']
+      },
+      summoner: {
+        name: 'Summoner', nameCN: '召唤师',
+        color: '#4488ff', glowColor: 'rgba(68,136,255,0.7)',
+        projectileColor: '#4488ff',
+        shape: 'eye',
+        hpFormula: function(stage) { return 4 + stage * 2; },
+        fireInterval: function(stage) { return [1.2, 2.0]; },
+        projSpeed: function(stage) { return 280 + (stage-1) * 45; },
+        oscSpeed: 0.5,
+        entryStyle: 'warp',
+        specials: ['summonDrones', 'coordinatedBarrage']
+      },
+      berserker: {
+        name: 'Berserker', nameCN: '狂战士',
+        color: '#ffdddd', glowColor: 'rgba(255,255,255,0.7)',
+        projectileColor: '#ffffff',
+        shape: 'star',
+        hpFormula: function(stage) { return 5 + stage * 2; },
+        fireInterval: function(stage) { return [0.8, 1.5]; },
+        projSpeed: function(stage) { return 350 + (stage-1) * 60; },
+        oscSpeed: 1.5,
+        entryStyle: 'crash',
+        specials: ['dashCharge', 'shotgunBurst']
+      }
+    };
+
+    function getBossTypeForStage(stage) {
+      if (stage === 1) return 'warden';
+      if (stage === 2) return 'beamLord';
+      if (stage === 3) return 'mineDeployer';
+      if (stage === 4) return 'summoner';
+      if (stage === 5) return 'berserker';
+      // Stage 6+: random from all types
+      var keys = Object.keys(BOSS_TYPES);
+      return keys[Math.floor(Math.random() * keys.length)];
+    }
+
+    // ===== Mine (for Mine Deployer boss) =====
+    class Mine {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = 14;
+        this.height = 14;
+        this.speed = 150;
+        this.life = 6;
+        this.maxLife = 6;
+        this.pulse = 0;
+        this.warning = false;
+      }
+
+      update(dt, speedMultiplier) {
+        this.x -= this.speed * speedMultiplier * dt;
+        this.life -= dt;
+        this.pulse += dt * 3;
+        if (this.life < 1.5) this.warning = true;
+      }
+
+      draw(ctx) {
+        var alpha = this.life / this.maxLife;
+        var pulseR = 7 + Math.sin(this.pulse) * 2;
+        var color = this.warning ? '#ff4444' : '#ff8800';
+        ctx.shadowColor = 'rgba(255,136,0,0.6)';
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = color;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, pulseR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+      }
+
+      getBounds() { return { x: this.x-7, y: this.y-7, w: 14, h: 14 }; }
+      isOffScreen() { return this.x < -20 || this.life <= 0; }
+    }
+
+    // ===== Drone (for Summoner boss) =====
+    class Drone {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = 15;
+        this.height = 15;
+        this.hp = 2;
+        this.maxHp = 2;
+        this.baseY = y;
+        this.phase = Math.random() * Math.PI * 2;
+        this.speed = 0.5 + Math.random() * 0.8;
+        this.amplitude = 30 + Math.random() * 50;
         this.fireTimer = 0;
-        this.nextFireTime = 1.5; // first shot delay
-        this.elapsedTime = 0;
-        this.angle = 0;
-        this.entryTargetX = W - 120;
-        this.x = W + 100; // start off-screen right
-        this.y = groundY - 220;
-        this.oscSpeed = 1.2;
+        this.fireInterval = 1.5 + Math.random() * 1;
+        this.alive = true;
         this.flashTimer = 0;
       }
 
-      update(dt) {
-        this.elapsedTime += dt;
-        this.stateTimer += dt;
+      update(dt, speedMultiplier) {
+        this.phase += this.speed * dt;
+        this.y = this.baseY + Math.sin(this.phase) * this.amplitude;
+        this.x -= 60 * speedMultiplier * dt;
         this.fireTimer += dt;
         if (this.flashTimer > 0) this.flashTimer -= dt;
-
-        this.entryTargetX = W - 120;
-
-        if (this.state === 'entering') {
-          this.x += (this.entryTargetX - this.x) * 4 * dt;
-          if (Math.abs(this.x - this.entryTargetX) < 5) {
-            this.x = this.entryTargetX;
-            this.state = 'active';
-          }
-        } else if (this.state === 'active') {
-          this.y = groundY - 220 + Math.sin(this.elapsedTime * this.oscSpeed) * 100;
-          this.y = Math.max(30, Math.min(groundY - this.height - 10, this.y));
-        } else if (this.state === 'defeated') {
-          // Explosion animation — handled externally via particles
-        }
-
-        this.angle += dt * 2.5; // ring rotation
       }
 
       shouldFire() {
-        if (this.state !== 'active') return false;
-        if (this.fireTimer >= this.nextFireTime) {
+        if (this.fireTimer >= this.fireInterval) {
           this.fireTimer = 0;
-          this.nextFireTime = this.fireIntervalMin + Math.random() * (this.fireIntervalMax - this.fireIntervalMin);
           return true;
         }
         return false;
@@ -536,82 +631,259 @@
 
       takeDamage() {
         this.hp--;
+        this.flashTimer = 0.08;
+        return this.hp <= 0;
+      }
+
+      draw(ctx) {
+        ctx.shadowColor = 'rgba(68,136,255,0.6)';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = this.flashTimer > 0 ? '#fff' : '#4488ff';
+        var cx = this.x, cy = this.y, s = 8;
+        ctx.beginPath();
+        ctx.moveTo(cx + s, cy);
+        ctx.lineTo(cx - s*0.7, cy - s*0.7);
+        ctx.lineTo(cx - s*0.7, cy + s*0.7);
+        ctx.closePath();
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        if (this.hp < this.maxHp) {
+          ctx.fillStyle = '#333';
+          ctx.fillRect(this.x - 7, this.y - 12, 14, 2);
+          ctx.fillStyle = '#4488ff';
+          ctx.fillRect(this.x - 7, this.y - 12, 14 * (this.hp/this.maxHp), 2);
+        }
+      }
+
+      getBounds() { return { x: this.x-8, y: this.y-8, w: 16, h: 16 }; }
+      isOffScreen() { return this.x < -50 || !this.alive; }
+    }
+
+    // ===== Boss =====
+    class Boss {
+      constructor(stage, bossType) {
+        this.stage = stage;
+        this.bossType = bossType || 'warden';
+        this.config = BOSS_TYPES[this.bossType];
+        this.width = 50;
+        this.height = 60;
+        var hpF = this.config.hpFormula;
+        this.maxHP = hpF(stage);
+        this.hp = this.maxHP;
+        var fi = this.config.fireInterval(stage);
+        this.fireIntervalMin = fi[0];
+        this.fireIntervalMax = fi[1];
+        var ps = this.config.projSpeed;
+        this.projectileSpeed = ps(stage);
+        this.state = 'entering';
+        this.stateTimer = 0;
+        this.fireTimer = 0;
+        this.nextFireTime = 1.5;
+        this.elapsedTime = 0;
+        this.angle = 0;
+        this.entryTargetX = W - 120;
+        this.x = W + 100;
+        this.y = groundY - 220;
+        this.oscSpeed = this.config.oscSpeed;
+        this.flashTimer = 0;
+        // Special attack state
+        this.specialTimer = 0;
+        this.specialCooldown = 0;
+        this.specialState = null; // laserSweep, dashCharge, etc.
+        this.shieldActive = false;
+        this.enraged = false;
+        // Boss-specific
+        this.laserY = 0;
+        this.laserDir = 1;
+        this.dashTarget = 0;
+        this.dashPhase = '';
+        this.mines = [];
+        this.drones = [];
+      }
+
+      update(dt) {
+        this.elapsedTime += dt;
+        this.stateTimer += dt;
+        this.fireTimer += dt;
+        this.specialTimer += dt;
+        if (this.specialCooldown > 0) this.specialCooldown -= dt;
+        if (this.flashTimer > 0) this.flashTimer -= dt;
+
+        this.entryTargetX = W - 120;
+
+        // Entry animations
+        if (this.state === 'entering') {
+          var es = this.config.entryStyle;
+          if (es === 'slide') {
+            this.x += (this.entryTargetX - this.x) * 4 * dt;
+            if (Math.abs(this.x - this.entryTargetX) < 5) { this.x = this.entryTargetX; this.state = 'active'; }
+          } else if (es === 'fade') {
+            if (this.stateTimer > 1.2) { this.x = this.entryTargetX; this.state = 'active'; }
+            else this.x = this.entryTargetX;
+          } else if (es === 'rise') {
+            var targetY = groundY - 220;
+            this.x += (this.entryTargetX - this.x) * 3 * dt;
+            this.y += (targetY - this.y) * 3 * dt;
+            if (Math.abs(this.y - targetY) < 10) { this.y = targetY; this.state = 'active'; }
+          } else if (es === 'warp') {
+            if (this.stateTimer > 0.6) { this.x = this.entryTargetX; this.state = 'active'; }
+          } else if (es === 'crash') {
+            var ty = groundY - 220;
+            this.y += (ty - this.y) * 8 * dt;
+            this.x += (this.entryTargetX - this.x) * 6 * dt;
+            if (Math.abs(this.y - ty) < 5) { this.y = ty; this.state = 'active'; }
+          }
+        } else if (this.state === 'active') {
+          this.y = groundY - 220 + Math.sin(this.elapsedTime * this.oscSpeed) * 100;
+          this.y = Math.max(30, Math.min(groundY - this.height - 10, this.y));
+          // Update mines and drones
+          for (var mi = this.mines.length - 1; mi >= 0; mi--) {
+            this.mines[mi].update(dt, 1);
+            if (this.mines[mi].isOffScreen()) this.mines.splice(mi, 1);
+          }
+          for (var di = this.drones.length - 1; di >= 0; di--) {
+            this.drones[di].update(dt, 1);
+            if (this.drones[di].isOffScreen()) this.drones.splice(di, 1);
+          }
+        }
+
+        this.angle += dt * 2.5;
+      }
+
+      // ---- Special Attacks ----
+
+      triggerSpecial() {
+        if (this.state !== 'active') return null;
+        if (this.specialCooldown > 0) return null;
+        var config = this.config;
+        if (!config.specials || config.specials.length === 0) return null;
+        var attack = config.specials[Math.floor(Math.random() * config.specials.length)];
+        this.specialCooldown = 3 + Math.random() * 3;
+        this.specialState = attack;
+        this.specialTimer = 0;
+        return attack;
+      }
+
+      shouldFire() {
+        if (this.state !== 'active') return false;
+        if (this.fireTimer >= this.nextFireTime) {
+          this.fireTimer = 0;
+          this.nextFireTime = this.fireIntervalMin + Math.random() * (this.fireIntervalMax - this.fireIntervalMin);
+          if (this.enraged) this.nextFireTime *= 0.5;
+          return true;
+        }
+        return false;
+      }
+
+      takeDamage() {
+        if (this.shieldActive) { this.shieldActive = false; return false; }
+        this.hp--;
         this.oscSpeed *= 0.85;
         this.flashTimer = 0.1;
+        if (this.config.specials && this.config.specials.indexOf('dashCharge') !== -1 && this.hp <= this.maxHP * 0.3 && !this.enraged) {
+          this.enraged = true;
+        }
+        // Warden shield pulse at 50% HP
+        if (this.bossType === 'warden' && this.hp === Math.floor(this.maxHP / 2) && this.specialCooldown <= 1) {
+          this.specialCooldown = 0.1; // trigger pulse next frame
+        }
         if (this.hp <= 0) {
           this.state = 'defeated';
-          return true; // defeated
+          return true;
         }
         return false;
       }
 
       getBounds() {
-        return {
-          x: this.x - this.width / 2,
-          y: this.y - this.height / 2,
-          w: this.width,
-          h: this.height
-        };
+        return { x: this.x - this.width / 2, y: this.y - this.height / 2, w: this.width, h: this.height };
       }
 
       draw(ctx) {
         if (this.state === 'defeated') return;
         if (this.state === 'cooldown') return;
 
-        const cx = this.x;
-        const cy = this.y;
-        const alpha = this.state === 'entering' ? Math.min(1, this.stateTimer / 0.8) : 1;
-        const flashColor = this.flashTimer > 0 && Math.floor(this.flashTimer * 30) % 2 === 0;
+        var cx = this.x, cy = this.y;
+        var alpha = this.state === 'entering' && this.config.entryStyle === 'fade' ? Math.min(1, this.stateTimer / 1.2) : 1;
+        var flashOn = this.flashTimer > 0 && Math.floor(this.flashTimer * 30) % 2 === 0;
+        var cfg = this.config;
 
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        // Outer ring (rotating)
-        ctx.strokeStyle = flashColor ? '#fff' : '#ff2266';
+        // Ring based on shape
+        ctx.strokeStyle = flashOn ? '#fff' : cfg.color;
         ctx.lineWidth = 3;
-        ctx.shadowColor = 'rgba(255, 30, 80, 0.7)';
-        ctx.shadowBlur = 20;
+        ctx.shadowColor = cfg.glowColor;
+        ctx.shadowBlur = this.enraged ? 30 : 20;
         ctx.beginPath();
         ctx.ellipse(cx, cy, this.width * 0.7, this.height * 0.45, this.angle, 0, Math.PI * 2);
         ctx.stroke();
 
-        // Core body (hexagonal)
+        // Core body by shape
         ctx.shadowBlur = 15;
-        ctx.fillStyle = flashColor ? '#fff' : '#cc1144';
+        ctx.fillStyle = flashOn ? '#fff' : cfg.color;
+        var shape = cfg.shape, r = this.width * 0.45;
         ctx.beginPath();
-        const r = this.width * 0.45;
-        for (let i = 0; i < 6; i++) {
-          const a = this.angle * 0.7 + (Math.PI / 3) * i;
-          const px = cx + Math.cos(a) * r;
-          const py = cy + Math.sin(a) * r * 0.7;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
+        if (shape === 'hexagon' || shape === 'star') {
+          var sides = shape === 'star' ? 5 : 6;
+          for (var i = 0; i < sides; i++) {
+            var a = this.angle * 0.7 + (Math.PI * 2 / sides) * i;
+            var rr = shape === 'star' && i % 2 === 0 ? r * 0.55 : r;
+            var px = cx + Math.cos(a) * rr;
+            var py = cy + Math.sin(a) * rr * 0.7;
+            if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+        } else if (shape === 'diamond') {
+          ctx.moveTo(cx, cy - r * 1.1);
+          ctx.lineTo(cx + r, cy);
+          ctx.lineTo(cx, cy + r * 0.8);
+          ctx.lineTo(cx - r, cy);
+        } else if (shape === 'square') {
+          ctx.rect(cx - r, cy - r * 0.7, r * 2, r * 1.4);
+        } else if (shape === 'eye') {
+          ctx.ellipse(cx, cy, r - 2, r * 0.75, 0, 0, Math.PI * 2);
         }
         ctx.closePath();
         ctx.fill();
 
         // Inner eye
         ctx.shadowBlur = 25;
-        ctx.shadowColor = 'rgba(255, 255, 200, 0.9)';
-        ctx.fillStyle = '#ffdddd';
+        ctx.shadowColor = 'rgba(255,255,200,0.9)';
+        ctx.fillStyle = this.enraged ? '#ff4444' : '#ffdddd';
         ctx.beginPath();
         ctx.arc(cx, cy, this.width * 0.18, 0, Math.PI * 2);
         ctx.fill();
 
+        // Enrage visual
+        if (this.enraged) {
+          ctx.strokeStyle = '#ff4444';
+          ctx.lineWidth = 2;
+          ctx.shadowBlur = 40;
+          ctx.shadowColor = 'rgba(255,0,0,0.8)';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, this.width * 0.9, this.height * 0.6, this.angle * 3, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
         ctx.restore();
+
+        // Boss name label
+        ctx.fillStyle = cfg.color;
+        ctx.font = 'bold 13px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(cfg.nameCN, cx, cy - this.height / 2 - 25);
+        ctx.textAlign = 'start';
 
         // HP bar
         if (this.state === 'active' || this.state === 'entering') {
-          const barW = 50;
-          const barH = 5;
-          const barX = cx - barW / 2;
-          const barY = cy - this.height / 2 - 16;
+          var barW = 50, barH = 5;
+          var barX = cx - barW / 2, barY = cy - this.height / 2 - 12;
           ctx.fillStyle = 'rgba(0,0,0,0.6)';
           ctx.fillRect(barX - 1, barY - 1, barW + 2, barH + 2);
           ctx.fillStyle = '#333';
           ctx.fillRect(barX, barY, barW, barH);
-          const hpRatio = this.hp / this.maxHP;
-          const hpColor = hpRatio > 0.5 ? '#00ff44' : hpRatio > 0.25 ? '#ffaa00' : '#ff2244';
+          var hpRatio = this.hp / this.maxHP;
+          var hpColor = hpRatio > 0.5 ? '#00ff44' : hpRatio > 0.25 ? '#ffaa00' : '#ff2244';
           ctx.fillStyle = hpColor;
           ctx.fillRect(barX, barY, barW * hpRatio, barH);
         }
@@ -914,6 +1186,8 @@
     let nextBossScore = 300;
     let bossCooldownTimer = 0;
     let playerShootCooldown = 0;
+    let stageAnnounceText = '';
+    let stageAnnounceTimer = 0;
 
     // Pickup state
     let pickups = [];
@@ -1131,11 +1405,17 @@
           }
         }
 
+        // Stage announcement timer
+        if (stageAnnounceTimer > 0) stageAnnounceTimer -= dt;
+
         // Boss spawning
         if (!boss && bossCooldownTimer <= 0 && score >= nextBossScore) {
           bossStage++;
-          boss = new Boss(bossStage);
-          bossCooldownTimer = 3; // brief delay before actual spawn
+          var bType = getBossTypeForStage(bossStage);
+          boss = new Boss(bossStage, bType);
+          bossCooldownTimer = 3;
+          stageAnnounceText = 'Stage ' + bossStage + ' — ' + boss.config.nameCN + ' 登场!';
+          stageAnnounceTimer = 2.5;
         }
         if (bossCooldownTimer > 0 && !boss) {
           bossCooldownTimer -= dt;
@@ -1145,22 +1425,118 @@
         if (boss) {
           boss.update(dt);
 
-          // Boss firing
+          // Trigger special attack
+          if (boss.specialCooldown <= 0 && boss.state === 'active' && boss.config.specials) {
+            var spec = boss.triggerSpecial();
+            if (spec === 'laserSweep') {
+              boss.laserY = 30; boss.laserDir = 1;
+            } else if (spec === 'bulletWall') {
+              for (var bwx = 0; bwx < 6; bwx++) {
+                var bwy = 30 + bwx * (groundY - 60) / 5;
+                bossProjectiles.push(new BossProjectile(boss.x - boss.width/2, bwy, -boss.projectileSpeed, 0));
+              }
+            } else if (spec === 'deployMine') {
+              for (var mn = 0; mn < 3; mn++) {
+                boss.mines.push(new Mine(boss.x - boss.width/2 - mn*30, boss.y + (mn-1)*40));
+              }
+            } else if (spec === 'summonDrones') {
+              if (boss.drones.length < 4) {
+                for (var dn = 0; dn < 2; dn++) {
+                  boss.drones.push(new Drone(boss.x - 40, boss.y + (dn-0.5)*60));
+                }
+              }
+            }
+          }
+
+          // Laser sweep animation (Beam Lord)
+          if (boss.specialState === 'laserSweep') {
+            boss.laserY += boss.laserDir * 250 * dt;
+            if (boss.laserY > groundY - 20) { boss.laserY = groundY - 20; boss.laserDir = -1; }
+            if (boss.laserY < 30) { boss.laserY = 30; boss.laserDir = 1; boss.specialState = null; }
+            // Collision: laser vs player
+            var laserRect = { x: 0, y: boss.laserY - 2, w: W, h: 4 };
+            if (rectsCollide(player.getBounds(), laserRect)) {
+              var lDead = player.takeDamage();
+              if (lDead) { gameState = STATE.GAMEOVER; sound.playHit(); endGame(); }
+              else sound.playHit();
+            }
+          }
+
+          // Dash charge (Berserker)
+          if (boss.specialState === 'dashCharge') {
+            if (boss.specialTimer < 1) {
+              // Windup
+            } else if (boss.specialTimer < 2) {
+              boss.x -= 800 * dt;
+              if (boss.x < 100) boss.x = 100;
+              if (rectsCollide(player.getBounds(), boss.getBounds())) {
+                var dDead = player.takeDamage();
+                if (dDead) { gameState = STATE.GAMEOVER; sound.playHit(); endGame(); }
+                else { sound.playHit(); player.takeDamage(); } // 2 HP damage
+              }
+            } else {
+              boss.x += 400 * dt;
+              if (boss.x >= boss.entryTargetX) { boss.x = boss.entryTargetX; boss.specialState = null; }
+            }
+          }
+
+          // Chain detonate mines (Mine Deployer)
+          if (boss.specialState === 'chainDetonate' && boss.specialTimer > 2) {
+            for (var mi2 = boss.mines.length - 1; mi2 >= 0; mi2--) {
+              for (var rp = 0; rp < 6; rp++) {
+                var ra = (Math.PI * 2 / 6) * rp;
+                var rvx = Math.cos(ra) * 120;
+                var rvy = Math.sin(ra) * 120;
+                bossProjectiles.push(new BossProjectile(boss.mines[mi2].x, boss.mines[mi2].y, rvx, rvy));
+              }
+              boss.mines.splice(mi2, 1);
+            }
+            boss.specialState = null;
+          }
+
+          // Coordinated barrage (Summoner)
+          if (boss.specialState === 'coordinatedBarrage' && boss.specialTimer > 0.5 && boss.specialTimer < 0.55) {
+            var bx2 = boss.x - boss.width / 2;
+            var by2 = boss.y;
+            bossProjectiles.push(new BossProjectile(bx2, by2, -boss.projectileSpeed, 0));
+            for (var dbi = 0; dbi < boss.drones.length; dbi++) {
+              var dr = boss.drones[dbi];
+              bossProjectiles.push(new BossProjectile(dr.x, dr.y, -boss.projectileSpeed * 0.8, (dr.y - player.y) * 0.5));
+            }
+            boss.specialState = null;
+          }
+
+          // Boss firing (basic attack)
           if (boss.shouldFire()) {
             var bx = boss.x - boss.width / 2;
             var by = boss.y;
-            var burstCount = 1 + Math.floor(Math.random() * 3);
+            var burstCount = boss.enraged ? 3 : (1 + Math.floor(Math.random() * 3));
             for (var bi = 0; bi < burstCount; bi++) {
               (function(delay) {
                 setTimeout(function() {
                   if (gameState !== STATE.PLAYING || !boss || boss.state !== 'active') return;
-                  var pattern = Math.random() < 0.5 ? 'horizontal' : 'diagonal';
                   var spd = boss.projectileSpeed;
-                  var vx = pattern === 'diagonal' ? -spd * 0.87 : -spd;
-                  var vy = pattern === 'diagonal' ? -spd * 0.5 : 0;
-                  bossProjectiles.push(new BossProjectile(bx, by, vx, vy));
-                }, delay * 150);
+                  if (boss.bossType === 'berserker') {
+                    // Shotgun burst
+                    for (var sg = 0; sg < 9; sg++) {
+                      var sga = -Math.PI/4 + (Math.PI/4/8) * sg;
+                      bossProjectiles.push(new BossProjectile(bx, by, Math.cos(sga) * -spd, Math.sin(sga) * spd));
+                    }
+                  } else {
+                    var pattern = Math.random() < 0.5 ? 'horizontal' : 'diagonal';
+                    var vx = pattern === 'diagonal' ? -spd * 0.87 : -spd;
+                    var vy = pattern === 'diagonal' ? -spd * 0.5 : 0;
+                    bossProjectiles.push(new BossProjectile(bx, by, vx, vy));
+                  }
+                }, delay * (boss.enraged ? 80 : 150));
               })(bi);
+            }
+          }
+
+          // Drone firing (Summoner)
+          for (var dri = 0; dri < boss.drones.length; dri++) {
+            if (boss.drones[dri].shouldFire()) {
+              bossProjectiles.push(new BossProjectile(boss.drones[dri].x, boss.drones[dri].y, -200, 0));
             }
           }
 
@@ -1322,16 +1698,45 @@
       ctx.fillText('SCORE: ' + Math.floor(score), W - 30, 50);
       ctx.shadowBlur = 0;
 
+      // Stage counter
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 14px "Courier New", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText('STAGE ' + (bossStage + (boss ? 0 : 1)), W - 30, 78);
+
+      // Stage announcement
+      if (stageAnnounceTimer > 0) {
+        var announceAlpha = Math.min(1, stageAnnounceTimer);
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + announceAlpha + ')';
+        ctx.font = 'bold 22px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(stageAnnounceText, W / 2, 100);
+      }
+
       // Power-up indicator
       if (player.powerLevel > 0) {
         var puColors = ['', '#44ff44', '#4488ff', '#ffd700'];
         ctx.fillStyle = puColors[player.powerLevel];
         ctx.font = 'bold 16px "Courier New", monospace';
         ctx.textAlign = 'right';
-        ctx.fillText('PWR Lv' + player.powerLevel + ' ' + player.powerTimer.toFixed(1) + 's', W - 30, 78);
+        ctx.fillText('PWR Lv' + player.powerLevel + ' ' + player.powerTimer.toFixed(1) + 's', W - 30, 100);
       }
 
       ctx.textAlign = 'start';
+
+      // Laser sweep rendering
+      if (boss && boss.specialState === 'laserSweep') {
+        ctx.fillStyle = 'rgba(204, 68, 255, 0.5)';
+        ctx.fillRect(0, boss.laserY - 2, W, 4);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.fillRect(0, boss.laserY, W, 1);
+      }
+
+      // Mine and drone rendering
+      if (boss) {
+        for (var bmi = 0; bmi < boss.mines.length; bmi++) boss.mines[bmi].draw(ctx);
+        for (var bdi = 0; bdi < boss.drones.length; bdi++) boss.drones[bdi].draw(ctx);
+      }
 
       // Boss projectiles
       for (const bp of bossProjectiles) {
