@@ -336,6 +336,21 @@
           }
         }
 
+        // Scoring
+        score += dt * 10;
+
+        // Obstacle passed bonus
+        for (const obs of obstacles) {
+          if (!obs.passed && obs.x + obs.width < player.x) {
+            obs.passed = true;
+            score += 50;
+          }
+        }
+
+        // Difficulty scaling
+        speedMultiplier = 1 + Math.floor(score / 100) * 0.15;
+        if (speedMultiplier > 3) speedMultiplier = 3;
+
         if (keys['Space'] || keys['ArrowUp']) {
           player.jump();
           keys['Space'] = false;
@@ -368,6 +383,16 @@
 
       ctx.fillStyle = '#00f0ff';
       ctx.fillRect(0, groundY, W, 2);
+
+      // Score
+      ctx.fillStyle = '#ffd700';
+      ctx.font = 'bold 28px "Courier New", monospace';
+      ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+      ctx.shadowBlur = 8;
+      ctx.textAlign = 'right';
+      ctx.fillText('SCORE: ' + Math.floor(score), W - 30, 50);
+      ctx.shadowBlur = 0;
+      ctx.textAlign = 'start';
 
       // Obstacles
       for (const obs of obstacles) {
