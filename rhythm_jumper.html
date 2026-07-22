@@ -1644,11 +1644,10 @@
         var dy = mouseY - (player.y + player.height / 2);
         player.aimAngle = Math.atan2(-dy, dx) * 180 / Math.PI;
 
-        // Block (Space) — costs 5 energy
-        if (keys['Space'] && player.energy >= 5) {
+        // Block (Space) — free, no energy cost
+        if (keys['Space']) {
           player.blockActive = true;
           player.blockDuration = 0.5;
-          player.energy -= 5;
         }
 
         // ===== Boss System =====
