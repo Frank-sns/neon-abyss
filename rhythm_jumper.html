@@ -293,6 +293,36 @@
         this.playTone(600, 0.1);
         setTimeout(() => { if (this.ctx) this.playTone(900, 0.08); }, 50);
       }
+      playBossAppear() {
+        this.init();
+        this.playTone(80, 0.5, 'sawtooth', 0.15);
+        setTimeout(()=>{if(this.ctx)this.playTone(120,0.3,'sawtooth',0.12);},150);
+        setTimeout(()=>{if(this.ctx)this.playTone(200,0.2,'square',0.1);},300);
+      }
+      playBossDefeat() {
+        this.init();
+        this.playTone(300, 0.15, 'square', 0.12);
+        setTimeout(()=>{if(this.ctx)this.playTone(200,0.2,'square',0.1);},100);
+        setTimeout(()=>{if(this.ctx)this.playTone(100,0.4,'sawtooth',0.12);},200);
+        setTimeout(()=>{if(this.ctx)this.playTone(50,0.6,'sawtooth',0.15);},300);
+      }
+      playLaser() {
+        this.init();
+        this.playTone(2000,0.05,'sawtooth',0.06);
+        setTimeout(()=>{if(this.ctx)this.playTone(1500,0.08,'sawtooth',0.05);},40);
+      }
+      playExplosion() {
+        this.init();
+        if(!this.ctx)return;
+        var bs=Math.floor(this.ctx.sampleRate*0.3);
+        var buf=this.ctx.createBuffer(1,bs,this.ctx.sampleRate);
+        var d=buf.getChannelData(0);
+        for(var i=0;i<bs;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/bs,2);
+        var n=this.ctx.createBufferSource();n.buffer=buf;
+        var g=this.ctx.createGain();g.gain.setValueAtTime(0.2,this.ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.3);
+        n.connect(g);g.connect(this.ctx.destination);n.start();
+      }
     }
 
     const sound = new SoundEngine();
@@ -1512,6 +1542,7 @@
     let buffMessage = '';
     let skillProjectiles = [];
     let rightMouseDown = false;
+    let screenFlash = 0;
 
     // Pickup state
     let pickups = [];
@@ -1552,6 +1583,7 @@
           skillProjectiles.push(sp);
           // Launch particles
           for(var lp=0;lp<15;lp++) particles.push(new Particle(player.x+player.width, player.y+player.height/2));
+          sound.playExplosion();
           return '🎯 追踪导弹发射！';
         }
       },
@@ -1580,12 +1612,14 @@
             skillProjectiles.push(sp);
           }
           for(var ep=0;ep<25;ep++) particles.push(new Particle(cx,cy));
+          sound.playExplosion(); screenFlash = 0.25;
           return '💥 新星爆发！';
         }
       },
       { name: '激光束', icon: '⚡', desc: '持续0.8秒穿透激光，扫灭弹幕', color: '#00ddff',
         execute: function() {
           player.skillActive = true; player.skillTimer = 0.9; player.skillCharge = 0.15;
+          sound.playLaser();
           return '⚡ 激光充能...';
         }
       },
@@ -1606,6 +1640,7 @@
             sp.getBounds=function(){return{x:this.x-8,y:this.y-8,w:16,h:16};};
             skillProjectiles.push(sp);
           }
+          sound.playScore();
           return '🛡️ 轨道护盾启动！';
         }
       },
@@ -1644,6 +1679,7 @@
             var t2=targets[ck];
             last={x:t2.x!==undefined?(t2.x+t2.width/2||t2.x):t2.x, y:t2.y!==undefined?(t2.y+t2.height/2||t2.y):t2.y};
           }
+          sound.playLaser(); screenFlash = 0.15;
           return '⚡ 连锁闪电！';
         }
       }
@@ -1904,6 +1940,9 @@
           }
         }
 
+        // Screen flash decay
+        if (screenFlash > 0) screenFlash -= dt;
+
         // Laser with charge-up
         if (player.skillActive && player.skillTimer > 0) {
           if (player.skillCharge > 0) {
@@ -2030,6 +2069,9 @@
           bossCooldownTimer = 3;
           stageAnnounceText = 'Stage ' + bossStage + ' — ' + boss.config.nameCN + ' 登场!';
           stageAnnounceTimer = 2.5;
+          screenFlash = 0.3;
+          sound.playBossAppear();
+          for (var sep = 0; sep < 30; sep++) particles.push(new Particle(W-120, groundY-220));
         }
         if (bossCooldownTimer > 0 && !boss) {
           bossCooldownTimer -= dt;
@@ -2219,7 +2261,9 @@
               particles.push(new Particle(boss.x, boss.y));
             }
             score += 300;
-            sound.playHit();
+            sound.playBossDefeat();
+            sound.playExplosion();
+            screenFlash = 0.5;
             bossProjectiles = [];
             energyBlocks = [];
             energyOrbs = [];
@@ -2622,6 +2666,12 @@
 
       for (const p of particles) {
         p.draw(ctx);
+      }
+
+      // Screen flash overlay
+      if (screenFlash > 0) {
+        ctx.fillStyle = 'rgba(255,255,255,' + (screenFlash * 0.6) + ')';
+        ctx.fillRect(0, 0, W, H);
       }
     }
 
