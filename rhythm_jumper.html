@@ -142,6 +142,52 @@
       background: #00ffff;
       color: #0a0a1a;
     }
+
+    #pause-panel {
+      display: none;
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 10, 26, 0.95);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 16px;
+      padding: 40px 56px;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      pointer-events: auto;
+      z-index: 20;
+    }
+    #pause-panel h2 { color: #ffd700; font-size: 32px; margin-bottom: 20px; }
+    #pause-panel button {
+      display: block; width: 200px; margin: 10px auto;
+      background: transparent; color: #00ffff; border: 2px solid #00ffff;
+      border-radius: 8px; padding: 12px 0; font-size: 18px;
+      cursor: pointer; font-family: 'Courier New', monospace;
+      transition: all 0.2s;
+    }
+    #pause-panel button:hover { background: #00ffff; color: #0a0a1a; }
+    #pause-panel button.quit-btn { color: #ff4466; border-color: #ff4466; }
+    #pause-panel button.quit-btn:hover { background: #ff4466; color: #0a0a1a; }
+    #pause-panel .pause-hint { color: #556; font-size: 13px; margin-top: 14px; }
+
+    #score-history {
+      display: none;
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 10, 26, 0.95);
+      border: 2px solid rgba(0, 240, 255, 0.3);
+      border-radius: 16px;
+      padding: 32px 44px;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      pointer-events: auto;
+      z-index: 20;
+      max-height: 70vh; overflow-y: auto;
+    }
+    #score-history h2 { color: #00f0ff; font-size: 24px; margin-bottom: 16px; }
+    #score-history .entry { color: #889; font-size: 14px; margin: 4px 0; }
+    #score-history .entry .hi { color: #ffd700; }
+    #score-history button { margin-top: 16px; background: transparent; color: #00ffff; border: 2px solid #00ffff; border-radius: 8px; padding: 8px 24px; font-size: 14px; cursor: pointer; font-family: 'Courier New', monospace; }
+    #score-history button:hover { background: #00ffff; color: #0a0a1a; }
   </style>
 </head>
 <body>
@@ -154,7 +200,7 @@
       <div class="menu-btn" id="menu-start-btn">⚡ 开始游戏</div>
       <div class="menu-controls">
         <span>W</span> 跳跃 &nbsp; <span>鼠标</span> 瞄准射击 &nbsp; <span>Space</span> 格挡<br>
-        <span>右键</span> 技能 &nbsp; <span>滚轮</span> 切换 &nbsp; <span>E</span> 键盘射击
+        <span>右键</span> 技能 &nbsp; <span>滚轮</span> 切换 &nbsp; <span>P</span> 暂停
       </div>
     </div>
     <div id="game-over-panel">
@@ -162,6 +208,20 @@
       <div class="score">得分: <span id="final-score">0</span></div>
       <div class="high-score">最高分: <span id="high-score">0</span></div>
       <button id="restart-btn">重新开始</button>
+    </div>
+
+    <div id="pause-panel">
+      <h2>⏸️ 游戏暂停</h2>
+      <button id="resume-btn">▶ 继续游戏</button>
+      <button class="quit-btn" id="quit-btn">✕ 退出游戏</button>
+      <button id="history-btn" style="color:#ffd700;border-color:#ffd700;">📊 历史记录</button>
+      <div class="pause-hint">按 P 键暂停 / 继续</div>
+    </div>
+
+    <div id="score-history">
+      <h2>📊 得分记录</h2>
+      <div id="history-list"></div>
+      <button id="close-history-btn">关闭</button>
     </div>
   </div>
 
@@ -381,7 +441,7 @@
     }
 
     // ===== Game State =====
-    const STATE = { IDLE: 'idle', PLAYING: 'playing', GAMEOVER: 'gameover' };
+    const STATE = { IDLE: 'idle', PLAYING: 'playing', PAUSED: 'paused', GAMEOVER: 'gameover' };
     let gameState = STATE.IDLE;
 
     // ===== Player =====
@@ -1533,11 +1593,44 @@
     function endGame() {
       document.getElementById('game-over-panel').style.display = 'block';
       document.getElementById('final-score').textContent = Math.floor(score);
-
       const prevHigh = parseInt(localStorage.getItem('rhythmJumperHighScore') || '0');
       const currentHigh = Math.max(prevHigh, Math.floor(score));
       localStorage.setItem('rhythmJumperHighScore', currentHigh);
       document.getElementById('high-score').textContent = currentHigh;
+      // Save to score history
+      var history = JSON.parse(localStorage.getItem('rhythmJumperHistory') || '[]');
+      history.push({ score: Math.floor(score), stage: bossStage, date: new Date().toLocaleString('zh-CN') });
+      if (history.length > 50) history = history.slice(-50);
+      localStorage.setItem('rhythmJumperHistory', JSON.stringify(history));
+    }
+
+    function quitToMenu() {
+      gameState = STATE.IDLE;
+      initGame();
+      document.getElementById('pause-panel').style.display = 'none';
+      document.getElementById('game-over-panel').style.display = 'none';
+      document.getElementById('start-hint').style.display = 'block';
+    }
+
+    function togglePause() {
+      if (gameState === STATE.PLAYING) {
+        gameState = STATE.PAUSED;
+        document.getElementById('pause-panel').style.display = 'block';
+      } else if (gameState === STATE.PAUSED) {
+        gameState = STATE.PLAYING;
+        document.getElementById('pause-panel').style.display = 'none';
+        lastTime = 0; // reset dt to avoid jump
+      }
+    }
+
+    function showHistory() {
+      var history = JSON.parse(localStorage.getItem('rhythmJumperHistory') || '[]');
+      var list = document.getElementById('history-list');
+      list.innerHTML = history.length === 0 ? '<div class="entry">暂无记录</div>' :
+        history.reverse().map(function(h, i) {
+          return '<div class="entry' + (i===0?' hi':'') + '">#' + (history.length-i) + '  ' + h.score + ' 分 | Stage ' + h.stage + ' | ' + h.date + '</div>';
+        }).join('');
+      document.getElementById('score-history').style.display = 'block';
     }
 
     function resetGame() {
@@ -1548,6 +1641,12 @@
     }
 
     document.getElementById('restart-btn').addEventListener('click', resetGame);
+    document.getElementById('resume-btn').addEventListener('click', togglePause);
+    document.getElementById('quit-btn').addEventListener('click', quitToMenu);
+    document.getElementById('history-btn').addEventListener('click', showHistory);
+    document.getElementById('close-history-btn').addEventListener('click', function() {
+      document.getElementById('score-history').style.display = 'none';
+    });
 
     // ===== Game Loop =====
     let player;
@@ -1784,7 +1883,13 @@
       if (dt > 0.1) dt = 0.016;
       lastTime = timestamp;
 
+      // Pause toggle
+      if (keys['KeyP']) { keys['KeyP'] = false; togglePause(); }
+
       // Update
+      if (gameState === STATE.PLAYING || gameState === STATE.PAUSED) {
+        if (gameState === STATE.PAUSED) { lastTime = timestamp; } // freeze dt
+      }
       if (gameState === STATE.PLAYING) {
         player.update(dt, groundY);
         background.update(dt, speedMultiplier);
@@ -2777,14 +2882,14 @@
 
     window.addEventListener('keydown', function(e) {
       keys[e.code] = true;
-      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'KeyE' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'KeyE' || e.code === 'KeyP' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
         e.preventDefault();
       }
     });
 
     window.addEventListener('keyup', function(e) {
       keys[e.code] = false;
-      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'KeyE' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'KeyE' || e.code === 'KeyP' || e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
         e.preventDefault();
       }
     });
