@@ -116,8 +116,8 @@
   <div id="ui-layer">
     <div id="start-hint">
       <h1>按 W 键 开始游戏</h1>
-      <p>W 跳跃 | E/鼠标左键 射击 | ↑↓ 瞄准 | Space 格挡</p>
-      <p>Press W to start | W:Jump E/LMB:Shoot Space:Block</p>
+      <p>W 跳跃 | 鼠标移动瞄准 + 左键/E 射击 | Space 格挡</p>
+      <p>Press W to start | W:Jump Mouse:Aim+Shoot E:Shoot Space:Block</p>
     </div>
     <div id="game-over-panel">
       <h2>游戏结束</h2>
@@ -1541,10 +1541,10 @@
           keys['KeyW'] = false;
         }
 
-        // Aim control (Arrow keys)
-        if (keys['ArrowUp']) { player.aimAngle = Math.min(45, player.aimAngle + 15); keys['ArrowUp'] = false; }
-        if (keys['ArrowDown']) { player.aimAngle = Math.max(-45, player.aimAngle - 15); keys['ArrowDown'] = false; }
-        if (keys['ArrowLeft']) { player.aimAngle = 0; keys['ArrowLeft'] = false; }
+        // Aim: follow mouse cursor
+        var dx = mouseX - (player.x + player.width / 2);
+        var dy = mouseY - (player.y + player.height / 2);
+        player.aimAngle = Math.atan2(-dy, dx) * 180 / Math.PI;
 
         // Block (Space) — no cooldown
         if (keys['Space']) {
@@ -1555,7 +1555,7 @@
         // ===== Boss System =====
         if (gameState === STATE.PLAYING) {
 
-        // Player shooting (E key) — energy-based + aimable
+        // Player shooting (E key / mouse) — energy-based + aim toward mouse
         playerShootCooldown -= dt;
         if (keys['KeyE'] || mouseDown) {
           if (playerShootCooldown <= 0 && player.energy >= 10) {
@@ -1563,13 +1563,13 @@
             player.energy -= 10;
             var px = player.x + player.width + 8;
             var py = player.y + player.height / 2;
-            var aimRad = player.aimAngle * Math.PI / 180;
+            var aimRad = Math.atan2(-(mouseY - py), mouseX - px);
             var lvl = player.powerLevel;
             var baseCount = 1 + (player.buffs.indexOf('wideSpread') !== -1 ? 1 : 0);
             if (lvl <= 0) {
               var pp0 = new PlayerProjectile(px, py);
               pp0.vx = 700 * Math.cos(aimRad);
-              pp0.vy = -700 * Math.sin(aimRad);
+              pp0.vy = 700 * Math.sin(aimRad);
               playerProjectiles.push(pp0);
             } else {
               var count = lvl === 1 ? (2 + baseCount - 1) : (lvl === 2 ? (3 + baseCount - 1) : (5 + baseCount - 1));
@@ -1579,11 +1579,11 @@
                 var offset = (si - (count - 1) / 2) * spread;
                 var pp = new PlayerProjectile(px, py + offset);
                 pp.vx = 700 * Math.cos(aimRad);
-                pp.vy = -700 * Math.sin(aimRad);
+                pp.vy = 700 * Math.sin(aimRad);
                 if (offset !== 0) {
-                  var fangle = offset > 0 ? 0.25 : -0.25;
-                  if (lvl >= 3) fangle *= (Math.abs(offset) / spread) * 1.5;
-                  pp.vy += pp.vx * Math.sin(fangle) * (offset > 0 ? 1 : -1) * (lvl >= 3 ? 1.5 : 1);
+                  var fangle = offset > 0 ? 0.35 : -0.35;
+                  if (lvl >= 3) fangle *= 1.5;
+                  pp.vy += 700 * Math.sin(aimRad + fangle) * 0.4;
                 }
                 playerProjectiles.push(pp);
               }
@@ -2131,7 +2131,9 @@
 
     const keys = {};
     let mouseDown = false;
-    canvas.addEventListener('mousedown', function(e) { e.preventDefault(); mouseDown = true; });
+    let mouseX = 0, mouseY = 0;
+    canvas.addEventListener('mousemove', function(e) { mouseX = e.clientX; mouseY = e.clientY; });
+    canvas.addEventListener('mousedown', function(e) { e.preventDefault(); mouseDown = true; mouseX = e.clientX; mouseY = e.clientY; });
     canvas.addEventListener('mouseup', function(e) { mouseDown = false; });
     canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
