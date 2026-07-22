@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Abyss — 霓虹深渊 | 赛博朋克 Boss Rush 射击游戏</title>
+<meta name="description" content="Neon Abyss 是一款赛博朋克风格的 Boss Rush 射击游戏。5 种独特 Boss，能量系统，Buff 成长，免费在线玩！">
+<meta property="og:title" content="Neon Abyss — 霓虹深渊">
+<meta property="og:description" content="赛博朋克 Boss Rush 射击游戏，5 种 Boss，能量系统，Buff 成长。免费开玩！">
+<meta property="og:type" content="website">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #06060f;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* Particle canvas */
+  #bg-canvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    position: relative; z-index: 1;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    background: linear-gradient(135deg, #00f0ff 0%, #cc44ff 50%, #ff3355 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; filter: drop-shadow(0 0 40px rgba(0,240,255,0.4));
+    margin-bottom: 16px; letter-spacing: -2px;
+  }
+  .hero .subtitle { font-size: 22px; color: #8899aa; margin-bottom: 40px; max-width: 600px; }
+  .hero .btn-play {
+    display: inline-block; padding: 18px 60px; font-size: 22px; font-weight: 700;
+    color: #0a0a1a; background: linear-gradient(135deg, #00f0ff, #00ccdd);
+    border: none; border-radius: 50px; cursor: pointer; text-decoration: none;
+    box-shadow: 0 0 40px rgba(0,240,255,0.5), 0 0 80px rgba(0,240,255,0.2);
+    transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden;
+  }
+  .hero .btn-play:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 60px rgba(0,240,255,0.7), 0 0 120px rgba(0,240,255,0.4);
+  }
+  .hero .btn-play::after {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+    animation: btn-shine 2s infinite;
+  }
+  @keyframes btn-shine { 0%,100% { transform: translate(-30%,-30%) scale(0.5); opacity: 0; } 50% { transform: translate(30%,30%) scale(1); opacity: 1; } }
+
+  .hero .scroll-hint { position: absolute; bottom: 40px; color: #556; font-size: 14px; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+  /* Sections */
+  section { padding: 100px 0; position: relative; z-index: 1; }
+  section h2 { font-size: 40px; text-align: center; margin-bottom: 16px; background: linear-gradient(135deg, #00f0ff, #cc44ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  section .section-desc { text-align: center; color: #667; font-size: 18px; margin-bottom: 60px; }
+
+  /* Feature cards */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+  .card {
+    background: rgba(15,15,35,0.8); border: 1px solid rgba(0,240,255,0.15);
+    border-radius: 16px; padding: 36px 28px; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #00f0ff, transparent); opacity: 0; transition: opacity 0.3s; }
+  .card:hover { border-color: rgba(0,240,255,0.4); transform: translateY(-4px); box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+  .card:hover::before { opacity: 1; }
+  .card .icon { font-size: 48px; margin-bottom: 16px; }
+  .card h3 { font-size: 22px; margin-bottom: 10px; color: #00f0ff; }
+  .card p { color: #889; font-size: 15px; }
+
+  /* Boss showcase */
+  .boss-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+  .boss-card { background: rgba(15,15,35,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px 18px; text-align: center; transition: all 0.3s; }
+  .boss-card:hover { transform: scale(1.05); }
+  .boss-card .boss-emoji { font-size: 40px; margin-bottom: 10px; }
+  .boss-card h4 { font-size: 16px; color: #ddd; margin-bottom: 6px; }
+  .boss-card .boss-skill { font-size: 13px; color: #778; }
+
+  /* Donate section */
+  .donate { text-align: center; }
+  .donate .donate-box { display: inline-block; background: rgba(15,15,35,0.9); border: 2px solid rgba(255,215,0,0.3); border-radius: 16px; padding: 40px 50px; }
+  .donate h3 { color: #ffd700; font-size: 28px; margin-bottom: 10px; }
+  .donate p { color: #889; margin-bottom: 20px; }
+  .donate .qr-placeholder { width: 180px; height: 180px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #667; font-size: 14px; margin: 0 16px 10px; }
+  .donate .coffee-btn { display: inline-block; margin-top: 16px; padding: 12px 32px; background: #ff813f; color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px; transition: all 0.3s; }
+  .donate .coffee-btn:hover { background: #ff9a5c; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(255,129,63,0.4); }
+
+  /* Controls */
+  .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .key-item { background: rgba(15,15,35,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px; text-align: center; }
+  .key-item .key { display: inline-block; background: #1a1a3a; border: 2px solid #00f0ff; color: #00f0ff; padding: 6px 18px; border-radius: 8px; font-size: 18px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 8px; }
+  .key-item .action { font-size: 14px; color: #889; }
+
+  /* Deploy section */
+  .deploy-steps { max-width: 700px; margin: 0 auto; }
+  .deploy-steps .step { display: flex; gap: 20px; margin-bottom: 30px; align-items: flex-start; }
+  .deploy-steps .step-num { width: 40px; height: 40px; background: linear-gradient(135deg, #00f0ff, #0099cc); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: #0a0a1a; flex-shrink: 0; }
+  .deploy-steps code { background: rgba(0,240,255,0.1); color: #00f0ff; padding: 2px 8px; border-radius: 4px; font-size: 14px; }
+
+  footer { text-align: center; padding: 40px; color: #445; font-size: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 40px; } .hero .subtitle { font-size: 16px; }
+    section h2 { font-size: 28px; } .donate .donate-box { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>NEON ABYSS</h1>
+  <p class="subtitle">霓虹深渊 — 赛博朋克 Boss Rush 射击游戏<br>5 种独特 Boss · 能量系统 · Buff 成长 · 弹幕对决</p>
+  <a href="rhythm_jumper.html" class="btn-play">⚡ 开始游戏</a>
+  <div class="scroll-hint">▼ 了解更多</div>
+</div>
+
+<!-- Features -->
+<section>
+  <div class="container">
+    <h2>游戏特色</h2>
+    <p class="section-desc">一场视觉与操作的赛博盛宴</p>
+    <div class="features">
+      <div class="card">
+        <div class="icon">👾</div>
+        <h3>5 种 Boss 战</h3>
+        <p>守护者、光束领主、雷区部署者、召唤师、狂战士。每个 Boss 有独特的移动模式和专属技能，击败后获得永久 Buff。</p>
+      </div>
+      <div class="card">
+        <div class="icon">⚡</div>
+        <h3>能量管理系统</h3>
+        <p>100 格能量条，每发子弹消耗 10 能量。打爆场上的能量方块获取能量球，磁性吸附自动拾取。策略性资源管理！</p>
+      </div>
+      <div class="card">
+        <div class="icon">💪</div>
+        <h3>永久 Buff 成长</h3>
+        <p>每击败一个 Boss 获得一个永久 Buff：能量回复+、威力增强、弹幕扩散、护盾+1HP。最多叠加，越战越强！</p>
+      </div>
+      <div class="card">
+        <div class="icon">💎</div>
+        <h3>3 级能量球系统</h3>
+        <p>拾取能量球升级武器：Lv1 双发 · Lv2 三发散弹 · Lv3 五发宽散射。限时增幅，抓紧输出！</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3>弹幕抵消机制</h3>
+        <p>用你的子弹精准抵消 Boss 弹幕！每一发精准拦截 +10 分。弹幕对撞，火花四溅，考验你的反应和枪法。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🛡️</div>
+        <h3>容错 HP 系统</h3>
+        <p>3 颗心，碰障碍或中弹扣 1 滴。受伤后 1.5 秒无敌闪烁。拾取血包回血，不是一碰就死！</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bosses -->
+<section style="background: rgba(0,0,0,0.2);">
+  <div class="container">
+    <h2>Boss 阵容</h2>
+    <p class="section-desc">每个 Boss 都有独特的攻击模式，你能战胜几个？</p>
+    <div class="boss-grid">
+      <div class="boss-card" style="border-left: 3px solid #cc1144;">
+        <div class="boss-emoji">🔴</div><h4>守护者 · Warden</h4>
+        <p class="boss-skill">弹幕齐射 · 50%HP 护盾脉冲</p>
+      </div>
+      <div class="boss-card" style="border-left: 3px solid #9944ff;">
+        <div class="boss-emoji">🟣</div><h4>光束领主 · Beam Lord</h4>
+        <p class="boss-skill">激光扫射 · 垂直弹幕墙 · ∞字绕场</p>
+      </div>
+      <div class="boss-card" style="border-left: 3px solid #ff8800;">
+        <div class="boss-emoji">🟠</div><h4>雷区部署者 · Mine Deployer</h4>
+        <p class="boss-skill">浮雷布置 · 连锁引爆 · 之字折返</p>
+      </div>
+      <div class="boss-card" style="border-left: 3px solid #4488ff;">
+        <div class="boss-emoji">🔵</div><h4>召唤师 · Summoner</h4>
+        <p class="boss-skill">无人机召唤 · 同步齐射 · 区域巡逻</p>
+      </div>
+      <div class="boss-card" style="border-left: 3px solid #ffdddd;">
+        <div class="boss-emoji">⚪</div><h4>狂战士 · Berserker</h4>
+        <p class="boss-skill">冲刺撞击 · 9 发散弹 · 30%HP 狂暴 · 追击模式</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Controls -->
+<section>
+  <div class="container">
+    <h2>操作指南</h2>
+    <p class="section-desc">简单上手，难于精通</p>
+    <div class="controls-grid">
+      <div class="key-item"><span class="key">Space / ↑</span><div class="action">跳跃 / 二段跳</div></div>
+      <div class="key-item"><span class="key">M</span><div class="action">发射弹幕（消耗能量）</div></div>
+      <div class="key-item"><span class="key">能量球</span><div class="action">拾取升级武器等级</div></div>
+      <div class="key-item"><span class="key">能量方块</span><div class="action">击破获取能量补充</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Donate -->
+<section style="background: rgba(0,0,0,0.2);">
+  <div class="container donate">
+    <h2>☕ 支持开发者</h2>
+    <p class="section-desc">如果你喜欢这个游戏，请我喝杯咖啡吧！</p>
+    <div class="donate-box">
+      <h3>❤️ 赞赏支持</h3>
+      <p>每一份支持都是我持续更新的动力<br>扫码赞赏，或在 Buy Me a Coffee 支持</p>
+      <div>
+        <div class="qr-placeholder">微信赞赏码<br>（替换为你的二维码）</div>
+        <div class="qr-placeholder">支付宝收款码<br>（替换为你的二维码）</div>
+      </div>
+      <a href="https://www.buymeacoffee.com/" target="_blank" class="coffee-btn">☕ Buy Me a Coffee</a>
+    </div>
+  </div>
+</section>
+
+<!-- Deploy -->
+<section>
+  <div class="container">
+    <h2>🚀 一键部署</h2>
+    <p class="section-desc">3 步让你的游戏上线</p>
+    <div class="deploy-steps">
+      <div class="step"><div class="step-num">1</div><div>在 GitHub 新建仓库，上传 <code>index.html</code> 和 <code>rhythm_jumper.html</code></div></div>
+      <div class="step"><div class="step-num">2</div><div>进入 Settings → Pages → Source 选择 <code>main</code> 分支 → Save</div></div>
+      <div class="step"><div class="step-num">3</div><div>等待 1 分钟，访问 <code>你的用户名.github.io/仓库名</code> 即可！</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Neon Abyss © 2026 — Made with ❤️ and pure HTML/JS · 零依赖 · 开源免费</p>
+</footer>
+
+<script>
+// Particle background
+const c = document.getElementById('bg-canvas');
+const cx = c.getContext('2d');
+let pw, ph;
+function resize() { pw = c.width = window.innerWidth; ph = c.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const pts = [];
+for (let i = 0; i < 60; i++) {
+  pts.push({ x: Math.random()*pw, y: Math.random()*ph, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5, s: Math.random()*2+0.5, a: Math.random()*0.5+0.1 });
+}
+function anim() {
+  requestAnimationFrame(anim);
+  cx.clearRect(0,0,pw,ph);
+  for (const p of pts) {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = pw; if (p.x > pw) p.x = 0;
+    if (p.y < 0) p.y = ph; if (p.y > ph) p.y = 0;
+    cx.fillStyle = 'rgba(0,240,255,' + p.a + ')';
+    cx.beginPath(); cx.arc(p.x, p.y, p.s, 0, Math.PI*2); cx.fill();
+  }
+  // Connections
+  for (let i=0;i<pts.length;i++) {
+    for (let j=i+1;j<pts.length;j++) {
+      const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if (d<150) { cx.strokeStyle='rgba(0,240,255,'+(0.08*(1-d/150))+')'; cx.lineWidth=0.5; cx.beginPath(); cx.moveTo(pts[i].x,pts[i].y); cx.lineTo(pts[j].x,pts[j].y); cx.stroke(); }
+    }
+  }
+}
+anim();
+</script>
+</body>
+</html>
