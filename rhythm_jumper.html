@@ -1520,95 +1520,131 @@
 
     // ===== Skill Definitions =====
     var SKILLS = [
-      { name: '追踪导弹', icon: '🎯', desc: '发射一枚强力追踪导弹', color: '#ff6644',
+      { name: '追踪导弹', icon: '🎯', desc: '发射一枚强力追踪导弹，5秒内追踪Boss', color: '#ff6644',
         execute: function() {
-          var mx = player.x + player.width + 15, my = player.y + player.height/2;
-          var sp = new BossProjectile(mx, my, 200, 0, 0);
-          sp.width = 20; sp.height = 20; sp.life2 = 5; sp.isMissile = true;
+          var sp = new BossProjectile(player.x+player.width+15, player.y+player.height/2, 200, -100, 0);
+          sp.width = 24; sp.height = 24; sp.life2 = 5; sp.missileTrail = [];
           sp.update = function(dt, px, py) {
             this.life2 -= dt; if (this.life2 <= 0) this.alive = false;
-            var tx = boss ? boss.x : px + 300;
+            this.missileTrail.push({x:this.x,y:this.y,life:0.3}); if(this.missileTrail.length>20) this.missileTrail.shift();
+            for(var ti=0;ti<this.missileTrail.length;ti++) this.missileTrail[ti].life-=dt;
+            var tx = boss ? boss.x : px + 400;
             var ty = boss ? boss.y : py;
             var dx = tx - this.x, dy = ty - this.y;
             var d = Math.sqrt(dx*dx+dy*dy) || 1;
-            var spd = 500;
-            this.vx += (dx/d*spd - this.vx) * 0.15;
-            this.vy += (dy/d*spd - this.vy) * 0.15;
+            var spd = 550;
+            this.vx += (dx/d*spd - this.vx) * 0.12;
+            this.vy += (dy/d*spd - this.vy) * 0.12;
             this.x += this.vx * dt;
             this.y += this.vy * dt;
+            // Exhaust particles
+            if(Math.random()<0.7) particles.push(new Particle(this.x-8,this.y));
           };
           sp.draw = function(ctx) {
-            ctx.shadowColor='rgba(255,100,50,0.9)';ctx.shadowBlur=20;
-            ctx.fillStyle='#ff5533';ctx.beginPath();ctx.arc(this.x,this.y,10,0,Math.PI*2);ctx.fill();
-            ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(this.x,this.y,4,0,Math.PI*2);ctx.fill();
+            for(var ti=0;ti<this.missileTrail.length;ti++){var t=this.missileTrail[ti];if(t.life>0){var a=t.life/0.3;ctx.fillStyle='rgba(255,120,40,'+(a*0.6)+')';ctx.beginPath();ctx.arc(t.x,t.y,6*a,0,Math.PI*2);ctx.fill();}}
+            ctx.shadowColor='rgba(255,80,20,0.95)';ctx.shadowBlur=24;
+            ctx.fillStyle='#ff4422';ctx.beginPath();ctx.arc(this.x,this.y,12,0,Math.PI*2);ctx.fill();
+            ctx.fillStyle='#ffcc88';ctx.beginPath();ctx.arc(this.x,this.y,5,0,Math.PI*2);ctx.fill();
+            ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(this.x-3,this.y-2,2,0,Math.PI*2);ctx.fill();
             ctx.shadowBlur=0;
           };
-          sp.getBounds = function(){return {x:this.x-10,y:this.y-10,w:20,h:20};};
+          sp.getBounds = function(){return {x:this.x-12,y:this.y-12,w:24,h:24};};
           skillProjectiles.push(sp);
-          return '追踪导弹发射！';
+          // Launch particles
+          for(var lp=0;lp<15;lp++) particles.push(new Particle(player.x+player.width, player.y+player.height/2));
+          return '🎯 追踪导弹发射！';
         }
       },
-      { name: '新星爆发', icon: '💥', desc: '以自身为中心大范围爆炸', color: '#ffaa00',
+      { name: '新星爆发', icon: '💥', desc: '大范围环形爆炸，清屏利器', color: '#ffaa00',
         execute: function() {
-          for (var nv = 0; nv < 20; nv++) {
-            var na = (Math.PI*2/20)*nv;
-            var sp = new BossProjectile(player.x+player.width/2, player.y+player.height/2, Math.cos(na)*350, Math.sin(na)*350, 0);
-            sp.width = 12; sp.height = 12; sp.isNova = true;
+          var cx = player.x+player.width/2, cy = player.y+player.height/2;
+          // Expanding ring
+          var ring = new BossProjectile(cx, cy, 0, 0, 0);
+          ring.width=0; ring.height=0; ring.life2=0.8; ring.isNovaRing=true; ring.maxR=250;
+          ring.update=function(dt){this.life2-=dt;if(this.life2<=0)this.alive=false;};
+          ring.draw=function(ctx){
+            var r=this.maxR*(1-this.life2/0.8);var a=1-this.life2/0.8;
+            ctx.strokeStyle='rgba(255,170,0,'+(1-a)+')';ctx.lineWidth=6*(1-a);
+            ctx.shadowColor='rgba(255,200,0,'+(1-a)*0.8+')';ctx.shadowBlur=30*(1-a);
+            ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+            ctx.shadowBlur=0;
+          };
+          ring.getBounds=function(){return{x:cx-250,y:cy-250,w:500,h:500};};
+          skillProjectiles.push(ring);
+          // Burst projectiles
+          for (var nv = 0; nv < 30; nv++) {
+            var na = (Math.PI*2/30)*nv;
+            var sp = new BossProjectile(cx, cy, Math.cos(na)*400, Math.sin(na)*400, 0);
+            sp.width=14; sp.height=14; sp.isNova=true; sp.life2=1.5;
+            sp.update=function(dt){this.life2-=dt;if(this.life2<=0)this.alive=false;else{BossProjectile.prototype.update.call(this,dt);}};
             skillProjectiles.push(sp);
           }
-          return '新星爆发！';
+          for(var ep=0;ep<25;ep++) particles.push(new Particle(cx,cy));
+          return '💥 新星爆发！';
         }
       },
-      { name: '激光束', icon: '⚡', desc: '向瞄准方向发射穿透激光', color: '#00ddff',
+      { name: '激光束', icon: '⚡', desc: '持续0.8秒穿透激光，扫灭弹幕', color: '#00ddff',
         execute: function() {
-          player.skillActive = true; player.skillTimer = 0.8;
-          player.skillLaser = { x1: player.x+player.width, y1: player.y+player.height/2,
-            x2: player.x+player.width+Math.cos(player.aimAngle*Math.PI/180)*W,
-            y2: player.y+player.height/2-Math.sin(player.aimAngle*Math.PI/180)*W };
-          return '激光束发射！';
+          player.skillActive = true; player.skillTimer = 0.9; player.skillCharge = 0.15;
+          return '⚡ 激光充能...';
         }
       },
-      { name: '轨道护盾', icon: '🛡️', desc: '召唤3颗旋转护盾弹丸', color: '#88ddff',
+      { name: '轨道护盾', icon: '🛡️', desc: '3颗旋转护盾，持续8秒自动拦截', color: '#88ddff',
         execute: function() {
+          var colors = ['#88ddff','#44ccff','#aae8ff'];
           for (var os = 0; os < 3; os++) {
             var sp = new BossProjectile(player.x+player.width/2, player.y+player.height/2, 0, 0, 0);
-            sp.width = 14; sp.height = 14; sp.isOrbital = true; sp.orbitalAngle = (Math.PI*2/3)*os;
-            sp.orbitalDist = 40; sp.orbitalSpeed = 3;
-            sp.draw = function(ctx) {
-              ctx.shadowColor='rgba(136,221,255,0.8)';ctx.shadowBlur=15;
-              ctx.fillStyle='#88ddff';ctx.beginPath();ctx.arc(this.x,this.y,7,0,Math.PI*2);ctx.fill();
+            sp.width=16; sp.height=16; sp.isOrbital=true; sp.orbitalAngle=(Math.PI*2/3)*os;
+            sp.orbitalDist=45; sp.orbitalSpeed=3.5; sp.orbitalLife=8;
+            sp.orbitalColor=colors[os]; sp.sparkTimer=0;
+            sp.draw=function(ctx){
+              ctx.shadowColor=this.orbitalColor;ctx.shadowBlur=18;
+              ctx.fillStyle=this.orbitalColor;ctx.beginPath();ctx.arc(this.x,this.y,8,0,Math.PI*2);ctx.fill();
+              ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(this.x,this.y,3,0,Math.PI*2);ctx.fill();
               ctx.shadowBlur=0;
             };
-            sp.getBounds = function(){return {x:this.x-7,y:this.y-7,w:14,h:14};};
+            sp.getBounds=function(){return{x:this.x-8,y:this.y-8,w:16,h:16};};
             skillProjectiles.push(sp);
           }
-          return '轨道护盾启动！';
+          return '🛡️ 轨道护盾启动！';
         }
       },
-      { name: '连锁闪电', icon: '⚡', desc: '连锁弹射伤害附近所有敌人', color: '#ffdd00',
+      { name: '连锁闪电', icon: '⚡', desc: '连锁弹射6个目标，毁灭性打击', color: '#ffdd00',
         execute: function() {
           var targets = [];
           if (boss) targets.push(boss);
-          for (var ci = 0; ci < obstacles.length && targets.length < 8; ci++) targets.push(obstacles[ci]);
-          for (var cj = 0; cj < bossProjectiles.length && targets.length < 10; cj++) targets.push(bossProjectiles[cj]);
+          for (var ci = 0; ci < obstacles.length && targets.length < 5; ci++) targets.push(obstacles[ci]);
+          for (var cj = 0; cj < bossProjectiles.length && targets.length < 8; cj++) targets.push(bossProjectiles[cj]);
           var last = { x: player.x+player.width/2, y: player.y+player.height/2 };
           for (var ck = 0; ck < Math.min(targets.length, 6); ck++) {
-            var t = targets[ck], tx = t.x !== undefined ? (t.x+t.width/2||t.x) : t.x, ty = t.y !== undefined ? (t.y+t.height/2||t.y) : t.y;
-            (function(lx,ly,ex,ey,delay){
+            (function(lx,ly,t,delay){
               setTimeout(function(){
-                var sp = new BossProjectile(ex, ey, 0, 0, 0);
-                sp.width=8;sp.height=8;sp.alive=true;sp.life=0.2;
-                sp.update=function(dt2){this.life-=dt2;if(this.life<=0)this.alive=false;};
-                sp.draw=function(ctx2){ctx2.strokeStyle='#ffdd00';ctx2.lineWidth=2;ctx2.beginPath();ctx2.moveTo(lx,ly);ctx2.lineTo(ex,ey);ctx2.stroke();};
-                skillProjectiles.push(sp);
-                if (t.takeDamage) t.takeDamage();
-                if (t.hp !== undefined && t.hp <= 0 && obstacles.indexOf(t)!==-1) { score+=25;player.energy=Math.min(player.maxEnergy,player.energy+125);obstacles.splice(obstacles.indexOf(t),1); }
-                if (t.alive !== undefined && bossProjectiles.indexOf(t)!==-1) { score+=10;player.energy=Math.min(player.maxEnergy,player.energy+125);bossProjectiles.splice(bossProjectiles.indexOf(t),1); }
-              },delay*80);
-            })(last.x,last.y,tx,ty,ck);
-            last = { x: tx, y: ty };
+                var tx=t.x!==undefined?(t.x+t.width/2||t.x):t.x, ty=t.y!==undefined?(t.y+t.height/2||t.y):t.y;
+                var spark= new BossProjectile(tx,ty,0,0,0);
+                spark.width=0;spark.height=0;spark.life=0.35;spark.lx=lx;spark.ly=ly;spark.ex=tx;spark.ey=ty;
+                spark.update=function(dt2){this.life-=dt2;if(this.life<=0)this.alive=false;};
+                spark.draw=function(ctx2){
+                  var a=this.life/0.35;
+                  ctx2.shadowColor='rgba(255,220,0,'+a+')';ctx2.shadowBlur=14*a;
+                  ctx2.strokeStyle='rgba(255,255,200,'+a+')';ctx2.lineWidth=3*a;
+                  ctx2.beginPath();ctx2.moveTo(this.lx,this.ly);ctx2.lineTo(this.ex,this.ey);ctx2.stroke();
+                  // Glow dots on ends
+                  ctx2.fillStyle='#fff';ctx2.beginPath();ctx2.arc(this.ex,this.ey,5*a,0,Math.PI*2);ctx2.fill();
+                  ctx2.shadowBlur=0;
+                };
+                skillProjectiles.push(spark);
+                // Damage target
+                if(t.takeDamage){t.takeDamage();t.takeDamage();}
+                if(t.hp!==undefined&&t.hp<=0&&obstacles.indexOf(t)!==-1){score+=25;player.energy=Math.min(player.maxEnergy,player.energy+125);player.skillEnergy=Math.min(player.maxSkillEnergy,player.skillEnergy+125);obstacles.splice(obstacles.indexOf(t),1);}
+                if(t.alive!==undefined&&bossProjectiles.indexOf(t)!==-1){score+=10;player.energy=Math.min(player.maxEnergy,player.energy+125);player.skillEnergy=Math.min(player.maxSkillEnergy,player.skillEnergy+125);bossProjectiles.splice(bossProjectiles.indexOf(t),1);}
+                // Zap particles
+                for(var zp=0;zp<8;zp++) particles.push(new Particle(tx,ty));
+              },delay*70);
+            })(last.x,last.y,targets[ck],ck);
+            var t2=targets[ck];
+            last={x:t2.x!==undefined?(t2.x+t2.width/2||t2.x):t2.x, y:t2.y!==undefined?(t2.y+t2.height/2||t2.y):t2.y};
           }
-          return '连锁闪电！';
+          return '⚡ 连锁闪电！';
         }
       }
     ];
@@ -1828,56 +1864,65 @@
             skp.orbitalAngle += skp.orbitalSpeed * dt;
             skp.x = player.x + player.width/2 + Math.cos(skp.orbitalAngle) * skp.orbitalDist;
             skp.y = player.y + player.height/2 + Math.sin(skp.orbitalAngle) * skp.orbitalDist;
-            // Orbital hits boss projectiles
+            skp.orbitalLife -= dt;
             for (var obpi = bossProjectiles.length - 1; obpi >= 0; obpi--) {
               if (rectsCollide(skp.getBounds(), bossProjectiles[obpi].getBounds())) {
-                bossProjectiles.splice(obpi, 1);
-                score += 10;
+                for(var osp=0;osp<4;osp++) particles.push(new Particle(skp.x,skp.y));
+                bossProjectiles.splice(obpi, 1); score += 10;
                 player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
               }
             }
-            if (boss && rectsCollide(skp.getBounds(), boss.getBounds()) && boss.state==='active') {
-              boss.takeDamage(); skp.alive = false;
+            if (boss && boss.state==='active' && rectsCollide(skp.getBounds(), boss.getBounds())) {
+              boss.takeDamage(); for(var osp2=0;osp2<6;osp2++) particles.push(new Particle(skp.x,skp.y));
             }
-            if (skp.alive === false || !player.blockActive) { /* orbitals stay while player alive */ }
+            if (skp.orbitalLife <= 0) { for(var osp3=0;osp3<6;osp3++) particles.push(new Particle(skp.x,skp.y)); skillProjectiles.splice(spi,1); }
+          } else if (skp.isNovaRing) {
+            skp.update(dt);
+            if (skp.life2 <= 0) { skillProjectiles.splice(spi,1); continue; }
+            var cr = skp.maxR * (1 - skp.life2/0.8), pcx=player.x+player.width/2, pcy=player.y+player.height/2;
+            for (var obpi3=bossProjectiles.length-1;obpi3>=0;obpi3--){
+              var bpd=Math.sqrt((bossProjectiles[obpi3].x-pcx)*(bossProjectiles[obpi3].x-pcx)+(bossProjectiles[obpi3].y-pcy)*(bossProjectiles[obpi3].y-pcy));
+              if(Math.abs(bpd-cr)<25){bossProjectiles.splice(obpi3,1);score+=10;player.energy=Math.min(player.maxEnergy,player.energy+125);player.skillEnergy=Math.min(player.maxSkillEnergy,player.skillEnergy+125);}
+            }
+            if(boss&&boss.state==='active'){var bd2=Math.sqrt((boss.x-pcx)*(boss.x-pcx)+(boss.y-pcy)*(boss.y-pcy));if(Math.abs(bd2-cr)<30)boss.takeDamage();}
           } else if (skp.update) {
             skp.update(dt, player.x+player.width/2, player.y+player.height/2);
-            // Hits boss
-            if (boss && boss.state==='active' && rectsCollide(skp.getBounds(), boss.getBounds())) {
-              boss.takeDamage(); boss.takeDamage(); boss.takeDamage(); // heavy damage
-              skp.alive = false;
+            if (skp.alive===false){skillProjectiles.splice(spi,1);continue;}
+            if (boss&&boss.state==='active'&&skp.getBounds&&rectsCollide(skp.getBounds(),boss.getBounds())){
+              boss.takeDamage();boss.takeDamage();boss.takeDamage();
+              for(var hp=0;hp<12;hp++)particles.push(new Particle(skp.x,skp.y));
+              if(!skp.isNova)skp.alive=false;
             }
-            // Hits boss projectiles
-            for (var obpi2 = bossProjectiles.length - 1; obpi2 >= 0; obpi2--) {
-              if (rectsCollide(skp.getBounds(), bossProjectiles[obpi2].getBounds())) {
-                bossProjectiles.splice(obpi2, 1);
-                score += 10; player.energy = Math.min(player.maxEnergy, player.energy + 125); player.skillEnergy = Math.min(player.maxSkillEnergy, player.skillEnergy + 125);
-                if (!skp.isNova) skp.alive = false;
+            if(skp.getBounds)for(var obpi2=bossProjectiles.length-1;obpi2>=0;obpi2--){
+              if(rectsCollide(skp.getBounds(),bossProjectiles[obpi2].getBounds())){
+                bossProjectiles.splice(obpi2,1);score+=10;
+                player.energy=Math.min(player.maxEnergy,player.energy+125);player.skillEnergy=Math.min(player.maxSkillEnergy,player.skillEnergy+125);
+                if(!skp.isNova){skp.alive=false;for(var nvp=0;nvp<6;nvp++)particles.push(new Particle(skp.x,skp.y));}
               }
             }
-            if (skp.alive === false || skp.x < -50 || skp.x > W+50 || skp.y < -50 || skp.y > H+50) {
-              skillProjectiles.splice(spi, 1);
-            }
+            if(skp.alive===false||skp.x<-80||skp.x>W+80||skp.y<-80||skp.y>H+80)skillProjectiles.splice(spi,1);
           }
         }
 
-        // Laser beam damage (ongoing skill)
+        // Laser with charge-up
         if (player.skillActive && player.skillTimer > 0) {
-          player.skillTimer -= dt;
-          var lx1 = player.x+player.width, ly1 = player.y+player.height/2;
-          var aimR = player.aimAngle * Math.PI / 180;
-          var lx2 = lx1 + Math.cos(aimR)*W, ly2 = ly1 - Math.sin(aimR)*W;
-          for (var bpiL = bossProjectiles.length - 1; bpiL >= 0; bpiL--) {
-            var bp2 = bossProjectiles[bpiL];
-            var d = distToSegment(bp2.x, bp2.y, lx1, ly1, lx2, ly2);
-            if (d < 20) { bossProjectiles.splice(bpiL, 1); score+=10; player.energy=Math.min(player.maxEnergy,player.energy+125); }
+          if (player.skillCharge > 0) {
+            player.skillCharge -= dt;
+          } else {
+            player.skillTimer -= dt;
+            var lx1=player.x+player.width,ly1=player.y+player.height/2;
+            var aimR=player.aimAngle*Math.PI/180;
+            var lx2=lx1+Math.cos(aimR)*W,ly2=ly1-Math.sin(aimR)*W;
+            for(var bpiL=bossProjectiles.length-1;bpiL>=0;bpiL--){
+              if(distToSegment(bossProjectiles[bpiL].x,bossProjectiles[bpiL].y,lx1,ly1,lx2,ly2)<25){
+                bossProjectiles.splice(bpiL,1);score+=10;
+                player.energy=Math.min(player.maxEnergy,player.energy+125);player.skillEnergy=Math.min(player.maxSkillEnergy,player.skillEnergy+125);
+              }
+            }
+            if(boss&&boss.state==='active'&&distToSegment(boss.x,boss.y,lx1,ly1,lx2,ly2)<35){boss.takeDamage();boss.takeDamage();}
+            player.skillLaser={x1:lx1,y1:ly1,x2:lx2,y2:ly2,charge:false};
           }
-          if (boss && boss.state==='active') {
-            var bd = distToSegment(boss.x, boss.y, lx1, ly1, lx2, ly2);
-            if (bd < 30) { boss.takeDamage(); boss.takeDamage(); }
-          }
-          player.skillLaser = { x1: lx1, y1: ly1, x2: lx2, y2: ly2 };
-          if (player.skillTimer <= 0) { player.skillActive = false; }
+          if(player.skillTimer<=0){player.skillActive=false;for(var lep=0;lep<10;lep++)particles.push(new Particle(lx2,ly2));}
         }
 
         // Share energy gains with skill bar
@@ -2544,15 +2589,25 @@
       // Laser beam (skill)
       if (player.skillActive && player.skillLaser) {
         var l = player.skillLaser;
-        ctx.strokeStyle = 'rgba(0,220,255,0.8)';
-        ctx.lineWidth = 4;
-        ctx.shadowColor = 'rgba(0,220,255,0.9)';
-        ctx.shadowBlur = 20;
-        ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
-        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-        ctx.lineWidth = 1; ctx.shadowBlur = 10;
-        ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
-        ctx.shadowBlur = 0;
+        if (l.charge || player.skillCharge > 0) {
+          // Charging glow at player
+          var ca = player.skillCharge > 0 ? (1 - player.skillCharge/0.15) : 1;
+          ctx.fillStyle = 'rgba(0,220,255,'+(0.3*ca)+')';
+          ctx.beginPath();ctx.arc(l.x1,l.y1,20*ca,0,Math.PI*2);ctx.fill();
+        } else {
+          // Main beam
+          ctx.strokeStyle='rgba(0,220,255,0.85)';ctx.lineWidth=5;
+          ctx.shadowColor='rgba(0,220,255,0.95)';ctx.shadowBlur=25;
+          ctx.beginPath();ctx.moveTo(l.x1,l.y1);ctx.lineTo(l.x2,l.y2);ctx.stroke();
+          ctx.strokeStyle='rgba(200,240,255,0.7)';ctx.lineWidth=2;ctx.shadowBlur=12;
+          ctx.beginPath();ctx.moveTo(l.x1,l.y1);ctx.lineTo(l.x2,l.y2);ctx.stroke();
+          ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;ctx.shadowBlur=6;
+          ctx.beginPath();ctx.moveTo(l.x1,l.y1);ctx.lineTo(l.x2,l.y2);ctx.stroke();
+          // Hit glow at far end
+          ctx.fillStyle='rgba(0,220,255,0.4)';
+          ctx.beginPath();ctx.arc(l.x2,l.y2,12,0,Math.PI*2);ctx.fill();
+        }
+        ctx.shadowBlur=0;
       }
 
       // Skill projectiles
